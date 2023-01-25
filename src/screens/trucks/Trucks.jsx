@@ -9,5 +9,5 @@ export default function Trucks() {
   // if (error) <Error />;
   // if (isFetching) return <Loading />;
 
-  return <div className='overflow-scroll break-all w-screen h-full'></div>;
+  return <div className='overflow-scroll break-all h-full'></div>;
 }

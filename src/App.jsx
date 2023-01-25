@@ -1,4 +1,3 @@
-// import { Routes, Route } from "react-router-dom";
 import Dashboard from "./screens/dashboard/Dashboard.jsx";
 import Trucks from "./screens/trucks/Trucks";
 import Sidebar from "./components/sidebar/Sidebar";
@@ -13,18 +12,29 @@ import Brokers from "./screens/brokers/Brokers";
 import Schedule from "./screens/schedule/Schedule";
 import SignIn from "./screens/authentication/SignIn";
 import "./App.css";
-import UniqueCharacterGenerator from "./utilities/UniqueCharacterGenerator.jsx";
+import { Route, Routes, redirect, Navigate } from "react-router";
+import "./stylesheet/main.scss";
+import "./stylesheet/sidebar.scss";
+import { useSelector } from "react-redux";
+import PrivateRoute from "./screens/authentication/PrivateRoutes";
 
 function App() {
-  console.log(UniqueCharacterGenerator());
+  const user = useSelector((state) => state.userAuthentication.user);
+
+  // if (user === "user detected") {
+  //   Navigate("/dashboard");
+  // } else if (user !== "user detected") {
+  //   Navigate("/login");
+  // }
+
   return (
     <div className='app h-screen overflow-hidden w-screen bg-[#131b2d]'>
-      <Sidebar />
+      {user.message === "user detected" && <Sidebar />}
       <main className='content'>
-        <Chats />
-        {/* <Routes>
-          <Route path='/' element={<Chats />} />
-          <Route path='/' element={<Dashboard />} />
+        <Routes>
+          <Route index path='/' element={<SignIn />} />
+          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/chats' element={<Chats />} />
           <Route path='/schedule' element={<Schedule />} />
           <Route path='/master' element={<Master />} />
           <Route path='/trailers' element={<Trailers />} />
@@ -35,7 +45,7 @@ function App() {
           <Route path='/brokers' element={<Brokers />} />
           <Route path='/about' element={<About />} />
           <Route path='/login' element={<SignIn />} />
-        </Routes> */}
+        </Routes>
       </main>
     </div>
   );

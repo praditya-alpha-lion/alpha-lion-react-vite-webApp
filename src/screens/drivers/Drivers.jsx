@@ -3,9 +3,10 @@ import Loading from "../../components/utilities/Loading";
 import { useGetDriversQuery } from "../../store/services/alphaTruckingApi";
 import React, { useEffect, useRef, useState } from "react";
 import getAllDriverData from "../../store/LocalAPi/getAllDrivers.json";
-// import { useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { handleToggleMainSideBar } from "../../store/features/globalStateManagementSlice";
 import { useSelector } from "react-redux";
+import { Table } from "antd";
 
 const columns = [
   {
@@ -188,8 +189,8 @@ const Drivers = () => {
   return (
     <div
       ref={refContainer}
-      className=' p-2 h-screen w-screen relative overflow-scroll transition duration-150 ease-out'>
-      {/* <Table
+      className=' p-2 h-screen relative overflow-scroll transition duration-150 ease-out'>
+      <Table
         className={` overflow-scroll rounded-lg `}
         style={{
           width: `${dimensions.width - width}px`,
@@ -206,7 +207,7 @@ const Drivers = () => {
         bordered
         // loading={isFetching}
         // dataSource={!isFetching ? tableData : []}
-      /> */}
+      />
     </div>
   );
 };

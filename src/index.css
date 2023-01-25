@@ -26,9 +26,17 @@ body,
   background: #fff;
 }
 
-.ps-menu-button:hover {
-  background-color: #0e1723 !important;
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 48;
 }
-.ps-menuitem-root {
-  background-color: #2f2a40;
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+* {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }

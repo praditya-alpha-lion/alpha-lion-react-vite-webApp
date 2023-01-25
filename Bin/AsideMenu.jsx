@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import "tw-elements";
-import { handleScreenTabsToggle } from "../../store/features/globalStateManagementSlice";
+import { handleScreenTabsToggle } from "../src/store/features/globalStateManagementSlice";
 export default function AsideMenu({ isOpen, setIsOpen }) {
   const dispatch = useDispatch();
   // const [isOpen, setIsOpen] = React.useState(false);
@@ -232,7 +232,7 @@ export default function AsideMenu({ isOpen, setIsOpen }) {
         </div>
         <div>
           <img
-            src='public/demo1.jpg'
+            src='demo1.jpg'
             alt=''
             className='rounded-full h-36 w-36 m-auto my-10'
           />

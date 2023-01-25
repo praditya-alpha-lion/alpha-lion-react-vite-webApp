@@ -1,8 +1,11 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { handleScreenTabsToggle } from "../../store/features/globalStateManagementSlice";
-import AsideHeaderSearch from "./AsideHeaderSearch";
-
+import { handleScreenTabsToggle } from "../src/store/features/globalStateManagementSlice";
+import AsideHeaderSearch from "../src/components/aside/AsideHeaderSearch";
+{
+  /* <AsideMenu isOpen={isOpen} setIsOpen={setIsOpen} />
+      <AsideHeader isOpen={isOpen} setIsOpen={setIsOpen} /> */
+}
 export default function AsideHeader({ setIsOpen, isOpen }) {
   const dispatch = useDispatch();
   return (
@@ -36,7 +39,7 @@ export default function AsideHeader({ setIsOpen, isOpen }) {
             </svg>
           </div> */}
           {/* <img
-            src="public/demo.jpg"
+            src="demo.jpg"
             className="w-10 h-10 rounded-full ml-2 cursor-pointer"
             alt=""
           /> */}

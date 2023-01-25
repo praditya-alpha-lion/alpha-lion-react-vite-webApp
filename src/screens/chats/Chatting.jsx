@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 // import ReactTextareaAutosize from "react-textarea-autosize";
 import { addMessage, updateMessage } from "../../store/features/messageSlice";
 import UniqueCharacterGenerator from "../../utilities/UniqueCharacterGenerator";
+import DateGenerator from "../../utilities/DateGenerator";
 
 export default function Chatting({ user_token, socket }) {
   // hooks called
@@ -16,7 +17,7 @@ export default function Chatting({ user_token, socket }) {
   const handlePickUpFileClick = useRef(null);
   const { messages } = useSelector((state) => state.message);
   // const currentDateTime = moment().format("YYYY-MM-DD HH:mm:ss");
-  const currentDateTime = Date.now();
+  const currentDateTime = DateGenerator();
 
   const send = (text, user_token, url, type, file_name) => {
     let box = {
@@ -70,7 +71,6 @@ export default function Chatting({ user_token, socket }) {
     useEffect(() => elementRef.current.scrollIntoView({ behavior: "smooth" }));
     return <div ref={elementRef} />;
   }
-  // const listRef = useRef < HTMLUListElement | null > (null);
 
   function uploader(e) {
     const message_id = UniqueCharacterGenerator();
@@ -228,7 +228,7 @@ export default function Chatting({ user_token, socket }) {
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView();
   };
 
   useEffect(() => {

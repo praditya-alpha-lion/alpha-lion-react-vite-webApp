@@ -1,7 +1,89 @@
-import React from "react";
-// import { useResizeColumns, useTable } from "react-table";
+import * as React from "react";
+import ReactDOM from "react-dom/client";
 import getAllDriverData from "../../store/LocalAPi/getAllDrivers.json";
+import {
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+
+const defaultData = [
+  getAllDriverData.map((ele) => {
+    return {
+      name: ele?.data?.Name || "N/A",
+      phone: ele?.data?.Phone || "N/A",
+      dl: ele?.data?.DL || [],
+      status: ele?.data?.Status,
+      dlNo: ele?.data?.["DL #"] || "N/A",
+      state: ele?.data?.State || "N/A",
+      licenseExp: ele?.data?.["License EXP"] || "N/A",
+      snn: ele?.data?.SSN || "N/A",
+      bank: ele?.data?.Bank || "N/A",
+      account: ele?.data?.Account || "N/A",
+      routing: ele?.data?.Routing || "N/A",
+      dob: ele?.data?.DOB || "N/A",
+      application: ele?.data?.Application || [],
+    };
+  }),
+];
+
+// {
+//   firstName: "tanner",
+//   lastName: "linsley",
+//   age: 24,
+//   visits: 100,
+//   status: "In Relationship",
+//   progress: 50,
+// },
+// {
+//   firstName: "tandy",
+//   lastName: "miller",
+//   age: 40,
+//   visits: 40,
+//   status: "Single",
+//   progress: 80,
+// },
+// {
+//   firstName: "joe",
+//   lastName: "dirte",
+//   age: 45,
+//   visits: 20,
+//   status: "Complicated",
+//   progress: 10,
+// },
+
+const columnHelper = createColumnHelper();
+
+const columns = [
+  columnHelper.accessor("name", {
+    cell: (info) => {
+      console.log(info);
+    },
+  }),
+  columnHelper.accessor("phone", {
+    id: "lastName",
+    cell: (info) => <i>{info.getValue()}</i>,
+  }),
+  columnHelper.accessor("dl", {
+    header: () => "Age",
+    cell: (info) => info.renderValue(),
+  }),
+  columnHelper.accessor("status", {
+    header: () => <span>Visits</span>,
+  }),
+  columnHelper.accessor("dlNo", {
+    header: "Status",
+  }),
+  columnHelper.accessor("progress", {
+    header: "Profile Progress",
+  }),
+];
+
 export default function Trailers() {
+  const [data, setData] = React.useState(() => [...defaultData]);
+  const rerender = React.useReducer(() => ({}), {})[1];
+
   const TableData = React.useMemo(
     () => [
       getAllDriverData.map((ele) => {
@@ -19,142 +101,69 @@ export default function Trailers() {
           col11: ele?.data?.Routing || "N/A",
           col12: ele?.data?.DOB || "N/A",
           col13: ele?.data?.Application || [],
-          col14: "World",
-          col15: "World",
-          col16: "World",
-          col17: "World",
-          col18: "World",
         };
       }),
     ],
     []
   );
 
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: "Name",
-        accessor: "col1", // accessor is the "key" in the data
-      },
-      {
-        Header: "Phone",
-        accessor: "col2",
-      },
-      {
-        Header: "DL",
-        accessor: "col3",
-      },
-      {
-        Header: "Status",
-        accessor: "col4",
-      },
-      {
-        Header: "DL Number",
-        accessor: "col5",
-      },
-      {
-        Header: "State",
-        accessor: "col6",
-      },
-      {
-        Header: "License EXP",
-        accessor: "col7",
-      },
-      {
-        Header: "SSN",
-        accessor: "col8",
-      },
-      {
-        Header: "Bank",
-        accessor: "col9",
-      },
-      {
-        Header: "Account",
-        accessor: "col10",
-      },
-      {
-        Header: "Routing",
-        accessor: "col11",
-      },
-      {
-        Header: "DOB",
-        accessor: "col12",
-      },
-      {
-        Header: "Application",
-        accessor: "col13",
-      },
-      {
-        Header: "Application",
-        accessor: "col14",
-      },
-      {
-        Header: "Application",
-        accessor: "col15",
-      },
-      {
-        Header: "Application",
-        accessor: "col16",
-      },
-      {
-        Header: "Application",
-        accessor: "col17",
-      },
-      {
-        Header: "Application",
-        accessor: "col18",
-      },
-    ],
-    []
-  );
-
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, TableData }, useResizeColumns);
-
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
+  console.log(columns);
   return (
-    <table {...getTableProps()} style={{ border: "solid 1px blue" }}>
-      <thead>
-        {headerGroups.map((headerGroup) => (
-          <tr
-            className='bg-white border border-sky-500'
-            {...headerGroup.getHeaderGroupProps()}>
-            {console.log(headerGroup)}
-            {headerGroup.headers.map((column) => (
-              <th {...column.getHeaderProps()}>
-                {column.render("Header")}
-
-                {/* Use column.getResizerProps to hook up the events correctly */}
-                <div
-                  {...column.getResizerProps()}
-                  className={`resizer ${column.isResizing ? "isResizing" : ""}`}
-                />
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map((row) => {
-          prepareRow(row);
-          return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map((cell) => {
-                return (
-                  <td
-                    {...cell.getCellProps()}
-                    style={{
-                      padding: "10px",
-                      border: "solid 1px gray",
-                      background: "papayawhip",
-                    }}>
-                    {cell.render("Cell")}
-                  </td>
-                );
-              })}
+    <div className='p-2 text-gray-300'>
+      <table>
+        <thead>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <th key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                </th>
+              ))}
             </tr>
-          );
-        })}
-      </tbody>
-    </table>
+          ))}
+        </thead>
+        <tbody>
+          {table.getRowModel().rows.map((row) => (
+            <tr key={row.id}>
+              {row.getVisibleCells().map((cell) => (
+                <td key={cell.id}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+        <tfoot>
+          {table.getFooterGroups().map((footerGroup) => (
+            <tr key={footerGroup.id}>
+              {footerGroup.headers.map((header) => (
+                <th key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.footer,
+                        header.getContext()
+                      )}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </tfoot>
+      </table>
+      <div className='h-4' />
+      <button onClick={() => rerender()} className='border p-2'>
+        Rerender
+      </button>
+    </div>
   );
 }

@@ -76,7 +76,7 @@ const globalStateManagement = createSlice({
     handleToggleMainSideBar: (state, { payload }) => {
       state.mainSideBar.toggle = !state.mainSideBar.toggle;
       if (state.mainSideBar.toggle) {
-        state.mainSideBar.width = 100;
+        state.mainSideBar.width = 80;
       } else {
         state.mainSideBar.width = 270;
       }
