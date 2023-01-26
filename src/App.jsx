@@ -30,10 +30,11 @@ function App() {
   return (
     <div className='app h-screen overflow-hidden w-screen bg-[#131b2d]'>
       {user.message === "user detected" && <Sidebar />}
+      <Sidebar />
       <main className='content'>
         <Routes>
           <Route index path='/' element={<SignIn />} />
-          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/' element={<Dashboard />} />
           <Route path='/chats' element={<Chats />} />
           <Route path='/schedule' element={<Schedule />} />
           <Route path='/master' element={<Master />} />
