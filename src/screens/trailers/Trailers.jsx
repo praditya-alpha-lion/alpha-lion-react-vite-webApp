@@ -322,7 +322,7 @@ export default function Trailers() {
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    // getPaginationRowModel: getPaginationRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
     getFacetedMinMaxValues: getFacetedMinMaxValues(),
@@ -332,90 +332,162 @@ export default function Trailers() {
   });
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className='p-2 text-white h-screen overflow-scroll'>
-        <div className='inline-block border border-black shadow rounded'>
-          <div>
-            <DebouncedInput
-              value={globalFilter ?? ""}
-              onChange={(value) => setGlobalFilter(String(value))}
-              className='p-2 font-lg shadow border border-block text-black'
-              placeholder='Search all columns...'
-            />
+      <div className='h-screen w-full'>
+        <div className='flex items-center p-2 w-full justify-between bg-[#2f2a40]'>
+          <div className='flex items-center gap-2 '>
+            <div className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer'>
+              <span className='material-symbols-rounded    text-lg pr-1'>
+                menu
+              </span>
+              Views
+            </div>
+            <div className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer'>
+              <span className='material-symbols-rounded   text-lg pr-1'>
+                visibility_off
+              </span>
+              Hide Fields
+            </div>
+            <div className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer'>
+              <span className='material-symbols-rounded text-lg pr-1  '>
+                filter_list
+              </span>
+              Filter
+            </div>
+            <div className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer'>
+              <span className='material-symbols-rounded text-lg pr-1  '>
+                swap_vert
+              </span>
+              Sort
+            </div>
+            <div className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer'>
+              <span className='material-symbols-rounded    text-lg pr-1'>
+                ballot
+              </span>
+              Group
+            </div>
           </div>
-          <div className='px-1 border-b border-black'>
+          <div className='w-60'>
+            <label
+              htmlFor='default-search'
+              className='mb-2 text-sm font-medium bg-[#03001C] sr-only '>
+              Search
+            </label>
+            <div className='relative'>
+              <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
+                <svg
+                  aria-hidden='true'
+                  className='w-5 h-5 text-gray-500 dark:text-gray-400'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'
+                  xmlns='http://www.w3.org/2000/svg'>
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth='2'
+                    d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'></path>
+                </svg>
+              </div>
+              <input
+                type='search'
+                id='default-search'
+                className='block w-full p-2 pl-10 bg-[#03001C] border border-gray-300 rounded-lg  text-white text-base'
+                placeholder='Search all columns'
+                required
+              />
+            </div>
+          </div>
+        </div>
+        <div className='p-2 text-white h-screen overflow-scroll'>
+          {/* {newFunction(globalFilter, setGlobalFilter, table)} */}
+          <table
+            {...{
+              style: {
+                width: table.getCenterTotalSize(),
+              },
+            }}>
+            <thead className=' sticky'>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <tr key={headerGroup.id}>
+                  <th />
+                  {headerGroup.headers.map((header) => (
+                    <DraggableColumnHeader
+                      key={header.id}
+                      header={header}
+                      table={table}
+                      columnResizeMode={columnResizeMode}
+                    />
+                  ))}
+                </tr>
+              ))}
+            </thead>
+            <tbody>
+              {table.getRowModel().rows.map((row) => (
+                <DraggableRow key={row.id} row={row} reorderRow={reorderRow} />
+              ))}
+            </tbody>
+            <tfoot>
+              {table.getFooterGroups().map((footerGroup) => (
+                <tr key={footerGroup.id}>
+                  {footerGroup.headers.map((header) => (
+                    <th key={header.id} colSpan={header.colSpan}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.footer,
+                            header.getContext()
+                          )}
+                    </th>
+                  ))}
+                </tr>
+              ))}
+            </tfoot>
+          </table>
+          {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
+        </div>
+      </div>
+    </DndProvider>
+  );
+}
+function newFunction(globalFilter, setGlobalFilter, table) {
+  return (
+    <div className='inline-block border border-black shadow rounded'>
+      <div>
+        <DebouncedInput
+          value={globalFilter ?? ""}
+          onChange={(value) => setGlobalFilter(String(value))}
+          className='p-2 font-lg shadow border border-block text-black'
+          placeholder='Search all columns...'
+        />
+      </div>
+      <div className='px-1 border-b border-black'>
+        <label>
+          <input
+            {...{
+              type: "checkbox",
+              checked: table.getIsAllColumnsVisible(),
+              onChange: table.getToggleAllColumnsVisibilityHandler(),
+            }}
+          />{" "}
+          Toggle All
+        </label>
+      </div>
+      {table.getAllLeafColumns().map((column) => {
+        return (
+          <div key={column.id} className='px-1'>
             <label>
               <input
                 {...{
                   type: "checkbox",
-                  checked: table.getIsAllColumnsVisible(),
-                  onChange: table.getToggleAllColumnsVisibilityHandler(),
+                  checked: column.getIsVisible(),
+                  onChange: column.getToggleVisibilityHandler(),
                 }}
               />{" "}
-              Toggle All
+              {column.id}
             </label>
           </div>
-          {table.getAllLeafColumns().map((column) => {
-            return (
-              <div key={column.id} className='px-1'>
-                <label>
-                  <input
-                    {...{
-                      type: "checkbox",
-                      checked: column.getIsVisible(),
-                      onChange: column.getToggleVisibilityHandler(),
-                    }}
-                  />{" "}
-                  {column.id}
-                </label>
-              </div>
-            );
-          })}
-        </div>
-        <table
-          {...{
-            style: {
-              width: table.getCenterTotalSize(),
-            },
-          }}>
-          <thead>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                <th />
-                {headerGroup.headers.map((header) => (
-                  <DraggableColumnHeader
-                    key={header.id}
-                    header={header}
-                    table={table}
-                    columnResizeMode={columnResizeMode}
-                  />
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody>
-            {table.getRowModel().rows.map((row) => (
-              <DraggableRow key={row.id} row={row} reorderRow={reorderRow} />
-            ))}
-          </tbody>
-          <tfoot>
-            {table.getFooterGroups().map((footerGroup) => (
-              <tr key={footerGroup.id}>
-                {footerGroup.headers.map((header) => (
-                  <th key={header.id} colSpan={header.colSpan}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.footer,
-                          header.getContext()
-                        )}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </tfoot>
-        </table>
-        {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
-      </div>
-    </DndProvider>
+        );
+      })}
+    </div>
   );
 }
