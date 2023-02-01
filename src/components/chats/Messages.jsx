@@ -16,7 +16,6 @@ import _AllFilesMessage from "./message/_AllFilesMessage";
 
 export default function Messages({ messageApi, user_token }) {
   let typeOfMessage;
-  // debugger
   switch (messageApi.typeOfMsg) {
     case "jpg":
     case "jpeg":

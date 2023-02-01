@@ -1,15 +1,20 @@
-// import { Menu, Transition } from "@headlessui/react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { handleFilterChange } from "../../store/features/globalStateManagementSlice";
 import "../../stylesheet/filterModal.scss";
+import { useDetectOutsideClick } from "../../utilities/custom hooks/useDetectOutsideClick";
 
 export default function AsideThreeDotsDropDown() {
+  // Create a ref that we add to the element for which we want to detect outside clicks
+  const ref = useRef();
+  // Call hook passing in the ref and a function to call on outside click
+
   const filter = useSelector((state) => state.globalStateManagement.filter);
   const dispatch = useDispatch();
   const [toggle, setToggle] = useState(false);
+  useDetectOutsideClick(ref, () => setToggle(false));
   return (
-    <div className='filter_container'>
+    <div ref={ref} className='filter_container'>
       <div className='relative inline-block text-left'>
         <div>
           <button

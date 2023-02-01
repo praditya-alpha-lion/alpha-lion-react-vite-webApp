@@ -1,106 +1,117 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
 
 import {
   flexRender,
   useReactTable,
   getCoreRowModel,
   getFilteredRowModel,
-  getFacetedRowModel,
-  getFacetedUniqueValues,
-  getFacetedMinMaxValues,
-  getPaginationRowModel,
-  sortingFns,
   getSortedRowModel,
 } from "@tanstack/react-table";
-import { makeData } from "./makeData";
-import { rankItem, compareItems } from "@tanstack/match-sorter-utils";
-import getAllDriverPartData from "../../store/LocalAPi/getAllDriversPart.json";
 import getAllDriverData from "../../store/LocalAPi/getAllDrivers.json";
-
+import { useVirtual } from "react-virtual";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import UtilityBar from "../../components/Table/UtilityBar";
+import { rankItem, compareItems } from "@tanstack/match-sorter-utils";
 
 const defaultColumns = [
   {
     accessorKey: "name",
     id: "name",
     header: "name",
+
+    size: 250,
   },
   {
     accessorKey: "phone",
     id: "phone",
     header: "phone",
+    size: 250,
   },
   {
     accessorKey: "dl",
     id: "dl",
     header: "dl (Documents)",
+    size: 250,
   },
   {
     accessorKey: "status",
     id: "status",
     header: "Status",
+    size: 250,
   },
   {
     accessorKey: "dlNo",
     id: "dlNo",
     header: "DL Number",
+    size: 250,
   },
   {
     accessorKey: "state",
     id: "state",
     header: "State",
+    size: 250,
   },
   {
     accessorKey: "licenseExp",
     id: "licenseExp",
     header: "License Expiry",
+    size: 250,
   },
   {
     accessorKey: "snn",
     id: "snn",
     header: "SNN",
+    size: 250,
   },
   {
     accessorKey: "bank",
     id: "bank",
     header: "Bank",
+    size: 250,
   },
   {
     accessorKey: "account",
     id: "account",
     header: "Account",
+    size: 250,
   },
   {
     accessorKey: "routing",
     id: "routing",
     header: "Routing",
+    size: 250,
   },
   {
     accessorKey: "dob",
     id: "dob",
     header: "DOB",
+    size: 250,
   },
   {
     accessorKey: "application",
     id: "application",
     header: "Application",
+    size: 250,
   },
   {
     accessorKey: "notes",
     id: "notes",
     header: "Notes",
+    size: 250,
   },
   {
     accessorKey: "pastEmployment",
     id: "Past Employment",
     header: "Past Employment",
+
+    size: 250,
   },
   {
     accessorKey: "MVR",
     id: "MVR",
     header: "MVR",
+    size: 250,
   },
 ];
 
@@ -140,6 +151,10 @@ const DraggableColumnHeader = ({ header, table }) => {
 
   return (
     <th
+      className='cursor-pointer '
+      onClick={() => {
+        header.column.pin("left");
+      }}
       {...{
         key: header.id,
         colSpan: header.colSpan,
@@ -147,28 +162,47 @@ const DraggableColumnHeader = ({ header, table }) => {
           width: header.getSize(),
         },
       }}
-      ref={dropRef}
+      ref={(el) => {
+        previewRef(el);
+
+        dropRef(el);
+      }}
       style={{ opacity: isDragging ? 0.5 : 1 }}>
-      <div ref={previewRef}>
+      <div
+        ref={dragRef}
+        className='capitalize text-left text-lg font-normal px-4'>
         {header.isPlaceholder
           ? null
           : flexRender(header.column.columnDef.header, header.getContext())}
-        <button ref={dragRef}>🟰</button>
-        <div
-          className='bg-yellow-500 w-40 h-40'
-          {...{
-            onMouseDown: header.getResizeHandler(),
-            onTouchStart: header.getResizeHandler(),
-            className: `resizer ${
-              header.column.getIsResizing() ? "isResizing" : ""
-            }`,
-          }}
-        />
       </div>
+      <div
+        {...{
+          onMouseDown: header.getResizeHandler(),
+          onTouchStart: header.getResizeHandler(),
+          className: `resizer ${
+            header.column.getIsResizing() ? "isResizing" : ""
+          }`,
+        }}
+      />
     </th>
   );
 };
+const fuzzyFilter = (row, columnId, value, addMeta) => {
+  // Rank the item
+  const itemRank = rankItem(row.getValue(columnId), value);
 
+  // Store the itemRank info
+  addMeta({
+    itemRank,
+  });
+
+  // Return if the item should be filtered in/out
+  return itemRank.passed;
+};
+const reorderRow = (draggedRowIndex, targetRowIndex) => {
+  data.splice(targetRowIndex, 0, data.splice(draggedRowIndex, 1)[0]);
+  setData([...data]);
+};
 const DraggableRow = ({ row, reorderRow }) => {
   const [, dropRef] = useDrop({
     accept: "row",
@@ -205,62 +239,6 @@ const DraggableRow = ({ row, reorderRow }) => {
     </tr>
   );
 };
-const fuzzyFilter = (row, columnId, value, addMeta) => {
-  // Rank the item
-  const itemRank = rankItem(row.getValue(columnId), value);
-
-  // Store the itemRank info
-  addMeta({
-    itemRank,
-  });
-
-  // Return if the item should be filtered in/out
-  return itemRank.passed;
-};
-
-const fuzzySort = (rowA, rowB, columnId) => {
-  let dir = 0;
-
-  // Only sort by rank if the column has ranking information
-  if (rowA.columnFiltersMeta[columnId]) {
-    dir = compareItems(
-      rowA.columnFiltersMeta[columnId]?.itemRank,
-      rowB.columnFiltersMeta[columnId]?.itemRank
-    );
-  }
-
-  // Provide an alphanumeric fallback for when the item ranks are equal
-  return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir;
-};
-// A debounced input react component
-function DebouncedInput({
-  value: initialValue,
-  onChange,
-  debounce = 500,
-  ...props
-}) {
-  const [value, setValue] = React.useState(initialValue);
-
-  React.useEffect(() => {
-    setValue(initialValue);
-  }, [initialValue]);
-
-  React.useEffect(() => {
-    const timeout = setTimeout(() => {
-      onChange(value);
-    }, debounce);
-
-    return () => clearTimeout(timeout);
-  }, [value]);
-
-  return (
-    <input
-      {...props}
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-    />
-  );
-}
 
 export default function Trailers() {
   const [data, setData] = React.useState(
@@ -285,6 +263,8 @@ export default function Trailers() {
       };
     })
   );
+  const tableContainerRef = React.useRef(null);
+  const [columnResizeMode, setColumnResizeMode] = React.useState("onChange");
   const [columns] = React.useState(() => [...defaultColumns]);
   const [globalFilter, setGlobalFilter] = React.useState("");
   const [columnFilters, setColumnFilters] = React.useState([]);
@@ -292,22 +272,15 @@ export default function Trailers() {
     //must start out with populated columnOrder so we can splice
     columns.map((column) => column.id)
   );
-
-  const reorderRow = (draggedRowIndex, targetRowIndex) => {
-    data.splice(targetRowIndex, 0, data.splice(draggedRowIndex, 1)[0]);
-    setData([...data]);
-  };
-
-  const regenerateData = () => setData(() => makeData(20));
-
-  const resetOrder = () => setColumnOrder(columns.map((column) => column.id));
-  const [columnResizeMode, setColumnResizeMode] = React.useState("onChange");
+  const [columnPinning, setColumnPinning] = React.useState({});
+  console.log("called column");
   const table = useReactTable({
     columnResizeMode,
     state: {
       columnOrder,
       globalFilter,
       columnFilters,
+      columnPinning,
     },
     filterFns: {
       fuzzy: fuzzyFilter,
@@ -316,100 +289,45 @@ export default function Trailers() {
     getRowId: (row) => row.userId, //good to have guaranteed unique row ids/keys for rendering
     data,
     columns,
+    globalFilterFn: fuzzyFilter,
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
-    globalFilterFn: fuzzyFilter,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    // getPaginationRowModel: getPaginationRowModel(),
-    getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
-    getFacetedMinMaxValues: getFacetedMinMaxValues(),
+    onColumnPinningChange: setColumnPinning,
     debugTable: true,
     debugHeaders: true,
-    debugColumns: false,
+    debugColumns: true,
   });
+  const { rows } = table.getRowModel();
+  const rowVirtualizer = useVirtual({
+    parentRef: tableContainerRef,
+    size: rows.length,
+    overscan: 1,
+  });
+  const { virtualItems: virtualRows, totalSize } = rowVirtualizer;
+  const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0;
+  const paddingBottom =
+    virtualRows.length > 0
+      ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0)
+      : 0;
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className='h-screen w-full'>
-        <div className='flex items-center p-2 w-full justify-between bg-[#2f2a40]'>
-          <div className='flex items-center gap-2 '>
-            <div className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer'>
-              <span className='material-symbols-rounded    text-lg pr-1'>
-                menu
-              </span>
-              Views
-            </div>
-            <div className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer'>
-              <span className='material-symbols-rounded   text-lg pr-1'>
-                visibility_off
-              </span>
-              Hide Fields
-            </div>
-            <div className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer'>
-              <span className='material-symbols-rounded text-lg pr-1  '>
-                filter_list
-              </span>
-              Filter
-            </div>
-            <div className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer'>
-              <span className='material-symbols-rounded text-lg pr-1  '>
-                swap_vert
-              </span>
-              Sort
-            </div>
-            <div className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer'>
-              <span className='material-symbols-rounded    text-lg pr-1'>
-                ballot
-              </span>
-              Group
-            </div>
-          </div>
-          <div className='w-60'>
-            <label
-              htmlFor='default-search'
-              className='mb-2 text-sm font-medium bg-[#03001C] sr-only '>
-              Search
-            </label>
-            <div className='relative'>
-              <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
-                <svg
-                  aria-hidden='true'
-                  className='w-5 h-5 text-gray-500 dark:text-gray-400'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                  xmlns='http://www.w3.org/2000/svg'>
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth='2'
-                    d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'></path>
-                </svg>
-              </div>
-              <input
-                type='search'
-                id='default-search'
-                className='block w-full p-2 pl-10 bg-[#03001C] border border-gray-300 rounded-lg  text-white text-base'
-                placeholder='Search all columns'
-                required
-              />
-            </div>
-          </div>
-        </div>
-        <div className='p-2 text-white h-screen overflow-scroll'>
-          {/* {newFunction(globalFilter, setGlobalFilter, table)} */}
+      <div className='h-screen text-white'>
+        {UtilityBar(globalFilter, setGlobalFilter, table)}
+        <div
+          ref={tableContainerRef}
+          className='  h-[calc(100vh-51px)] overflow-scroll w-[1700px] '>
           <table
             {...{
               style: {
                 width: table.getCenterTotalSize(),
               },
             }}>
-            <thead className=' sticky'>
+            <thead className=' sticky bg-[#000000] text-white'>
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
-                  <th />
                   {headerGroup.headers.map((header) => (
                     <DraggableColumnHeader
                       key={header.id}
@@ -422,72 +340,101 @@ export default function Trailers() {
               ))}
             </thead>
             <tbody>
-              {table.getRowModel().rows.map((row) => (
-                <DraggableRow key={row.id} row={row} reorderRow={reorderRow} />
-              ))}
-            </tbody>
-            <tfoot>
-              {table.getFooterGroups().map((footerGroup) => (
-                <tr key={footerGroup.id}>
-                  {footerGroup.headers.map((header) => (
-                    <th key={header.id} colSpan={header.colSpan}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.footer,
-                            header.getContext()
-                          )}
-                    </th>
-                  ))}
+              {paddingTop > 0 && (
+                <tr>
+                  <td style={{ height: `${paddingTop}px` }} />
                 </tr>
-              ))}
-            </tfoot>
+              )}
+              {virtualRows.map((virtualRow) => {
+                const row = rows[virtualRow.index];
+                return (
+                  <tr key={row.id} className='h-10'>
+                    {row.getVisibleCells().map((cell) => {
+                      return (
+                        <td
+                          className='text-left align-top'
+                          key={cell.id}
+                          {...{
+                            key: cell.id,
+                            style: {
+                              width: cell.column.getSize(),
+                            },
+                          }}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+              {paddingBottom > 0 && (
+                <tr>
+                  <td style={{ height: `${paddingBottom}px` }} />
+                </tr>
+              )}
+            </tbody>
           </table>
-          {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
+          {/* <pre>{JSON.stringify(data, null, 2)}</pre>
+          <pre>{JSON.stringify(table.getState().columnPinning, null, 2)}</pre> */}
         </div>
       </div>
     </DndProvider>
   );
 }
-function newFunction(globalFilter, setGlobalFilter, table) {
-  return (
-    <div className='inline-block border border-black shadow rounded'>
-      <div>
-        <DebouncedInput
-          value={globalFilter ?? ""}
-          onChange={(value) => setGlobalFilter(String(value))}
-          className='p-2 font-lg shadow border border-block text-black'
-          placeholder='Search all columns...'
-        />
-      </div>
-      <div className='px-1 border-b border-black'>
-        <label>
-          <input
-            {...{
-              type: "checkbox",
-              checked: table.getIsAllColumnsVisible(),
-              onChange: table.getToggleAllColumnsVisibilityHandler(),
-            }}
-          />{" "}
-          Toggle All
-        </label>
-      </div>
-      {table.getAllLeafColumns().map((column) => {
-        return (
-          <div key={column.id} className='px-1'>
-            <label>
-              <input
-                {...{
-                  type: "checkbox",
-                  checked: column.getIsVisible(),
-                  onChange: column.getToggleVisibilityHandler(),
-                }}
-              />{" "}
-              {column.id}
-            </label>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
+
+// const regenerateData = () => setData(() => makeData(20));
+
+// const resetOrder = () => setColumnOrder(columns.map((column) => column.id));
+
+// const fuzzySort = (rowA, rowB, columnId) => {
+//   let dir = 0;
+
+//   // Only sort by rank if the column has ranking information
+//   if (rowA.columnFiltersMeta[columnId]) {
+//     dir = compareItems(
+//       rowA.columnFiltersMeta[columnId]?.itemRank,
+//       rowB.columnFiltersMeta[columnId]?.itemRank
+//     );
+//   }
+
+//   // Provide an alphanumeric fallback for when the item ranks are equal
+//   return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir;
+// };
+
+// const fuzzyFilter = (row, columnId, value, addMeta) => {
+//   // Rank the item
+//   const itemRank = rankItem(row.getValue(columnId), value);
+
+//   // Store the itemRank info
+//   addMeta({
+//     itemRank,
+//   });
+
+//   // Return if the item should be filtered in/out
+//   return itemRank.passed;
+// };
+
+// {
+//   /* <tr
+//   // previewRef could go here
+//   ref={previewRef}
+//   style={{ opacity: isDragging ? 0.5 : 1 }}>
+//   <td ref={dropRef}>
+//     <button ref={dragRef}>🟰</button>
+//   </td>
+//   {row.getVisibleCells().map((cell) => (
+//     <td
+//       {...{
+//         key: cell.id,
+//         style: {
+//           width: cell.column.getSize(),
+//         },
+//       }}>
+//       {flexRender(cell.column.columnDef.cell, cell.getContext())}
+//     </td>
+//   ))}
+// </tr> */
+// }

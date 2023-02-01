@@ -17,6 +17,8 @@ import "./stylesheet/main.scss";
 import "./stylesheet/sidebar.scss";
 import { useSelector } from "react-redux";
 import PrivateRoute from "./screens/authentication/PrivateRoutes";
+import Switch from "./components/utilities/Switch";
+import { useState } from "react";
 
 function App() {
   const user = useSelector((state) => state.userAuthentication.user);
@@ -26,7 +28,7 @@ function App() {
   // } else if (user !== "user detected") {
   //   Navigate("/login");
   // }
-
+  const [value, setValue] = useState(false);
   return (
     <div className='app h-screen overflow-hidden w-screen bg-[#131b2d]'>
       {user.message === "user detected" && <Sidebar />}

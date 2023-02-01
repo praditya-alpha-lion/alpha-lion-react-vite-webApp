@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@faker-js/faker": "^7.6.0",
+    "@headlessui/react": "^1.7.8",
     "@reduxjs/toolkit": "^1.9.1",
     "@tanstack/match-sorter-utils": "^8.7.6",
     "@tanstack/react-table": "^8.7.6",
@@ -25,6 +26,7 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "6",
     "react-table": "^7.8.0",
+    "react-virtual": "^2.10.4",
     "sass": "^1.57.1",
     "socket.io-client": "^4.5.4"
   },
