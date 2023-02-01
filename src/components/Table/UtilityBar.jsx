@@ -78,31 +78,30 @@ export default function UtilityBar(globalFilter, setGlobalFilter, table) {
 
 function hideFields(table) {
   return (
-    <div className='absolute top-10 left-0 z-50 bg-[#03001C] w-[200px] p-4 rounded-md'>
-      <div className='px-1'>
-        <label className='flex items-center text-base gap-4'>
-          <Switch
-            isOn={table.getIsAllColumnsVisible()}
-            onColor='#1ec933'
-            handleToggle={table.getToggleAllColumnsVisibilityHandler()}
-            size='small'
-          />
-          <div>Toggle All</div>
-        </label>
-      </div>
+    <div className='absolute top-10 left-0 z-50 bg-[#03001C] w-[200px]  p-2 rounded-md'>
+      <label className='flex items-center text-base gap-4 cursor-pointer p-1 hover:bg-[#2f2a40] rounded-sm pl-2'>
+        <Switch
+          isOn={table.getIsAllColumnsVisible()}
+          onColor='#1ec933'
+          handleToggle={table.getToggleAllColumnsVisibilityHandler()}
+          size='small'
+        />
+        <div>Toggle All</div>
+      </label>
+
       {table.getAllLeafColumns().map((column) => {
         return (
-          <div key={column.id} className='p-1'>
-            <label className='flex items-center text-base gap-4'>
-              <Switch
-                isOn={column.getIsVisible()}
-                onColor='#1ec933'
-                size='small'
-                handleToggle={column.getToggleVisibilityHandler()}
-              />
-              <div className='capitalize truncate'>{column.id}</div>
-            </label>
-          </div>
+          <label
+            key={column.id}
+            className='flex items-center text-base gap-4 p-1 hover:bg-[#2f2a40] rounded-sm pl-2 cursor-pointer'>
+            <Switch
+              isOn={column.getIsVisible()}
+              onColor='#1ec933'
+              size='small'
+              handleToggle={column.getToggleVisibilityHandler()}
+            />
+            <div className='capitalize truncate'>{column.id}</div>
+          </label>
         );
       })}
     </div>
