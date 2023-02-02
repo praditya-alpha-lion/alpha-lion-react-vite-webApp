@@ -59,7 +59,7 @@ export default function Schedule() {
     []
   );
 
-  const [data, setData] = React.useState(() => makeData(50_000));
+  const [data, setData] = React.useState(() => makeData(50_0));
   const refreshData = () => setData(() => makeData(50_000));
 
   const table = useReactTable({
@@ -80,7 +80,7 @@ export default function Schedule() {
   const rowVirtualizer = useVirtual({
     parentRef: tableContainerRef,
     size: rows.length,
-    overscan: 10,
+    overscan: 100,
   });
   const { virtualItems: virtualRows, totalSize } = rowVirtualizer;
 
@@ -91,19 +91,34 @@ export default function Schedule() {
       : 0;
 
   return (
-    <div className='p-2 text-white'>
+    <div className='p-2'>
       <div className='h-2' />
-      <div ref={tableContainerRef} className='container'>
-        <table className='text-white'>
-          <thead>
+      <div ref={tableContainerRef} className='text-white overflow-x-auto'>
+        <div
+          {...{
+            className: "divTable",
+            style: {
+              width: table.getTotalSize(),
+            },
+          }}>
+          <div className='thead'>
             {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
+              <div
+                {...{
+                  key: headerGroup.id,
+                  className: "tr",
+                }}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <th
-                      key={header.id}
-                      colSpan={header.colSpan}
-                      style={{ width: header.getSize() }}>
+                    <div
+                      {...{
+                        key: header.id,
+                        className: "th",
+                        style: {
+                          width: header.getSize(),
+                        },
+                      }}
+                      colSpan={header.colSpan}>
                       {header.isPlaceholder ? null : (
                         <div
                           {...{
@@ -122,42 +137,52 @@ export default function Schedule() {
                           }[header.column.getIsSorted()] ?? null}
                         </div>
                       )}
-                    </th>
+                    </div>
                   );
                 })}
-              </tr>
+              </div>
             ))}
-          </thead>
-          <tbody>
+          </div>
+          <div
+            {...{
+              className: "tbody",
+            }}>
             {paddingTop > 0 && (
-              <tr>
-                <td style={{ height: `${paddingTop}px` }} />
-              </tr>
+              <div style={{ height: `${paddingTop}px` }}></div>
             )}
             {virtualRows.map((virtualRow) => {
               const row = rows[virtualRow.index];
               return (
-                <tr key={row.id}>
+                <div
+                  {...{
+                    key: row.id,
+                    className: "tr",
+                  }}>
                   {row.getVisibleCells().map((cell) => {
                     return (
-                      <td key={cell.id}>
+                      <div
+                        {...{
+                          key: cell.id,
+                          className: "td",
+                          style: {
+                            width: cell.column.getSize(),
+                          },
+                        }}>
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
                         )}
-                      </td>
+                      </div>
                     );
                   })}
-                </tr>
+                </div>
               );
             })}
             {paddingBottom > 0 && (
-              <tr>
-                <td style={{ height: `${paddingBottom}px` }} />
-              </tr>
+              <div style={{ height: `${paddingBottom}px` }}></div>
             )}
-          </tbody>
-        </table>
+          </div>
+        </div>
       </div>
       <div>{table.getRowModel().rows.length} Rows</div>
       <div>

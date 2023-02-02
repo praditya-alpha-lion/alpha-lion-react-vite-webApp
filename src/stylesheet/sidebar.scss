@@ -91,10 +91,11 @@
   }
 }
 .opened {
-  width: 270px !important;
+  // width: 270px !important;
+  min-width: 220px !important;
 }
 .closed {
-  width: 80px !important;
+  min-width: 80px !important;
   .navLink {
     justify-content: center;
   }

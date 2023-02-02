@@ -16,102 +16,90 @@ import { rankItem, compareItems } from "@tanstack/match-sorter-utils";
 
 const defaultColumns = [
   {
+    accessorKey: "sNo",
+    id: "sNo",
+    header: "SNo.",
+    size: 60,
+  },
+  {
     accessorKey: "name",
     id: "name",
     header: "name",
-
-    size: 250,
   },
   {
     accessorKey: "phone",
     id: "phone",
     header: "phone",
-    size: 250,
   },
   {
     accessorKey: "dl",
     id: "dl",
     header: "dl (Documents)",
-    size: 250,
   },
   {
     accessorKey: "status",
     id: "status",
     header: "Status",
-    size: 250,
   },
   {
     accessorKey: "dlNo",
     id: "dlNo",
     header: "DL Number",
-    size: 250,
   },
   {
     accessorKey: "state",
     id: "state",
     header: "State",
-    size: 250,
   },
   {
     accessorKey: "licenseExp",
     id: "licenseExp",
     header: "License Expiry",
-    size: 250,
   },
   {
     accessorKey: "snn",
     id: "snn",
     header: "SNN",
-    size: 250,
   },
   {
     accessorKey: "bank",
     id: "bank",
     header: "Bank",
-    size: 250,
   },
   {
     accessorKey: "account",
     id: "account",
     header: "Account",
-    size: 250,
   },
   {
     accessorKey: "routing",
     id: "routing",
     header: "Routing",
-    size: 250,
   },
   {
     accessorKey: "dob",
     id: "dob",
     header: "DOB",
-    size: 250,
   },
   {
     accessorKey: "application",
     id: "application",
     header: "Application",
-    size: 250,
   },
   {
     accessorKey: "notes",
     id: "notes",
     header: "Notes",
-    size: 250,
   },
   {
     accessorKey: "pastEmployment",
     id: "Past Employment",
     header: "Past Employment",
-
-    size: 250,
   },
   {
     accessorKey: "MVR",
     id: "MVR",
     header: "MVR",
-    size: 250,
   },
 ];
 
@@ -150,27 +138,22 @@ const DraggableColumnHeader = ({ header, table }) => {
   });
 
   return (
-    <th
-      className='cursor-pointer '
-      onClick={() => {
-        header.column.pin("left");
-      }}
+    <div
+      className={`th`}
       {...{
         key: header.id,
-        colSpan: header.colSpan,
         style: {
           width: header.getSize(),
         },
       }}
       ref={(el) => {
         previewRef(el);
-
         dropRef(el);
       }}
-      style={{ opacity: isDragging ? 0.5 : 1 }}>
+      colSpan={header.colSpan}>
       <div
         ref={dragRef}
-        className='capitalize text-left text-lg font-normal px-4'>
+        className='capitalize text-left text-lg font-normal px-2 truncate'>
         {header.isPlaceholder
           ? null
           : flexRender(header.column.columnDef.header, header.getContext())}
@@ -184,7 +167,7 @@ const DraggableColumnHeader = ({ header, table }) => {
           }`,
         }}
       />
-    </th>
+    </div>
   );
 };
 const fuzzyFilter = (row, columnId, value, addMeta) => {
@@ -199,54 +182,16 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Return if the item should be filtered in/out
   return itemRank.passed;
 };
-const reorderRow = (draggedRowIndex, targetRowIndex) => {
-  data.splice(targetRowIndex, 0, data.splice(draggedRowIndex, 1)[0]);
-  setData([...data]);
-};
-const DraggableRow = ({ row, reorderRow }) => {
-  const [, dropRef] = useDrop({
-    accept: "row",
-    drop: (draggedRow) => reorderRow(draggedRow.index, row.index),
-  });
-
-  const [{ isDragging }, dragRef, previewRef] = useDrag({
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-    item: () => row,
-    type: "row",
-  });
-
-  return (
-    <tr
-      //previewRef could go here
-      ref={previewRef}
-      style={{ opacity: isDragging ? 0.5 : 1 }}>
-      <td ref={dropRef}>
-        <button ref={dragRef}>🟰</button>
-      </td>
-      {row.getVisibleCells().map((cell) => (
-        <td
-          {...{
-            key: cell.id,
-            style: {
-              width: cell.column.getSize(),
-            },
-          }}>
-          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-        </td>
-      ))}
-    </tr>
-  );
-};
 
 export default function Trailers() {
-  const [data, setData] = React.useState(
-    getAllDriverData.map((ele) => {
+  const [data, setData] = React.useState(() =>
+    getAllDriverData.map((ele, index) => {
+      console.log(index + 1);
       return {
+        sNo: index + 1,
         name: ele?.data?.Name || "N/A",
         phone: ele?.data?.Phone || "N/A",
-        dl: ele?.data?.DL || "N/A",
+        dl: ele?.data?.DL || [],
         status: ele?.data?.Status || "N/A",
         dlNo: ele?.data?.["DL #"] || "N/A",
         state: ele?.data?.State || "N/A",
@@ -258,24 +203,63 @@ export default function Trailers() {
         dob: ele?.data?.DOB || "N/A",
         application: ele?.data?.Application || [],
         notes: ele?.data?.Notes || "N/A",
-        pastEmployment: ele?.data?.["Past Employment"] || "N/A",
-        MVR: ele?.data?.MVR || "N/A",
+        pastEmployment: ele?.data?.["Past Employment"] || [],
+        MVR: ele?.data?.MVR || [],
       };
     })
   );
   const tableContainerRef = React.useRef(null);
-  const [columnResizeMode, setColumnResizeMode] = React.useState("onChange");
   const [columns] = React.useState(() => [...defaultColumns]);
   const [globalFilter, setGlobalFilter] = React.useState("");
   const [columnFilters, setColumnFilters] = React.useState([]);
+  const [rowHeight, setRowHeight] = React.useState([
+    {
+      name: "small",
+      isActive: true,
+      icon: "density_small",
+      height: 30,
+      numberOfLines: 1,
+    },
+    {
+      name: "medium",
+      isActive: false,
+      icon: "density_medium",
+      height: 50,
+      numberOfLines: 2,
+    },
+    {
+      name: "large",
+      isActive: false,
+      icon: "density_large",
+      height: 70,
+      numberOfLines: 3,
+    },
+    {
+      name: "Extra large",
+      isActive: false,
+      icon: "density_large",
+      height: 90,
+      numberOfLines: 4,
+    },
+  ]);
+
+  let activeRowHeight = 30;
+  let activeNumberOfLines = 1;
+
+  rowHeight.map((ele) => {
+    if (ele.isActive) {
+      activeRowHeight = ele.height;
+      activeNumberOfLines = ele.numberOfLines;
+    }
+  });
+
   const [columnOrder, setColumnOrder] = React.useState(
     //must start out with populated columnOrder so we can splice
     columns.map((column) => column.id)
   );
   const [columnPinning, setColumnPinning] = React.useState({});
-  console.log("called column");
   const table = useReactTable({
-    columnResizeMode,
+    columnResizeMode: "onChange",
     state: {
       columnOrder,
       globalFilter,
@@ -304,7 +288,8 @@ export default function Trailers() {
   const rowVirtualizer = useVirtual({
     parentRef: tableContainerRef,
     size: rows.length,
-    overscan: 1,
+    // overscan: 35,
+    overscan: 100,
   });
   const { virtualItems: virtualRows, totalSize } = rowVirtualizer;
   const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0;
@@ -312,129 +297,85 @@ export default function Trailers() {
     virtualRows.length > 0
       ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0)
       : 0;
+
+  console.log("Virtual rows");
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className='h-screen text-white'>
-        {UtilityBar(globalFilter, setGlobalFilter, table)}
-        <div
-          ref={tableContainerRef}
-          className='  h-[calc(100vh-51px)] overflow-scroll w-[1700px] '>
-          <table
+      <div className='p-2 h-screen text-white'>
+        {UtilityBar(
+          globalFilter,
+          setGlobalFilter,
+          rowHeight,
+          setRowHeight,
+          table
+        )}
+        <div className='overflow-scroll w-[1700px]'>
+          <div
+            ref={tableContainerRef}
             {...{
               style: {
-                width: table.getCenterTotalSize(),
+                width: table.getTotalSize(),
               },
-            }}>
-            <thead className=' sticky bg-[#000000] text-white'>
+            }}
+            className={`divTable`}>
+            <div className='thead bg-[#000000] text-white'>
               {table.getHeaderGroups().map((headerGroup) => (
-                <tr key={headerGroup.id}>
+                <div key={headerGroup.id} className='tr'>
                   {headerGroup.headers.map((header) => (
                     <DraggableColumnHeader
                       key={header.id}
                       header={header}
                       table={table}
-                      columnResizeMode={columnResizeMode}
                     />
                   ))}
-                </tr>
+                </div>
               ))}
-            </thead>
-            <tbody>
+            </div>
+            <div className='tbody'>
               {paddingTop > 0 && (
-                <tr>
-                  <td style={{ height: `${paddingTop}px` }} />
-                </tr>
+                <div style={{ height: `${paddingTop}px` }}></div>
               )}
               {virtualRows.map((virtualRow) => {
                 const row = rows[virtualRow.index];
                 return (
-                  <tr key={row.id} className='h-10'>
+                  <div
+                    {...{
+                      key: row.id,
+                      className: "tr",
+                      style: {
+                        height: activeRowHeight,
+                      },
+                    }}>
                     {row.getVisibleCells().map((cell) => {
                       return (
-                        <td
-                          className='text-left align-top'
+                        <div
+                          className={`td webkitLineClamp${activeNumberOfLines}`}
                           key={cell.id}
                           {...{
-                            key: cell.id,
                             style: {
                               width: cell.column.getSize(),
+                              height: activeRowHeight,
+                              // webkitLineClamp: activeNumberOfLines,
                             },
                           }}>
                           {flexRender(
                             cell.column.columnDef.cell,
                             cell.getContext()
                           )}
-                        </td>
+                        </div>
                       );
                     })}
-                  </tr>
+                  </div>
                 );
               })}
               {paddingBottom > 0 && (
-                <tr>
-                  <td style={{ height: `${paddingBottom}px` }} />
-                </tr>
+                <div style={{ height: `${paddingBottom}px` }}></div>
               )}
-            </tbody>
-          </table>
-          {/* <pre>{JSON.stringify(data, null, 2)}</pre>
-          <pre>{JSON.stringify(table.getState().columnPinning, null, 2)}</pre> */}
+              <div className='h-20' />
+            </div>
+          </div>
         </div>
       </div>
     </DndProvider>
   );
 }
-
-// const regenerateData = () => setData(() => makeData(20));
-
-// const resetOrder = () => setColumnOrder(columns.map((column) => column.id));
-
-// const fuzzySort = (rowA, rowB, columnId) => {
-//   let dir = 0;
-
-//   // Only sort by rank if the column has ranking information
-//   if (rowA.columnFiltersMeta[columnId]) {
-//     dir = compareItems(
-//       rowA.columnFiltersMeta[columnId]?.itemRank,
-//       rowB.columnFiltersMeta[columnId]?.itemRank
-//     );
-//   }
-
-//   // Provide an alphanumeric fallback for when the item ranks are equal
-//   return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir;
-// };
-
-// const fuzzyFilter = (row, columnId, value, addMeta) => {
-//   // Rank the item
-//   const itemRank = rankItem(row.getValue(columnId), value);
-
-//   // Store the itemRank info
-//   addMeta({
-//     itemRank,
-//   });
-
-//   // Return if the item should be filtered in/out
-//   return itemRank.passed;
-// };
-
-// {
-//   /* <tr
-//   // previewRef could go here
-//   ref={previewRef}
-//   style={{ opacity: isDragging ? 0.5 : 1 }}>
-//   <td ref={dropRef}>
-//     <button ref={dragRef}>🟰</button>
-//   </td>
-//   {row.getVisibleCells().map((cell) => (
-//     <td
-//       {...{
-//         key: cell.id,
-//         style: {
-//           width: cell.column.getSize(),
-//         },
-//       }}>
-//       {flexRender(cell.column.columnDef.cell, cell.getContext())}
-//     </td>
-//   ))}
-// </tr> */
-// }

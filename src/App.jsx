@@ -17,7 +17,6 @@ import "./stylesheet/main.scss";
 import "./stylesheet/sidebar.scss";
 import { useSelector } from "react-redux";
 import PrivateRoute from "./screens/authentication/PrivateRoutes";
-import Switch from "./components/utilities/Switch";
 import { useState } from "react";
 
 function App() {
@@ -30,7 +29,7 @@ function App() {
   // }
   const [value, setValue] = useState(false);
   return (
-    <div className='app h-screen overflow-hidden w-screen bg-[#131b2d]'>
+    <div className='app h-screen overflow-hidden w-full bg-[#131b2d]'>
       {user.message === "user detected" && <Sidebar />}
       <Sidebar />
       <main className='content'>
