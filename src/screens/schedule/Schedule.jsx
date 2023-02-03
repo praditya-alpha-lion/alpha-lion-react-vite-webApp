@@ -73,8 +73,8 @@ export default function Schedule() {
     []
   );
 
-  const [data, setData] = React.useState(() => makeData(100000));
-  const refreshData = () => setData(() => makeData(100000));
+  const [data, setData] = React.useState(() => makeData(100));
+  const refreshData = () => setData(() => makeData(100));
 
   const [grouping, setGrouping] = React.useState([]);
 
