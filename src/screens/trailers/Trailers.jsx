@@ -6,6 +6,8 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
+  getGroupedRowModel,
+  getExpandedRowModel,
 } from "@tanstack/react-table";
 import getAllDriverData from "../../store/LocalAPi/getAllDrivers.json";
 import { useVirtual } from "react-virtual";
@@ -13,6 +15,7 @@ import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import UtilityBar from "../../components/Table/UtilityBar";
 import { rankItem, compareItems } from "@tanstack/match-sorter-utils";
+import { useSelector } from "react-redux";
 
 const defaultColumns = [
   {
@@ -102,7 +105,6 @@ const defaultColumns = [
     header: "MVR",
   },
 ];
-
 const reorderColumn = (draggedColumnId, targetColumnId, columnOrder) => {
   columnOrder.splice(
     columnOrder.indexOf(targetColumnId),
@@ -111,8 +113,7 @@ const reorderColumn = (draggedColumnId, targetColumnId, columnOrder) => {
   );
   return [...columnOrder];
 };
-
-const DraggableColumnHeader = ({ header, table }) => {
+const DraggableColumnHeader = ({ header, table, index }) => {
   const { getState, setColumnOrder } = table;
   const { columnOrder } = getState();
   const { column } = header;
@@ -139,7 +140,7 @@ const DraggableColumnHeader = ({ header, table }) => {
 
   return (
     <div
-      className={`th`}
+      className={`th ${index === 0 && "fixed-column"}`}
       {...{
         key: header.id,
         style: {
@@ -184,9 +185,12 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
 };
 
 export default function Trailers() {
+  const { width, toggle } = useSelector(
+    (state) => state.globalStateManagement.mainSideBar
+  );
   const [data, setData] = React.useState(() =>
     getAllDriverData.map((ele, index) => {
-      console.log(index + 1);
+      // console.log(index + 1);
       return {
         sNo: index + 1,
         name: ele?.data?.Name || "N/A",
@@ -242,16 +246,8 @@ export default function Trailers() {
       numberOfLines: 4,
     },
   ]);
-
-  let activeRowHeight = 30;
-  let activeNumberOfLines = 1;
-
-  rowHeight.map((ele) => {
-    if (ele.isActive) {
-      activeRowHeight = ele.height;
-      activeNumberOfLines = ele.numberOfLines;
-    }
-  });
+  const [grouping, setGrouping] = React.useState([]);
+  let { activeRowHeight, activeNumberOfLines } = handleRowHeight(rowHeight);
 
   const [columnOrder, setColumnOrder] = React.useState(
     //must start out with populated columnOrder so we can splice
@@ -265,10 +261,14 @@ export default function Trailers() {
       globalFilter,
       columnFilters,
       columnPinning,
+      grouping,
     },
     filterFns: {
       fuzzy: fuzzyFilter,
     },
+    onGroupingChange: setGrouping,
+    getExpandedRowModel: getExpandedRowModel(),
+    getGroupedRowModel: getGroupedRowModel(),
     onColumnOrderChange: setColumnOrder,
     getRowId: (row) => row.userId, //good to have guaranteed unique row ids/keys for rendering
     data,
@@ -280,15 +280,14 @@ export default function Trailers() {
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onColumnPinningChange: setColumnPinning,
-    debugTable: true,
-    debugHeaders: true,
-    debugColumns: true,
+    // debugTable: true,
+    // debugHeaders: true,
+    // debugColumns: true,
   });
   const { rows } = table.getRowModel();
   const rowVirtualizer = useVirtual({
     parentRef: tableContainerRef,
     size: rows.length,
-    // overscan: 35,
     overscan: 100,
   });
   const { virtualItems: virtualRows, totalSize } = rowVirtualizer;
@@ -298,7 +297,7 @@ export default function Trailers() {
       ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0)
       : 0;
 
-  console.log("Virtual rows");
+  // console.log("Virtual rows");
   return (
     <DndProvider backend={HTML5Backend}>
       <div className='p-2 h-screen text-white'>
@@ -309,7 +308,11 @@ export default function Trailers() {
           setRowHeight,
           table
         )}
-        <div className='overflow-scroll w-[1700px]'>
+        <div
+          // className={`overflow-scroll ${toggle ? "w-[1830px]" : "w-[1690px]"}`}>
+          className={`overflow-scroll ${
+            toggle ? "w-[calc(100vw_-_90px)]" : `w-[calc(100vw_-_230px)]`
+          }`}>
           <div
             ref={tableContainerRef}
             {...{
@@ -321,11 +324,12 @@ export default function Trailers() {
             <div className='thead bg-[#000000] text-white'>
               {table.getHeaderGroups().map((headerGroup) => (
                 <div key={headerGroup.id} className='tr'>
-                  {headerGroup.headers.map((header) => (
+                  {headerGroup.headers.map((header, index) => (
                     <DraggableColumnHeader
                       key={header.id}
                       header={header}
                       table={table}
+                      index={index}
                     />
                   ))}
                 </div>
@@ -346,16 +350,16 @@ export default function Trailers() {
                         height: activeRowHeight,
                       },
                     }}>
-                    {row.getVisibleCells().map((cell) => {
+                    {row.getVisibleCells().map((cell, index) => {
                       return (
                         <div
-                          className={`td webkitLineClamp${activeNumberOfLines}`}
+                          className={`td 
+                          webkitLineClamp${activeNumberOfLines} `}
                           key={cell.id}
                           {...{
                             style: {
                               width: cell.column.getSize(),
                               height: activeRowHeight,
-                              // webkitLineClamp: activeNumberOfLines,
                             },
                           }}>
                           {flexRender(
@@ -378,4 +382,15 @@ export default function Trailers() {
       </div>
     </DndProvider>
   );
+}
+function handleRowHeight(rowHeight) {
+  let activeRowHeight = 30;
+  let activeNumberOfLines = 1;
+  rowHeight.map((ele) => {
+    if (ele.isActive) {
+      activeRowHeight = ele.height;
+      activeNumberOfLines = ele.numberOfLines;
+    }
+  });
+  return { activeRowHeight, activeNumberOfLines };
 }

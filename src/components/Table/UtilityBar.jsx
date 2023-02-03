@@ -1,8 +1,9 @@
-import React, { useRef } from "react";
-import { useDetectOutsideClick } from "../../utilities/custom hooks/useDetectOutsideClick";
-import Switch from "../utilities/Switch";
+import React from "react";
+import TableUtilityFilter from "./TableUtilityFilter";
+import TableUtilityGrouping from "./TableUtilityGrouping";
 import TableUtilityHideFields from "./TableUtilityHideFields";
 import TableUtilityRowHeight from "./TableUtilityRowHeight";
+import TableUtilitySort from "./TableUtilitySort";
 
 export default function UtilityBar(
   globalFilter,
@@ -19,22 +20,9 @@ export default function UtilityBar(
           Views
         </div>
         {TableUtilityHideFields(table)}
-        <div className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer'>
-          <span className='material-symbols-rounded text-lg pr-1  '>
-            filter_list
-          </span>
-          Filter
-        </div>
-        <div className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer'>
-          <span className='material-symbols-rounded text-lg pr-1  '>
-            swap_vert
-          </span>
-          Sort
-        </div>
-        <div className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer'>
-          <span className='material-symbols-rounded text-lg pr-1'>ballot</span>
-          Group
-        </div>
+        {TableUtilityFilter(table)}
+        {TableUtilitySort(table)}
+        {TableUtilityGrouping(table)}
         {TableUtilityRowHeight(rowHeight, setRowHeight)}
       </div>
       {search(globalFilter, setGlobalFilter)}

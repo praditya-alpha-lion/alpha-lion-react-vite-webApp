@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function DateGenerator() {
   // 2023-01-17 20:37:05
   let currentdate = new Date();

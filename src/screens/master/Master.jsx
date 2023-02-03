@@ -1,374 +1,161 @@
 import React from "react";
 
 import {
-  useReactTable,
-  getCoreRowModel,
   flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  useReactTable,
 } from "@tanstack/react-table";
 
-const defaultData = [
-  {
-    firstName: "tanner",
-    lastName: "linsley",
-    age: 24,
-    visits: 100,
-    status: "In Relationship",
-    progress: 50,
-  },
-  {
-    firstName: "tandy",
-    lastName: "miller",
-    age: 40,
-    visits: 40,
-    status: "Single",
-    progress: 80,
-  },
-  {
-    firstName: "joe",
-    lastName: "dirte",
-    age: 45,
-    visits: 20,
-    status: "Complicated",
-    progress: 10,
-  },
-];
+import { makeData } from "./makeData";
 
-const defaultColumns = [
-  {
-    header: "Name",
-    footer: (props) => props.column.id,
-    columns: [
+export default function Master() {
+  const rerender = React.useReducer(() => ({}), {})[1];
+
+  const [sorting, setSorting] = React.useState([]);
+
+  const columns = React.useMemo(
+    () => [
       {
-        accessorKey: "firstName",
-        cell: (info) => info.getValue(),
+        header: "Name",
         footer: (props) => props.column.id,
-      },
-      {
-        accessorFn: (row) => row.lastName,
-        id: "lastName",
-        cell: (info) => info.getValue(),
-        header: () => <span>Last Name</span>,
-        footer: (props) => props.column.id,
-      },
-    ],
-  },
-  {
-    header: "Info",
-    footer: (props) => props.column.id,
-    columns: [
-      {
-        accessorKey: "age",
-        header: () => "Age",
-        footer: (props) => props.column.id,
-      },
-      {
-        header: "More Info",
         columns: [
           {
-            accessorKey: "visits",
-            header: () => <span>Visits</span>,
+            accessorKey: "firstName",
+            cell: (info) => info.getValue(),
             footer: (props) => props.column.id,
           },
           {
-            accessorKey: "status",
-            header: "Status",
-            footer: (props) => props.column.id,
-          },
-          {
-            accessorKey: "progress",
-            header: "Profile Progress",
+            accessorFn: (row) => row.lastName,
+            id: "lastName",
+            cell: (info) => info.getValue(),
+            header: () => <span>Last Name</span>,
             footer: (props) => props.column.id,
           },
         ],
       },
+      {
+        header: "Info",
+        footer: (props) => props.column.id,
+        columns: [
+          {
+            accessorKey: "age",
+            header: () => "Age",
+            footer: (props) => props.column.id,
+          },
+          {
+            header: "More Info",
+            columns: [
+              {
+                accessorKey: "visits",
+                header: () => <span>Visits</span>,
+                footer: (props) => props.column.id,
+              },
+              {
+                accessorKey: "status",
+                header: "Status",
+                footer: (props) => props.column.id,
+              },
+              {
+                accessorKey: "progress",
+                header: "Profile Progress",
+                footer: (props) => props.column.id,
+              },
+            ],
+          },
+          {
+            accessorKey: "createdAt",
+            header: "Created At",
+          },
+        ],
+      },
     ],
-  },
-];
+    []
+  );
 
-export default function Master() {
-  const [data, setData] = React.useState(() => [...defaultData]);
-  const [columns] = React.useState(() => [...defaultColumns]);
-
-  const [columnResizeMode, setColumnResizeMode] = React.useState("onChange");
-
-  const rerender = React.useReducer(() => ({}), {})[1];
+  const [data, setData] = React.useState(() => makeData(1000));
+  const refreshData = () => setData(() => makeData(1000));
 
   const table = useReactTable({
     data,
     columns,
-    columnResizeMode,
+    state: {
+      sorting,
+    },
+    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     debugTable: true,
-    debugHeaders: true,
-    debugColumns: true,
   });
 
   return (
-    <div className='p-2 text-purple-200'>
-      <select
-        value={columnResizeMode}
-        onChange={(e) => setColumnResizeMode(e.target.value)}
-        className='border p-2 border-black rounded'>
-        <option value='onEnd'>Resize: "onEnd"</option>
-        <option value='onChange'>Resize: "onChange"</option>
-      </select>
-      <div className='h-4' />
-      <div className='text-xl'>{"<table/>"}</div>
-      <div className='overflow-x-auto'>
-        <table
-          {...{
-            style: {
-              width: table.getCenterTotalSize(),
-            },
-          }}>
-          <thead>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th
-                    {...{
-                      key: header.id,
-                      colSpan: header.colSpan,
-                      style: {
-                        width: header.getSize(),
-                      },
-                    }}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
+    <div className='p-2 text-white'>
+      <div className='h-2' />
+      <table>
+        <thead>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <th key={header.id} colSpan={header.colSpan}>
+                    {header.isPlaceholder ? null : (
+                      <div
+                        {...{
+                          className: header.column.getCanSort()
+                            ? "cursor-pointer select-none"
+                            : "",
+                          // onClick: header.column.getToggleSortingHandler(),
+                          // onClick: header.column.toggleSorting,
+                        }}
+                        onClick={() => {
+                          header.column.toggleSorting();
+                        }}>
+                        {flexRender(
                           header.column.columnDef.header,
                           header.getContext()
                         )}
-                    <div
-                      {...{
-                        onMouseDown: header.getResizeHandler(),
-                        onTouchStart: header.getResizeHandler(),
-                        className: `resizer ${
-                          header.column.getIsResizing() ? "isResizing" : ""
-                        }`,
-                        style: {
-                          transform:
-                            columnResizeMode === "onEnd" &&
-                            header.column.getIsResizing()
-                              ? `translateX(${
-                                  table.getState().columnSizingInfo.deltaOffset
-                                }px)`
-                              : "",
-                        },
-                      }}
-                    />
+                        {{
+                          asc: " 🔼",
+                          desc: " 🔽",
+                        }[header.column.getIsSorted()] ?? null}
+                      </div>
+                    )}
                   </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody>
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    {...{
-                      key: cell.id,
-                      style: {
-                        width: cell.column.getSize(),
-                      },
-                    }}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className='h-4' />
-      <div className='text-xl'>{"<div/> (relative)"}</div>
-      <div className='overflow-x-auto'>
-        <div
-          {...{
-            className: "divTable",
-            style: {
-              width: table.getTotalSize(),
-            },
-          }}>
-          <div className='thead'>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <div
-                {...{
-                  key: headerGroup.id,
-                  className: "tr",
-                }}>
-                {headerGroup.headers.map((header) => (
-                  <div
-                    {...{
-                      key: header.id,
-                      className: "th",
-                      style: {
-                        width: header.getSize(),
-                      },
-                    }}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
+                );
+              })}
+            </tr>
+          ))}
+        </thead>
+        <tbody>
+          {table
+            .getRowModel()
+            .rows.slice(0, 10)
+            .map((row) => {
+              return (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => {
+                    return (
+                      <td key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
                         )}
-                    <div
-                      {...{
-                        onMouseDown: header.getResizeHandler(),
-                        onTouchStart: header.getResizeHandler(),
-                        className: `resizer ${
-                          header.column.getIsResizing() ? "isResizing" : ""
-                        }`,
-                        style: {
-                          transform:
-                            columnResizeMode === "onEnd" &&
-                            header.column.getIsResizing()
-                              ? `translateX(${
-                                  table.getState().columnSizingInfo.deltaOffset
-                                }px)`
-                              : "",
-                        },
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-          <div
-            {...{
-              className: "tbody",
-            }}>
-            {table.getRowModel().rows.map((row) => (
-              <div
-                {...{
-                  key: row.id,
-                  className: "tr",
-                }}>
-                {row.getVisibleCells().map((cell) => (
-                  <div
-                    {...{
-                      key: cell.id,
-                      className: "td",
-                      style: {
-                        width: cell.column.getSize(),
-                      },
-                    }}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+        </tbody>
+      </table>
+      <div>{table.getRowModel().rows.length} Rows</div>
+      <div>
+        <button onClick={() => rerender()}>Force Rerender</button>
       </div>
-      <div className='h-4' />
-      <div className='text-xl'>{"<div/> (absolute positioning)"}</div>
-      <div className='overflow-x-auto'>
-        <div
-          {...{
-            className: "divTable",
-            style: {
-              width: table.getTotalSize(),
-            },
-          }}>
-          <div className='thead'>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <div
-                {...{
-                  key: headerGroup.id,
-                  className: "tr",
-                  style: {
-                    position: "relative",
-                  },
-                }}>
-                {headerGroup.headers.map((header) => (
-                  <div
-                    {...{
-                      key: header.id,
-                      className: "th",
-                      style: {
-                        position: "absolute",
-                        left: header.getStart(),
-                        width: header.getSize(),
-                      },
-                    }}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                    <div
-                      {...{
-                        onMouseDown: header.getResizeHandler(),
-                        onTouchStart: header.getResizeHandler(),
-                        className: `resizer ${
-                          header.column.getIsResizing() ? "isResizing" : ""
-                        }`,
-                        style: {
-                          transform:
-                            columnResizeMode === "onEnd" &&
-                            header.column.getIsResizing()
-                              ? `translateX(${
-                                  table.getState().columnSizingInfo.deltaOffset
-                                }px)`
-                              : "",
-                        },
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-          <div
-            {...{
-              className: "tbody",
-            }}>
-            {table.getRowModel().rows.map((row) => (
-              <div
-                {...{
-                  key: row.id,
-                  className: "tr",
-                  style: {
-                    position: "relative",
-                  },
-                }}>
-                {row.getVisibleCells().map((cell) => (
-                  <div
-                    {...{
-                      key: cell.id,
-                      className: "td",
-                      style: {
-                        position: "absolute",
-                        left: cell.column.getStart(),
-                        width: cell.column.getSize(),
-                      },
-                    }}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
+      <div>
+        <button onClick={() => refreshData()}>Refresh Data</button>
       </div>
-      <div className='h-4' />
-      <button onClick={() => rerender()} className='border p-2'>
-        Rerender
-      </button>
-      <pre>
-        {JSON.stringify(
-          {
-            columnSizing: table.getState().columnSizing,
-            columnSizingInfo: table.getState().columnSizingInfo,
-          },
-          null,
-          2
-        )}
-      </pre>
+      <pre>{JSON.stringify(sorting, null, 2)}</pre>
     </div>
   );
 }
