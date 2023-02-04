@@ -12,11 +12,10 @@ import Brokers from "./screens/brokers/Brokers";
 import Schedule from "./screens/schedule/Schedule";
 import SignIn from "./screens/authentication/SignIn";
 import "./App.css";
-import { Route, Routes, redirect, Navigate } from "react-router";
+import { Route, Routes } from "react-router";
 import "./stylesheet/main.scss";
 import "./stylesheet/sidebar.scss";
 import { useSelector } from "react-redux";
-import PrivateRoute from "./screens/authentication/PrivateRoutes";
 import { useState } from "react";
 
 function App() {

@@ -190,7 +190,6 @@ export default function Drivers() {
   );
   const [data, setData] = React.useState(() =>
     getAllDriverData.map((ele, index) => {
-      // console.log(index + 1);
       return {
         sNo: index + 1,
         name: ele?.data?.Name || "N/A",
@@ -280,9 +279,9 @@ export default function Drivers() {
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onColumnPinningChange: setColumnPinning,
-    // debugTable: true,
-    // debugHeaders: true,
-    // debugColumns: true,
+    debugTable: true,
+    debugHeaders: true,
+    debugColumns: true,
   });
   const { rows } = table.getRowModel();
   const rowVirtualizer = useVirtual({
@@ -297,7 +296,6 @@ export default function Drivers() {
       ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0)
       : 0;
 
-  // console.log("Virtual rows");
   return (
     <DndProvider backend={HTML5Backend}>
       <div className='p-2 h-screen text-white'>

@@ -12,12 +12,7 @@ import Error from "../utilities/Error";
 
 export default function AsideBody() {
   let { data, error, isFetching } = useGetLoadQuery();
-  // let { data, error, isFetching } = useGetDriversQuery();
-  // let { data, error, isFetching } = useGetTrucksQuery();
 
-  // let data = alphaLionTrucking;
-
-  // console.log(alphaLionTrucking)
   const dispatch = useDispatch();
   const { search, filter } = useSelector(
     (state) => state.globalStateManagement
