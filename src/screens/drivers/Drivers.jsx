@@ -1,5 +1,4 @@
 import React from "react";
-
 import {
   flexRender,
   useReactTable,
@@ -185,7 +184,7 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
 };
 
 export default function Drivers() {
-  const { width, toggle } = useSelector(
+  const { toggle } = useSelector(
     (state) => state.globalStateManagement.mainSideBar
   );
   const [data, setData] = React.useState(() =>
