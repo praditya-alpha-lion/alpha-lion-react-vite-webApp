@@ -104,7 +104,7 @@ export default function Master() {
                           className: header.column.getCanSort()
                             ? "cursor-pointer select-none"
                             : "",
-                          // onClick: header.column.getToggleSortingHandler(),
+                          onClick: header.column.getToggleSortingHandler(),
                           // onClick: header.column.toggleSorting,
                         }}
                         onClick={() => {

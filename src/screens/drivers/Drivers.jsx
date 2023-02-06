@@ -214,6 +214,7 @@ export default function Drivers() {
   const [columns] = React.useState(() => [...defaultColumns]);
   const [globalFilter, setGlobalFilter] = React.useState("");
   const [columnFilters, setColumnFilters] = React.useState([]);
+  const [sorting, setSorting] = React.useState([]);
   const [rowHeight, setRowHeight] = React.useState([
     {
       name: "small",
@@ -260,17 +261,19 @@ export default function Drivers() {
       columnFilters,
       columnPinning,
       grouping,
+      sorting,
     },
     filterFns: {
       fuzzy: fuzzyFilter,
     },
+    data,
+    columns,
+    onSortingChange: setSorting,
     onGroupingChange: setGrouping,
     getExpandedRowModel: getExpandedRowModel(),
     getGroupedRowModel: getGroupedRowModel(),
     onColumnOrderChange: setColumnOrder,
     getRowId: (row) => row.userId, //good to have guaranteed unique row ids/keys for rendering
-    data,
-    columns,
     globalFilterFn: fuzzyFilter,
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,

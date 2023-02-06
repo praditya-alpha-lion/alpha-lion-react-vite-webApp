@@ -24,15 +24,40 @@ export default function TableUtilitySort(table) {
         <div className='absolute top-10 left-0 z-50 bg-[#03001C] w-[200px] p-2 rounded-md '>
           Sort By:
           <div className='h-[.5px] mb-2 mt-1 w-full bg-white' />
-          {table.getAllLeafColumns().map((column) => {
-            return (
-              <label
-                key={column.id}
-                className='flex items-center text-base gap-4 p-1 hover:bg-[#2f2a40] rounded-sm pl-2 cursor-pointer'>
-                <div className='capitalize truncate'>{column.id}</div>
-              </label>
-            );
-          })}
+          {table.getHeaderGroups().map((headerGroup) => (
+            <div key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <div
+                    onClick={() => {
+                      header.column.toggleSorting();
+                    }}
+                    key={header.id}
+                    colSpan={header.colSpan}
+                    className='flex justify-between items-center'>
+                    {header.isPlaceholder ? null : (
+                      <label className='flex items-center text-base gap-4 p-1 hover:bg-[#2f2a40] rounded-sm pl-2 cursor-pointer'>
+                        <div
+                          {...{
+                            className: header.column.getCanSort()
+                              ? "cursor-pointer select-none"
+                              : "",
+                          }}>
+                          <div className='capitalize truncate flex-1'>
+                            {header.column.id}
+                          </div>
+                        </div>
+                      </label>
+                    )}
+                    {{
+                      asc: " 🔼",
+                      desc: " 🔽",
+                    }[header.column.getIsSorted()] ?? null}
+                  </div>
+                );
+              })}
+            </div>
+          ))}
         </div>
       )}
     </div>
