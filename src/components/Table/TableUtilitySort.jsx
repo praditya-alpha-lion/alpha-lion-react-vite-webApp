@@ -34,9 +34,9 @@ export default function TableUtilitySort(table) {
                     }}
                     key={header.id}
                     colSpan={header.colSpan}
-                    className='flex justify-between items-center'>
+                    className='flex justify-between items-center hover:bg-[#2f2a40] pr-2'>
                     {header.isPlaceholder ? null : (
-                      <label className='flex items-center text-base gap-4 p-1 hover:bg-[#2f2a40] rounded-sm pl-2 cursor-pointer'>
+                      <label className='flex items-center text-base gap-4 p-1  rounded-sm pl-2 cursor-pointer'>
                         <div
                           {...{
                             className: header.column.getCanSort()
