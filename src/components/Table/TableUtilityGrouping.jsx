@@ -24,7 +24,35 @@ export default function TableUtilityGrouping(table) {
         <div className='absolute top-10 left-0 z-50 bg-[#03001C] w-[200px] p-2 rounded-md '>
           Group By:
           <div className='h-[.5px] mb-2 mt-1 w-full bg-white' />
-          {table.getAllLeafColumns().map((column) => {
+          {table.getHeaderGroups().map((headerGroup) => (
+            <div key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <div {...{
+                    onClick: header.column.getToggleGroupingHandler(),
+                    style: {
+                      cursor: "pointer",
+                    },
+                  }} key={header.id} colSpan={header.colSpan} className='flex items-center text-base gap-4 p-1 hover:bg-[#2f2a40] rounded-sm pl-2 cursor-pointer'>
+                    {header.isPlaceholder ? null : (
+                      <div>
+                        {header.column.getCanGroup() ? (
+                          // If the header can be grouped, let's add a toggle
+                          <button>
+                            {header.column.getIsGrouped()
+                              ? `🛑(${header.column.getGroupedIndex()}) `
+                              : `👊 `}
+                          </button>
+                        ) : null}{" "}
+                        {header.column.id}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+          {/* {table.getAllLeafColumns().map((column) => {
             return (
               <label
                 key={column.id}
@@ -32,7 +60,7 @@ export default function TableUtilityGrouping(table) {
                 <div className='capitalize truncate'>{column.id}</div>
               </label>
             );
-          })}
+          })} */}
         </div>
       )}
     </div>

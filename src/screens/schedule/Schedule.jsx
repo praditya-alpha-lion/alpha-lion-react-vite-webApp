@@ -145,10 +145,10 @@ export default function Schedule() {
                           background: cell.getIsGrouped()
                             ? "#0aff0082"
                             : cell.getIsAggregated()
-                            ? "#ffa50078"
-                            : cell.getIsPlaceholder()
-                            ? "#ff000042"
-                            : "white",
+                              ? "#ffa50078"
+                              : cell.getIsPlaceholder()
+                                ? "#ff000042"
+                                : "white",
                         },
                       }}>
                       {cell.getIsGrouped() ? (
@@ -176,7 +176,7 @@ export default function Schedule() {
                         // renderer for cell
                         flexRender(
                           cell.column.columnDef.aggregatedCell ??
-                            cell.column.columnDef.cell,
+                          cell.column.columnDef.cell,
                           cell.getContext()
                         )
                       ) : cell.getIsPlaceholder() ? null : ( // For cells with repeated values, render null
@@ -194,7 +194,7 @@ export default function Schedule() {
           })}
         </tbody>
       </table>
-      <div>
+      {/* <div>
         <div className='h-2' />
         <div className='flex items-center gap-2'>
           <button
@@ -260,7 +260,7 @@ export default function Schedule() {
           <button onClick={() => refreshData()}>Refresh Data</button>
         </div>
         <pre>{JSON.stringify(grouping, null, 2)}</pre>
-      </div>
+      </div> */}
     </div>
   );
 }

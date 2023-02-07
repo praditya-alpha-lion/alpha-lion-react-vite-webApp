@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDetectOutsideClick } from "../../utilities/custom hooks/useDetectOutsideClick";
 import { useForm } from "react-hook-form";
 
-export default function TableUtilityFilter(table) {
+export default function xTableUtilityFilter(table) {
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => console.log(data);
 
@@ -31,8 +31,6 @@ export default function TableUtilityFilter(table) {
       });
     }
   };
-  console.log(filterConditions);
-
   return (
     <div
       ref={filterRef}

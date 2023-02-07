@@ -8,21 +8,21 @@ import {
   getGroupedRowModel,
   getExpandedRowModel,
 } from "@tanstack/react-table";
-import getAllDriverData from "../../store/LocalAPi/getAllDrivers.json";
 import { useVirtual } from "react-virtual";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import UtilityBar from "../../components/Table/UtilityBar";
 import { rankItem, compareItems } from "@tanstack/match-sorter-utils";
 import { useSelector } from "react-redux";
+import getAllDriverData from "../../store/LocalAPi/getAllDrivers.json";
+import UtilityBar from "../../components/Table/UtilityBar";
 
 const defaultColumns = [
-  {
-    accessorKey: "sNo",
-    id: "sNo",
-    header: "SNo.",
-    size: 60,
-  },
+  // {
+  //   accessorKey: "sNo",
+  //   id: "sNo",
+  //   header: "SNo.",
+  //   size: 60,
+  // },
   {
     accessorKey: "name",
     id: "name",
@@ -162,9 +162,8 @@ const DraggableColumnHeader = ({ header, table, index }) => {
         {...{
           onMouseDown: header.getResizeHandler(),
           onTouchStart: header.getResizeHandler(),
-          className: `resizer ${
-            header.column.getIsResizing() ? "isResizing" : ""
-          }`,
+          className: `resizer ${header.column.getIsResizing() ? "isResizing" : ""
+            }`,
         }}
       />
     </div>
@@ -184,6 +183,7 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
 };
 
 export default function Drivers() {
+  // this is for checking is the side bar is opened ?
   const { toggle } = useSelector(
     (state) => state.globalStateManagement.mainSideBar
   );
@@ -310,9 +310,8 @@ export default function Drivers() {
         )}
         <div
           // className={`overflow-scroll ${toggle ? "w-[1830px]" : "w-[1690px]"}`}>
-          className={`overflow-scroll ${
-            toggle ? "w-[calc(100vw_-_90px)]" : `w-[calc(100vw_-_230px)]`
-          }`}>
+          className={`overflow-scroll ${toggle ? "w-[calc(100vw_-_90px)]" : `w-[calc(100vw_-_230px)]`
+            }`}>
           <div
             ref={tableContainerRef}
             {...{
@@ -360,11 +359,52 @@ export default function Drivers() {
                             style: {
                               width: cell.column.getSize(),
                               height: activeRowHeight,
+                              background: cell.getIsGrouped()
+                                ? "#0aff0082"
+                                : cell.getIsAggregated()
+                                  ? "#ffa50078"
+                                  : cell.getIsPlaceholder()
+                                    ? "#ff000042"
+                                    : "",
                             },
                           }}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
+                          {cell.getIsGrouped() ? (
+                            // If it's a grouped cell, add an expander and row count
+                            <>
+                              <button
+                                className="flex"
+                                {...{
+                                  onClick: row.getToggleExpandedHandler(),
+                                  style: {
+                                    cursor: row.getCanExpand()
+                                      ? "pointer"
+                                      : "normal",
+                                  },
+                                }}>
+                                <div>
+                                  {row.getIsExpanded() ? "👇" : "👉"}{" "}
+                                </div>
+                                {flexRender(
+                                  cell.column.columnDef.cell,
+                                  cell.getContext()
+                                )}{" "}
+                                ({row.subRows.length})
+                              </button>
+                            </>
+                          ) : cell.getIsAggregated() ? (
+                            // If the cell is aggregated, use the Aggregated
+                            // renderer for cell
+                            flexRender(
+                              cell.column.columnDef.aggregatedCell ??
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )
+                          ) : cell.getIsPlaceholder() ? null : ( // For cells with repeated values, render null
+                            // Otherwise, just render the regular cell
+                            flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )
                           )}
                         </div>
                       );
@@ -375,6 +415,7 @@ export default function Drivers() {
               {paddingBottom > 0 && (
                 <div style={{ height: `${paddingBottom}px` }}></div>
               )}
+              <pre>{JSON.stringify(table.getState(), null, 2)}</pre>
               <div className='h-20' />
             </div>
           </div>
