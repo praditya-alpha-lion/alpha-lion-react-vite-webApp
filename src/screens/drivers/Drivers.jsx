@@ -416,7 +416,7 @@ export default function Drivers() {
               {paddingBottom > 0 && (
                 <div style={{ height: `${paddingBottom}px` }}></div>
               )}
-              <pre>{JSON.stringify(table.getState(), null, 2)}</pre>
+              {/* <pre>{JSON.stringify(table.getState(), null, 2)}</pre> */}
               <div className='h-20' />
             </div>
           </div>

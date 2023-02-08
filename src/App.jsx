@@ -19,7 +19,7 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 
 function App() {
-  const user = useSelector((state) => state.userAuthentication.user);
+  // const user = useSelector((state) => state.userAuthentication.user);
 
   // if (user === "user detected") {
   //   Navigate("/dashboard");
@@ -29,7 +29,8 @@ function App() {
   const [value, setValue] = useState(false);
   return (
     <div className='app h-screen overflow-hidden w-full bg-[#131b2d]'>
-      {user.message === "user detected" && <Sidebar />}
+      {/* {user.message === "user detected" && <Sidebar />} */}
+
       <Sidebar />
       <main className='content'>
         <Routes>

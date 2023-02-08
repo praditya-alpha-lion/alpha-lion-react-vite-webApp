@@ -3,9 +3,9 @@ const lowerLetters = "abcdefghijklmnopqrstuvwxyz";
 const numbers = "0123456789";
 const symbols = "!@#$%^&*()_+";
 
-export default function UniqueCharacterGenerator() {
+export default function UniqueCharacterGenerator(len) {
   let randomCharacter = "";
-  const length = 24;
+  const length = len || 24;
   for (let i = 0; i < length; i++) {
     const x = generateX();
     randomCharacter += x;

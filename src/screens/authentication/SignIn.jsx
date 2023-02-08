@@ -2,11 +2,11 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
-import { handleUserLogin } from "../../store/features/userAuthenticationSlice";
+// import { handleUserLogin } from "../../store/authServices/userAuthenticationSlice";
 
 export default function SignIn() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.userAuthentication.user);
+  // const user = useSelector((state) => state.userAuthentication.user);
   const navigate = useNavigate();
   const {
     register,
@@ -39,7 +39,7 @@ export default function SignIn() {
 
     let isLoginIn = await isLogin.json();
     if (isLoginIn.message !== "Incorrect") {
-      dispatch(handleUserLogin(isLoginIn));
+      // dispatch(handleUserLogin(isLoginIn));
       navigate("/dashboard");
     }
   }; // your form submit function which will invoke after successful validation
