@@ -1,36 +1,61 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDetectOutsideClick } from "../../utilities/custom hooks/useDetectOutsideClick";
-import { useForm } from "react-hook-form";
+import CustomFilterInput from "./CustomFilterInput";
 
 export default function xTableUtilityFilter(table) {
-  const { register, handleSubmit } = useForm();
-  const onSubmit = (data) => console.log(data);
 
   const [filterConditions, setFilterConditions] = useState([]);
   // Create a ref that we add to the element for which we want to detect outside clicks
   const filterRef = React.useRef();
   // Call hook passing in the ref and a function to call on outside click
-
   const [filterToggle, setFilterToggle] = React.useState(false);
-
   useDetectOutsideClick(filterRef, () => setFilterToggle(false));
 
   const addConditions = () => {
+    let firstType = table.getHeaderGroups()[0]?.headers[0]?.column?.id
     if (filterConditions.length < 1) {
-      setFilterConditions([
-        {
-          type: "where",
-          field: "",
-          operator: "",
-          value: "",
-        },
-      ]);
+      setFilterConditions([{
+        type: firstType || "",
+        operator: "contains",
+        value: "",
+        id: Date.now()
+      }]);
     } else {
       setFilterConditions((prevArray) => {
-        return prevArray;
-      });
+        let newValue = {
+          type: firstType || "",
+          operator: "contains",
+          value: "",
+          id: Date.now()
+        }
+        return [...prevArray, newValue]
+      })
     }
   };
+  const removeCondition = (id) => {
+    setFilterConditions((prev) => {
+      return prev.filter((item) => {
+        return item.id !== id
+      })
+    })
+  }
+
+  let updatedFilters = filterConditions.map((ele) => {
+    return {
+      id: ele.type,
+      value: ele.value
+    }
+  })
+
+
+  useEffect(() => {
+    table.setColumnFilters(updatedFilters)
+  }, [filterConditions])
+
+
+  // console.log(updatedFilters)
+  // 
+
   return (
     <div
       ref={filterRef}
@@ -44,61 +69,23 @@ export default function xTableUtilityFilter(table) {
         Filter
       </div>
       {filterToggle && (
-        <div className='absolute top-10 left-0 z-50 bg-[#03001C] p-2 rounded-md w-[600px]'>
-          In this view, show tasks
+        <div className='absolute top-10 left-0 z-50 bg-[#03001C] p-2 rounded-md w-[600px] '>
+          Filter:
           <div className='h-[.5px] mb-2 mt-1 w-full bg-white' />
-          {filterConditions?.length < 1 ? (
-            <div className='text-gray-400 m-4'>
-              No filter conditions are applied to this view
-            </div>
-          ) : (
-            <div className='m-2'>
-              <div className='flex border my-2 border-cyan-200'>
-                <select
-                  {...register("type", { required: true })}
-                  className='block w-60 p-2  bg-[#03001C] border border-gray-300 outline-none appearance-none text-white text-base'>
-                  {table
-                    .getHeaderGroups()
-                    .map((headerGroup) =>
-                      headerGroup.headers.map((header) => (
-                        <option>{header.column.id}</option>
-                      ))
-                    )}
-                </select>
-                <select
-                  {...register("field", { required: true })}
-                  className='block w-60 p-2  bg-[#03001C] border border-gray-300 outline-none appearance-none text-white text-base'>
-                  <option>Contains</option>
-                  <option>Does Not Contains</option>
-                </select>
-                <input
-                  {...register("value", { required: true })}
-                  className='block w-60 p-2  bg-[#03001C] border border-gray-300  text-white text-base'
-                  type='text'
-                  placeholder='Enter a Value'
-                />
-                <div className='bg-[#2f2a40] flex items-center hover:bg-[#413c52]'>
-                  <span class='material-symbols-rounded text-white mx-2'>
-                    delete
-                  </span>
-                </div>
+          <div className="max-h-[700px] overflow-scroll">
+            {filterConditions?.length < 1 ? (
+              <div className='text-gray-400 m-4'>
+                No filter conditions are applied to this view
               </div>
-            </div>
-          )}
+            ) : (
+              filterConditions.map((ele, i) => <CustomFilterInput key={i} table={table} type={ele.type} operator={ele.operator} value={ele.value} id={ele.id} removeCondition={removeCondition} setFilterConditions={setFilterConditions} />)
+            )}
+          </div>
           <div
-            className='text-blue-500 hover:text-white m-2 mb-0'
+            className='text-blue-500 hover:text-white m-2 mb-0 inline-block'
             onClick={() => addConditions()}>
             + Add Condition
           </div>
-          {/* {table.getAllLeafColumns().map((column) => {
-            return (
-              <label
-                key={column.id}
-                className='flex items-center text-base gap-4 p-1 hover:bg-[#2f2a40] rounded-sm pl-2 cursor-pointer'>
-                <div className='capitalize truncate'>{column.id}</div>
-              </label>
-            );
-          })} */}
         </div>
       )}
     </div>

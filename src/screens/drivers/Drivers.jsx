@@ -298,6 +298,7 @@ export default function Drivers() {
       ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0)
       : 0;
 
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className='p-2 h-screen text-white'>

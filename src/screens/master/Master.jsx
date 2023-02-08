@@ -71,11 +71,10 @@ function Filter({ column, table }) {
           onChange={(value) =>
             column.setFilterValue((old) => [value, old?.[1]])
           }
-          placeholder={`Min ${
-            column.getFacetedMinMaxValues()?.[0]
+          placeholder={`Min ${column.getFacetedMinMaxValues()?.[0]
               ? `(${column.getFacetedMinMaxValues()?.[0]})`
               : ""
-          }`}
+            }`}
           className='w-24 border shadow rounded'
         />
         <DebouncedInput
@@ -86,11 +85,10 @@ function Filter({ column, table }) {
           onChange={(value) =>
             column.setFilterValue((old) => [old?.[0], value])
           }
-          placeholder={`Max ${
-            column.getFacetedMinMaxValues()?.[1]
+          placeholder={`Max ${column.getFacetedMinMaxValues()?.[1]
               ? `(${column.getFacetedMinMaxValues()?.[1]})`
               : ""
-          }`}
+            }`}
           className='w-24 border shadow rounded'
         />
       </div>
@@ -301,7 +299,7 @@ export default function Master() {
             </tr>
           ))}
         </thead>
-        <tbody>
+        {/* <tbody>
           {table.getRowModel().rows.map((row) => {
             return (
               <tr key={row.id}>
@@ -318,10 +316,10 @@ export default function Master() {
               </tr>
             );
           })}
-        </tbody>
+        </tbody> */}
       </table>
       <div className='h-2' />
-      <div className='flex items-center gap-2'>
+      {/* <div className='flex items-center gap-2'>
         <button
           className='border rounded p-1'
           onClick={() => table.setPageIndex(0)}
@@ -383,7 +381,7 @@ export default function Master() {
       </div>
       <div>
         <button onClick={() => refreshData()}>Refresh Data</button>
-      </div>
+      </div> */}
       <pre>{JSON.stringify(table.getState(), null, 2)}</pre>
     </div>
   );
