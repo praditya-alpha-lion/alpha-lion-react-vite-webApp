@@ -4,7 +4,7 @@ import loadReducer from "../features/loadSlice";
 import globalStateManagementReducer from "../features/globalStateManagementSlice";
 import { alphaTruckingApi } from "../services/alphaTruckingApi";
 import { setupListeners } from "@reduxjs/toolkit/query";
-
+import authReducer from "../features/auth/authSlice";
 // import userAuthenticationReducer from "../features/userAuthenticationSlice";
 // import authReducer from "../features/authSlice";
 // import messageAuthReducer from "../features/messageAuth";
@@ -14,6 +14,7 @@ const reducer = {
   message: messageReducer,
   load: loadReducer,
   globalStateManagement: globalStateManagementReducer,
+  auth: authReducer,
   // userAuthentication: userAuthenticationReducer,
   // authSlice: authReducer,
   // messageAuth: messageAuthReducer,
