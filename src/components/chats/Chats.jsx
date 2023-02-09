@@ -62,7 +62,7 @@ export default function Chats() {
     }
   }, []);
   return (
-    <div className='flex  h-screen overflow-hidden'>
+    <div className='flex  h-screen overflow-hidden w-full'>
       <Aside />
       <ActiveScreen user_token={user_token} socket={socket} />
     </div>

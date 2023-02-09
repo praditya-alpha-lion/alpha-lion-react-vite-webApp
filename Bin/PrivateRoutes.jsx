@@ -6,7 +6,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { redirect, Route } from "react-router-dom";
-import SignIn from "../../../Bin/authentication/SignIn";
+import SignIn from "./authentication/SignIn";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   // Add your own authentication on the below line.
