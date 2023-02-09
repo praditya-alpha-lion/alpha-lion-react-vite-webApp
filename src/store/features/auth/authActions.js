@@ -1,7 +1,8 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const backendURL = "http://192.168.1.30";
+const backendURL = import.meta.env.VITE_SERVER_URL;
+console.log(backendURL);
 
 export const registerUser = createAsyncThunk(
   "auth/register",
@@ -39,7 +40,7 @@ export const userLogin = createAsyncThunk(
         },
       };
       const { data } = await axios.post(
-        `${backendURL}/API/V1/weblogin`,
+        `${backendURL}API/V1/weblogin`,
         { email, password },
         config
       );

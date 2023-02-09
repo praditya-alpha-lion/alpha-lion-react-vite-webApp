@@ -34,7 +34,7 @@ function App() {
       <Sidebar />
       <main className='content'>
         <Routes>
-          <Route index path='/' element={<SignIn />} />
+          <Route index path='/sign-in' element={<SignIn />} />
           <Route path='/' element={<Dashboard />} />
           <Route path='/chats' element={<Chats />} />
           <Route path='/schedule' element={<Schedule />} />
