@@ -62,6 +62,15 @@ const DraggableColumnHeader = ({ header, table, index }) => {
         </div>
     );
 };
+const reorderColumn = (draggedColumnId, targetColumnId, columnOrder) => {
+    columnOrder.splice(
+        columnOrder.indexOf(targetColumnId),
+        0,
+        columnOrder.splice(columnOrder.indexOf(draggedColumnId), 1)[0]
+    );
+    return [...columnOrder];
+};
+
 
 export default function CustomTable(toggle, table, rows, activeRowHeight, activeNumberOfLines) {
     const tableContainerRef = React.useRef(null);

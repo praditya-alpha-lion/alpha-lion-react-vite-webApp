@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   flexRender,
   useReactTable,
@@ -16,88 +16,7 @@ import UtilityBar from "../../components/Table/UtilityBar";
 import CustomTable from "../../components/Table/CustomTable";
 import { addViews } from "../../store/features/viewsManagementSlice";
 
-const defaultColumns = [
-  {
-    accessorKey: "name",
-    id: "name",
-    header: "name",
-  },
-  {
-    accessorKey: "phone",
-    id: "phone",
-    header: "phone",
-  },
-  {
-    accessorKey: "dl",
-    id: "dl",
-    header: "dl (Documents)",
-  },
-  {
-    accessorKey: "status",
-    id: "status",
-    header: "Status",
-  },
-  {
-    accessorKey: "dlNo",
-    id: "dlNo",
-    header: "DL Number",
-  },
-  {
-    accessorKey: "state",
-    id: "state",
-    header: "State",
-  },
-  {
-    accessorKey: "licenseExp",
-    id: "licenseExp",
-    header: "License Expiry",
-  },
-  {
-    accessorKey: "snn",
-    id: "snn",
-    header: "SNN",
-  },
-  {
-    accessorKey: "bank",
-    id: "bank",
-    header: "Bank",
-  },
-  {
-    accessorKey: "account",
-    id: "account",
-    header: "Account",
-  },
-  {
-    accessorKey: "routing",
-    id: "routing",
-    header: "Routing",
-  },
-  {
-    accessorKey: "dob",
-    id: "dob",
-    header: "DOB",
-  },
-  {
-    accessorKey: "application",
-    id: "application",
-    header: "Application",
-  },
-  {
-    accessorKey: "notes",
-    id: "notes",
-    header: "Notes",
-  },
-  {
-    accessorKey: "pastEmployment",
-    id: "Past Employment",
-    header: "Past Employment",
-  },
-  {
-    accessorKey: "MVR",
-    id: "MVR",
-    header: "MVR",
-  },
-];
+
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -113,7 +32,7 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
 };
 
 
-export default function Table({ tableData }) {
+export default function Table({ tableData, defaultColumns }) {
   // this is for checking is the side bar is opened ?
   const { toggle } = useSelector(
     (state) => state.globalState.mainSideBar
@@ -142,11 +61,11 @@ export default function Table({ tableData }) {
       };
     })
   );
-  const [columns] = React.useState(() => [...defaultColumns]);
-  const [globalFilter, setGlobalFilter] = React.useState("");
-  const [columnFilters, setColumnFilters] = React.useState([]);
-  const [sorting, setSorting] = React.useState([]);
-  const [rowHeight, setRowHeight] = React.useState([
+  const [columns] = useState(() => [...defaultColumns]);
+  const [globalFilter, setGlobalFilter] = useState("");
+  const [columnFilters, setColumnFilters] = useState([]);
+  const [sorting, setSorting] = useState([]);
+  const [rowHeight, setRowHeight] = useState([
     {
       name: "small",
       isActive: true,
@@ -176,13 +95,13 @@ export default function Table({ tableData }) {
       numberOfLines: 4,
     },
   ]);
-  const [grouping, setGrouping] = React.useState([]);
+  const [grouping, setGrouping] = useState([]);
   let { activeRowHeight, activeNumberOfLines } = handleRowHeight(rowHeight);
-  const [columnOrder, setColumnOrder] = React.useState(
+  const [columnOrder, setColumnOrder] = useState(
     //must start out with populated columnOrder so we can splice
     columns.map((column) => column.id)
   );
-  const [columnPinning, setColumnPinning] = React.useState({});
+  const [columnPinning, setColumnPinning] = useState({});
   const table = useReactTable({
     columnResizeMode: "onChange",
     state: {
@@ -260,18 +179,3 @@ function handleRowHeight(rowHeight) {
   });
   return { activeRowHeight, activeNumberOfLines };
 }
-
-
-{/* <pre>{JSON.stringify(table.getState(), null, 2)}</pre> */ }
-
-
-
-// not used
-const reorderColumn = (draggedColumnId, targetColumnId, columnOrder) => {
-  columnOrder.splice(
-    columnOrder.indexOf(targetColumnId),
-    0,
-    columnOrder.splice(columnOrder.indexOf(draggedColumnId), 1)[0]
-  );
-  return [...columnOrder];
-};
