@@ -6,7 +6,7 @@ export default function AsideMenu({ isOpen, setIsOpen }) {
   const dispatch = useDispatch();
   // const [isOpen, setIsOpen] = React.useState(false);
   const { screenTabsToggle } = useSelector(
-    (state) => state.globalStateManagement
+    (state) => state.globalState
   );
   const menusData = [
     {
@@ -244,9 +244,8 @@ export default function AsideMenu({ isOpen, setIsOpen }) {
             return (
               <div
                 key={ele.name}
-                className={`m-2 p-2 bg-slate-700 rounded-md  text-xl hover:bg-slate-500 hover:text-black cursor-pointer flex  w-52 items-center hover:animate-pulse ${
-                  ele.active ? "bg-purple-600 text-white" : ""
-                }`}>
+                className={`m-2 p-2 bg-slate-700 rounded-md  text-xl hover:bg-slate-500 hover:text-black cursor-pointer flex  w-52 items-center hover:animate-pulse ${ele.active ? "bg-purple-600 text-white" : ""
+                  }`}>
                 <div className='mr-2'>{ele.icon}</div>
                 {ele.name}
               </div>

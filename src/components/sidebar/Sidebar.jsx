@@ -7,7 +7,7 @@ import "../../stylesheet/sidebar.scss";
 
 export default function Sidebar() {
   const { toggle } = useSelector(
-    (state) => state.globalStateManagement.mainSideBar
+    (state) => state.globalState.mainSideBar
   );
   const dispatch = useDispatch();
   const [menus, setMenus] = useState([
@@ -76,9 +76,8 @@ export default function Sidebar() {
                 </div>
                 {menu.subMenu && (
                   <span
-                    className={`material-symbols-rounded arrow ${
-                      menu.isOpened && "rotate_arrow"
-                    }`}>
+                    className={`material-symbols-rounded arrow ${menu.isOpened && "rotate_arrow"
+                      }`}>
                     arrow_right
                   </span>
                 )}

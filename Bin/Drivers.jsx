@@ -37,7 +37,7 @@ const columns = [
             height={100}
             src={img?.url}
             style={{ objectFit: "contain" }}
-            // src={img?.thumbnails?.large?.url}
+          // src={img?.thumbnails?.large?.url}
           />
         ))}
       </div>
@@ -103,7 +103,7 @@ const columns = [
             height={100}
             src={img?.thumbnails?.large?.url}
             style={{ objectFit: "contain" }}
-            // src={img?.thumbnails?.large?.url}
+          // src={img?.thumbnails?.large?.url}
           />
         ))}
       </div>
@@ -119,7 +119,7 @@ const defaultFooter = () => "Here is footer";
 
 const Drivers = () => {
   const { toggle, width } = useSelector(
-    (state) => state.globalStateManagement.mainSideBar
+    (state) => state.globalState.mainSideBar
   );
   console.log(toggle, width);
   const {
@@ -205,8 +205,8 @@ const Drivers = () => {
         // scroll={scroll}
         scroll={{ x: 2500, y: dimensions.height - 143 }}
         bordered
-        // loading={isFetching}
-        // dataSource={!isFetching ? tableData : []}
+      // loading={isFetching}
+      // dataSource={!isFetching ? tableData : []}
       />
     </div>
   );

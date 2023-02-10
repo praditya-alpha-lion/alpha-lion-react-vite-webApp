@@ -15,7 +15,7 @@ export default function AsideBody() {
 
   const dispatch = useDispatch();
   const { search, filter } = useSelector(
-    (state) => state.globalStateManagement
+    (state) => state.globalState
   );
   let dataArray = {
     alphaLionData: [],

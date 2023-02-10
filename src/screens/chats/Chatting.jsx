@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addMessage, updateMessage } from "../../store/features/messageSlice";
 import UniqueCharacterGenerator from "../../utilities/UniqueCharacterGenerator";
 import DateGenerator from "../../utilities/DateGenerator";
+import ReactTextareaAutosize from "react-textarea-autosize";
 
 export default function Chatting({ user_token, socket }) {
   // hooks called
@@ -241,12 +242,12 @@ export default function Chatting({ user_token, socket }) {
         ref={mainChatRef}
         id='mainChat'
         className='flex flex-col items-end  px-4 py-2 overflow-y-scroll flex-1'
-        // ref={listRef}
-        // onClick={handleClickScroll}
-        // onResize={handleClickScroll}
-        // onChange={handleClickScroll}
-        // on
-        // onChange={() => handleClickScroll()}
+      // ref={listRef}
+      // onClick={handleClickScroll}
+      // onResize={handleClickScroll}
+      // onChange={handleClickScroll}
+      // on
+      // onChange={() => handleClickScroll()}
       >
         {messages.map((element, index) => {
           return (
@@ -287,10 +288,9 @@ export default function Chatting({ user_token, socket }) {
           </svg>
         </div>
         <div
-          className={`bg-white shadow-sm rounded-md w-full ${
-            messageInput.current?.rows > 3 ? "pb-2" : "pb-0"
-          }`}>
-          <textarea
+          className={`bg-white shadow-sm rounded-md w-full ${messageInput.current?.rows > 3 ? "pb-2" : "pb-0"
+            }`}>
+          <ReactTextareaAutosize
             maxRows={4}
             type='text'
             placeholder='Type something...'

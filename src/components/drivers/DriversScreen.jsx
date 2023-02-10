@@ -1,6 +1,6 @@
 import React from "react";
-import Error from "../../components/utilities/Error";
-import Loading from "../../components/utilities/Loading";
+import Error from "../utilities/Error";
+import Loading from "../utilities/Loading";
 import { useGetDriversQuery } from "../../store/services/alphaTruckingApi";
 
 export default function DriversScreen() {

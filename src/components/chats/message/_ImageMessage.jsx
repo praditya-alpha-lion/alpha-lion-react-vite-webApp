@@ -17,7 +17,7 @@ export default function _ImageMessage({ messageApi, type }) {
                 height: "100%",
                 width: "100%",
               }}
-              preview={messageApi.status === "uploading" ? false : true}
+              // preview={messageApi.status === "uploading" ? false : true}
               height={"100%"}
               width={"100%"}
             />
@@ -83,9 +83,9 @@ export default function _ImageMessage({ messageApi, type }) {
             }}
             height={"100%"}
             width={"100%"}
-            // afterLoad={() => {
-            //   setIsLoaded(true);
-            // }}
+          // afterLoad={() => {
+          //   setIsLoaded(true);
+          // }}
           />
         </div>
         <div className='text-[10px] text-gray-400 text-start mt-1'>

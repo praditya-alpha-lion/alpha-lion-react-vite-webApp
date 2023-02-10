@@ -12,7 +12,6 @@ export const messageSlice = createSlice({
       state.messages.push(payload);
     },
     updateMessage: (state, { payload }) => {
-      // state.messages.
       state.messages = state.messages.map((ele) => {
         if (ele.message_id === payload.message_id) {
           ele = payload;

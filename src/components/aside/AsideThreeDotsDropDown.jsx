@@ -9,7 +9,7 @@ export default function AsideThreeDotsDropDown() {
   const ref = useRef();
   // Call hook passing in the ref and a function to call on outside click
 
-  const filter = useSelector((state) => state.globalStateManagement.filter);
+  const filter = useSelector((state) => state.globalState.filter);
   const dispatch = useDispatch();
   const [toggle, setToggle] = useState(false);
   useDetectOutsideClick(ref, () => setToggle(false));
@@ -19,9 +19,8 @@ export default function AsideThreeDotsDropDown() {
         <div>
           <button
             onClick={() => setToggle(!toggle)}
-            className={` flex w-full items-center justify-center rounded-full p-2 bg-black  text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 ${
-              toggle ? "bg-opacity-100" : ""
-            }`}>
+            className={` flex w-full items-center justify-center rounded-full p-2 bg-black  text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 ${toggle ? "bg-opacity-100" : ""
+              }`}>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'

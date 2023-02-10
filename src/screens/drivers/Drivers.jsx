@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import {
   flexRender,
   useReactTable,
@@ -8,21 +8,15 @@ import {
   getGroupedRowModel,
   getExpandedRowModel,
 } from "@tanstack/react-table";
-import { useVirtual } from "react-virtual";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { rankItem, compareItems } from "@tanstack/match-sorter-utils";
 import { useSelector } from "react-redux";
 import getAllDriverData from "../../store/LocalAPi/getAllDrivers.json";
 import UtilityBar from "../../components/Table/UtilityBar";
+import TableVirtualRows from "../../components/Table/TableVirtualRows";
 
 const defaultColumns = [
-  // {
-  //   accessorKey: "sNo",
-  //   id: "sNo",
-  //   header: "SNo.",
-  //   size: 60,
-  // },
   {
     accessorKey: "name",
     id: "name",
@@ -185,7 +179,7 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
 export default function Drivers() {
   // this is for checking is the side bar is opened ?
   const { toggle } = useSelector(
-    (state) => state.globalStateManagement.mainSideBar
+    (state) => state.globalState.mainSideBar
   );
   const [data, setData] = React.useState(() =>
     getAllDriverData.map((ele, index) => {
@@ -210,7 +204,6 @@ export default function Drivers() {
       };
     })
   );
-  const tableContainerRef = React.useRef(null);
   const [columns] = React.useState(() => [...defaultColumns]);
   const [globalFilter, setGlobalFilter] = React.useState("");
   const [columnFilters, setColumnFilters] = React.useState([]);
@@ -247,7 +240,6 @@ export default function Drivers() {
   ]);
   const [grouping, setGrouping] = React.useState([]);
   let { activeRowHeight, activeNumberOfLines } = handleRowHeight(rowHeight);
-
   const [columnOrder, setColumnOrder] = React.useState(
     //must start out with populated columnOrder so we can splice
     columns.map((column) => column.id)
@@ -286,18 +278,11 @@ export default function Drivers() {
     debugColumns: true,
   });
   const { rows } = table.getRowModel();
-  const rowVirtualizer = useVirtual({
-    parentRef: tableContainerRef,
-    size: rows.length,
-    overscan: 100,
-  });
-  const { virtualItems: virtualRows, totalSize } = rowVirtualizer;
-  const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0;
-  const paddingBottom =
-    virtualRows.length > 0
-      ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0)
-      : 0;
+  const tableContainerRef = React.useRef(null);
 
+  console.log(
+    table.getTotalSize()
+  )
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -310,9 +295,7 @@ export default function Drivers() {
           table
         )}
         <div
-          // className={`overflow-scroll ${toggle ? "w-[1830px]" : "w-[1690px]"}`}>
-          className={`overflow-scroll ${toggle ? "w-[calc(100vw_-_90px)]" : `w-[calc(100vw_-_230px)]`
-            }`}>
+          className={`overflow-scroll ${toggle ? "w-[calc(100vw_-_90px)]" : `w-[calc(100vw_-_230px)]`}`}>
           <div
             ref={tableContainerRef}
             {...{
@@ -335,96 +318,16 @@ export default function Drivers() {
                 </div>
               ))}
             </div>
-            <div className='tbody'>
-              {paddingTop > 0 && (
-                <div style={{ height: `${paddingTop}px` }}></div>
-              )}
-              {virtualRows.map((virtualRow) => {
-                const row = rows[virtualRow.index];
-                return (
-                  <div
-                    {...{
-                      key: row.id,
-                      className: "tr",
-                      style: {
-                        height: activeRowHeight,
-                      },
-                    }}>
-                    {row.getVisibleCells().map((cell, index) => {
-                      return (
-                        <div
-                          className={`td 
-                          webkitLineClamp${activeNumberOfLines} `}
-                          key={cell.id}
-                          {...{
-                            style: {
-                              width: cell.column.getSize(),
-                              height: activeRowHeight,
-                              background: cell.getIsGrouped()
-                                ? "#0aff0082"
-                                : cell.getIsAggregated()
-                                  ? "#ffa50078"
-                                  : cell.getIsPlaceholder()
-                                    ? "#ff000042"
-                                    : "",
-                            },
-                          }}>
-                          {cell.getIsGrouped() ? (
-                            // If it's a grouped cell, add an expander and row count
-                            <>
-                              <button
-                                className="flex"
-                                {...{
-                                  onClick: row.getToggleExpandedHandler(),
-                                  style: {
-                                    cursor: row.getCanExpand()
-                                      ? "pointer"
-                                      : "normal",
-                                  },
-                                }}>
-                                <div>
-                                  {row.getIsExpanded() ? "👇" : "👉"}{" "}
-                                </div>
-                                {flexRender(
-                                  cell.column.columnDef.cell,
-                                  cell.getContext()
-                                )}{" "}
-                                ({row.subRows.length})
-                              </button>
-                            </>
-                          ) : cell.getIsAggregated() ? (
-                            // If the cell is aggregated, use the Aggregated
-                            // renderer for cell
-                            flexRender(
-                              cell.column.columnDef.aggregatedCell ??
-                              cell.column.columnDef.cell,
-                              cell.getContext()
-                            )
-                          ) : cell.getIsPlaceholder() ? null : ( // For cells with repeated values, render null
-                            // Otherwise, just render the regular cell
-                            flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext()
-                            )
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                );
-              })}
-              {paddingBottom > 0 && (
-                <div style={{ height: `${paddingBottom}px` }}></div>
-              )}
-              {/* <pre>{JSON.stringify(table.getState(), null, 2)}</pre> */}
-              <div className='h-20' />
-            </div>
+            {TableVirtualRows(tableContainerRef, rows, activeRowHeight, activeNumberOfLines)}
           </div>
         </div>
       </div>
     </DndProvider>
   );
 }
+
+{/* <pre>{JSON.stringify(table.getState(), null, 2)}</pre> */ }
+
 function handleRowHeight(rowHeight) {
   let activeRowHeight = 30;
   let activeNumberOfLines = 1;

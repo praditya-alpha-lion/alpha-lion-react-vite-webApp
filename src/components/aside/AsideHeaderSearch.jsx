@@ -5,7 +5,7 @@ import AsideThreeDotsDropDown from "./AsideThreeDotsDropDown";
 
 export default function AsideHeaderSearch() {
   const dispatch = useDispatch();
-  const search = useSelector((state) => state.globalStateManagement.search);
+  const search = useSelector((state) => state.globalState.search);
   return (
     <div className='flex justify-center items-center pr-1'>
       <form className='flex-1'>
