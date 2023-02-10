@@ -12,7 +12,6 @@ import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { rankItem, compareItems } from "@tanstack/match-sorter-utils";
 import { useDispatch, useSelector } from "react-redux";
-import getAllDriverData from "../../store/LocalAPi/getAllDrivers.json";
 import UtilityBar from "../../components/Table/UtilityBar";
 import CustomTable from "../../components/Table/CustomTable";
 import { addViews } from "../../store/features/viewsManagementSlice";
@@ -114,14 +113,14 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
 };
 
 
-export default function Table() {
+export default function Table({ tableData }) {
   // this is for checking is the side bar is opened ?
   const { toggle } = useSelector(
     (state) => state.globalState.mainSideBar
   );
 
   const [data, setData] = React.useState(() =>
-    getAllDriverData.map((ele, index) => {
+    tableData.map((ele, index) => {
       return {
         sNo: index + 1,
         name: ele?.data?.Name || "N/A",
@@ -263,6 +262,7 @@ function handleRowHeight(rowHeight) {
 }
 
 
+{/* <pre>{JSON.stringify(table.getState(), null, 2)}</pre> */ }
 
 
 
