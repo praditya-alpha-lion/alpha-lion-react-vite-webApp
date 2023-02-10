@@ -11,7 +11,7 @@ const viewsManagementSlice = createSlice({
   initialState,
   reducers: {
     addViews: (state, { payload }) => {
-      state.views[payload.view](payload.data);
+      state[payload.view] = payload.data;
     },
   },
 });
