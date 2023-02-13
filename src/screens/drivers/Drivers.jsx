@@ -3,7 +3,7 @@ import { useGetDriversQuery } from "../../store/services/alphaTruckingApi";
 import Table from "../../components/Table/Table";
 import Loading from "../../components/utilities/Loading";
 import Error from "../../components/utilities/Error";
-import getAllDrivers from "../../store/LocalAPi/getAllDrivers.json"
+// import getAllDrivers from "../../store/LocalAPi/getAllDrivers.json"
 const defaultColumns = [
   {
     accessorKey: "name",
@@ -88,14 +88,14 @@ const defaultColumns = [
 ];
 
 export default function Drivers() {
-  // let { data, error, isFetching } = useGetDriversQuery();
-  let data = getAllDrivers;
-  // if (isFetching) {
-  //   return <Loading />;
-  // }
-  // if (error) {
-  //   return <Error error={error} />;
-  // }
+  let { data, error, isFetching } = useGetDriversQuery();
+  // let data = getAllDrivers;
+  if (isFetching) {
+    return <Loading />;
+  }
+  if (error) {
+    return <Error error={error} />;
+  }
 
 
 
