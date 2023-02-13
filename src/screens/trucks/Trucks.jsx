@@ -4,16 +4,14 @@ import Loading from "../../components/utilities/Loading";
 import { useGetTrucksQuery } from "../../store/services/alphaTruckingApi";
 
 export default function Trucks() {
-  let { data, error, isFetching } = useGetTrucksQuery();
+  // let { data, error, isFetching } = useGetTrucksQuery();
 
-  if (isFetching) {
-    return <Loading />
-  }
-  if (error) {
-    return <Error error={error} />
-  }
+  // if (isFetching) {
+  //   return <Loading />;
+  // }
+  // if (error) {
+  //   return <Error error={error} />;
+  // }
 
-  return (
-    <Table tableData={data} />
-  );
+  return <div>Trucks</div>;
 }

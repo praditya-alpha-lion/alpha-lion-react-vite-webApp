@@ -16,8 +16,6 @@ import UtilityBar from "../../components/Table/UtilityBar";
 import CustomTable from "../../components/Table/CustomTable";
 import { addViews } from "../../store/features/viewsManagementSlice";
 
-
-
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value);
@@ -31,12 +29,9 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
   return itemRank.passed;
 };
 
-
 export default function Table({ tableData, defaultColumns }) {
   // this is for checking is the side bar is opened ?
-  const { toggle } = useSelector(
-    (state) => state.globalState.mainSideBar
-  );
+  const { toggle } = useSelector((state) => state.globalState.mainSideBar);
 
   const [data, setData] = React.useState(() =>
     tableData.map((ele, index) => {
@@ -136,37 +131,31 @@ export default function Table({ tableData, defaultColumns }) {
   });
   const { rows } = table.getRowModel();
 
-
-
-
   // const { driver } = useSelector((state) => state.views);
   // useEffect(() => {
   //   dispatch(addViews({ view: 'driver', data: table.getState() }))
   //   // console.log(table.getState())
   // }, [])
 
-
   // if (isFetching) {
   //   return <>Fetching</>
   // }
 
-
-
-  return <DndProvider backend={HTML5Backend}>
-    <div className='p-2 h-screen text-white'>
-      {UtilityBar(
-        globalFilter,
-        setGlobalFilter,
-        rowHeight,
-        setRowHeight,
-        table
-      )}
-      {CustomTable(toggle, table, rows, activeRowHeight, activeNumberOfLines)}
-    </div>
-  </DndProvider>
+  return (
+    <DndProvider backend={HTML5Backend}>
+      <div className='p-2 h-screen text-white'>
+        {UtilityBar(
+          globalFilter,
+          setGlobalFilter,
+          rowHeight,
+          setRowHeight,
+          table
+        )}
+        {CustomTable(toggle, table, rows, activeRowHeight, activeNumberOfLines)}
+      </div>
+    </DndProvider>
+  );
 }
-
-
 
 function handleRowHeight(rowHeight) {
   let activeRowHeight = 30;

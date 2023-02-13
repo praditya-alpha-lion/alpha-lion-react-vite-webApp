@@ -43,9 +43,37 @@ export const userLogin = createAsyncThunk(
         { email, password },
         config
       );
-      console.log(data);
       // store user's token in local storage
       localStorage.setItem("userToken", JSON.stringify(data));
+      return data;
+    } catch (error) {
+      // return custom error message from API if any
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const userLogout = createAsyncThunk(
+  "auth/logout",
+  async ({ token }, { rejectWithValue }) => {
+    try {
+      // configure header's Content-Type as JSON
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      // const { data } = await axios.post(
+      //   `${backendURL}API/V1/weblogin`,
+      //   { token },
+      //   config
+      // );
+      // store user's token in local storage
+      localStorage.removeItem("userToken");
       return data;
     } catch (error) {
       // return custom error message from API if any
