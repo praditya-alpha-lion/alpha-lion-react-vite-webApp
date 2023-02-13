@@ -97,8 +97,6 @@ export default function Drivers() {
     return <Error error={error} />;
   }
 
-
-
   // const dataSchema = {
   //   sNo: index + 1,
   //   name: ele?.data?.Name || "N/A",
