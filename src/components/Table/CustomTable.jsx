@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import TableVirtualRows from './TableVirtualRows';
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import {
     flexRender,
 } from "@tanstack/react-table";
+import { useDispatch } from 'react-redux';
+import { addViews } from '../../store/features/viewsManagementSlice';
 
 const DraggableColumnHeader = ({ header, table, index }) => {
     const { getState, setColumnOrder } = table;
@@ -73,6 +75,18 @@ const reorderColumn = (draggedColumnId, targetColumnId, columnOrder) => {
 
 
 export default function CustomTable(toggle, table, rows, activeRowHeight, activeNumberOfLines) {
+    const [allStates, setAllStates] = useState(table.getState() || []);
+
+    console.log()
+
+    // useEffect(() => {
+
+    //     useDispatch(addViews({ view: "driver", data: allStates }))
+    //     // console.log(table.getState())
+    //     // setAllStates(table.getState())
+
+    // }, [])
+
     const tableContainerRef = React.useRef(null);
     return <div
         className={`overflow-scroll ${toggle ? "w-[calc(100vw_-_90px)]" : `w-[calc(100vw_-_230px)]`}`}>

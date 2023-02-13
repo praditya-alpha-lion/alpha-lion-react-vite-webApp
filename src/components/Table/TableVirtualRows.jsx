@@ -36,8 +36,7 @@ export default function TableVirtualRows(tableContainerRef, rows, activeRowHeigh
                     {row.getVisibleCells().map((cell, index) => {
                         return (
                             <div
-                                className={`td 
-                          webkitLineClamp${activeNumberOfLines} `}
+                                className={`td webkitLineClamp${activeNumberOfLines} `}
                                 key={cell.id}
                                 {...{
                                     style: {

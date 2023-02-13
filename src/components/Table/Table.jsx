@@ -16,18 +16,6 @@ import UtilityBar from "../../components/Table/UtilityBar";
 import CustomTable from "../../components/Table/CustomTable";
 import { addViews } from "../../store/features/viewsManagementSlice";
 
-const fuzzyFilter = (row, columnId, value, addMeta) => {
-  // Rank the item
-  const itemRank = rankItem(row.getValue(columnId), value);
-
-  // Store the itemRank info
-  addMeta({
-    itemRank,
-  });
-
-  // Return if the item should be filtered in/out
-  return itemRank.passed;
-};
 
 export default function Table({ tableData, defaultColumns }) {
   // this is for checking is the side bar is opened ?
@@ -97,6 +85,7 @@ export default function Table({ tableData, defaultColumns }) {
     columns.map((column) => column.id)
   );
   const [columnPinning, setColumnPinning] = useState({});
+  const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper()
   const table = useReactTable({
     columnResizeMode: "onChange",
     state: {
@@ -125,11 +114,33 @@ export default function Table({ tableData, defaultColumns }) {
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onColumnPinningChange: setColumnPinning,
+    autoResetPageIndex,
+    // Provide our updateData function to our table meta
+    meta: {
+      updateData: (rowIndex, columnId, value) => {
+        // Skip age index reset until after next rerender
+        skipAutoResetPageIndex()
+        setData(old =>
+          old.map((row, index) => {
+            if (index === rowIndex) {
+              return {
+                ...old[rowIndex],
+                [columnId]: value
+              }
+            }
+            return row
+          })
+        )
+      }
+    },
     debugTable: true,
     debugHeaders: true,
     debugColumns: true,
   });
   const { rows } = table.getRowModel();
+  // const [allStates, setAllStates] = useState(table.getState())
+
+  // let allStates = table.getState()
 
   // const { driver } = useSelector((state) => state.views);
   // useEffect(() => {
@@ -167,4 +178,35 @@ function handleRowHeight(rowHeight) {
     }
   });
   return { activeRowHeight, activeNumberOfLines };
+}
+
+
+const fuzzyFilter = (row, columnId, value, addMeta) => {
+  // Rank the item
+  const itemRank = rankItem(row.getValue(columnId), value);
+
+  // Store the itemRank info
+  addMeta({
+    itemRank,
+  });
+
+  // Return if the item should be filtered in/out
+  return itemRank.passed;
+};
+
+
+function useSkipper() {
+  const shouldSkipRef = React.useRef(true)
+  const shouldSkip = shouldSkipRef.current
+
+  // Wrap a function with this to skip a pagination reset temporarily
+  const skip = React.useCallback(() => {
+    shouldSkipRef.current = false
+  }, [])
+
+  React.useEffect(() => {
+    shouldSkipRef.current = true
+  })
+
+  return [shouldSkip, skip]
 }
