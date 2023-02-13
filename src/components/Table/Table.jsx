@@ -133,9 +133,9 @@ export default function Table({ tableData, defaultColumns }) {
         )
       }
     },
-    debugTable: true,
-    debugHeaders: true,
-    debugColumns: true,
+    debugTable: false,
+    debugHeaders: false,
+    debugColumns: false,
   });
   const { rows } = table.getRowModel();
   // const [allStates, setAllStates] = useState(table.getState())
