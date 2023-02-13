@@ -21,18 +21,18 @@ export default function MainRouting() {
   const { userInfo } = useSelector((state) => state.auth)
   return (
     <Routes>
-      <Route path='/' element={userInfo ? <Dashboard /> : <Login />} />
+      <Route path='/frontend' element={userInfo ? <Dashboard /> : <Login />} />
       <Route element={<ProtectedRoute />}>
-        <Route path='/chats' element={<Chats />} />
-        <Route path='/schedule' element={<Schedule />} />
-        <Route path='/master' element={<Master />} />
-        <Route path='/trailers' element={<Trailers />} />
-        <Route path='/trucks' element={<Trucks />} />
-        <Route path='/drivers' element={<Drivers />} />
-        <Route path='/customers' element={<Customer />} />
-        <Route path='/company' element={<Company />} />
-        <Route path='/brokers' element={<Brokers />} />
-        <Route path='/about' element={<About />} />
+        <Route path='/frontend/chats' element={<Chats />} />
+        <Route path='/frontend/schedule' element={<Schedule />} />
+        <Route path='/frontend/master' element={<Master />} />
+        <Route path='/frontend/trailers' element={<Trailers />} />
+        <Route path='/frontend/trucks' element={<Trucks />} />
+        <Route path='/frontend/drivers' element={<Drivers />} />
+        <Route path='/frontend/customers' element={<Customer />} />
+        <Route path='/frontend/company' element={<Company />} />
+        <Route path='/frontend/brokers' element={<Brokers />} />
+        <Route path='/frontend/about' element={<About />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>

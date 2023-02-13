@@ -14,34 +14,34 @@ export default function Sidebar() {
     {
       title: "Dashboard",
       icons: "home",
-      to: "/",
+      to: "/frontend",
     },
 
-    { title: "Chat", icons: "chat", to: "/chats" },
-    { title: "Scheduler ", icons: "edit_calendar", to: "/schedule" },
-    { title: "Master", icons: "contacts", gap: true, to: "/master" },
-    { title: "Trailers", icons: "calendar_month", to: "/trailers" },
-    { title: "Trucks", icons: "local_shipping", to: "/trucks" },
-    { title: "Drivers", icons: "airline_seat_recline_extra", to: "/drivers" },
+    { title: "Chat", icons: "chat", to: "/frontend/chats" },
+    { title: "Scheduler ", icons: "edit_calendar", to: "/frontend/schedule" },
+    { title: "Master", icons: "contacts", gap: true, to: "/frontend/master" },
+    { title: "Trailers", icons: "calendar_month", to: "/frontend/trailers" },
+    { title: "Trucks", icons: "local_shipping", to: "/frontend/trucks" },
+    { title: "Drivers", icons: "airline_seat_recline_extra", to: "/frontend/drivers" },
     {
       title: "Customers",
       icons: "support_agent",
-      to: "/customers",
+      to: "/frontend/customers",
     },
     {
       title: "Company",
       icons: "pie_chart",
-      to: "/company",
+      to: "/frontend/company",
     },
     {
       title: "Brokers",
       icons: "diversity_3",
-      to: "/brokers",
+      to: "/frontend/brokers",
     },
     {
       title: "About",
       icons: "info",
-      to: "/about",
+      to: "/frontend/about",
     },
   ]);
 
