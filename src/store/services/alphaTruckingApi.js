@@ -1,7 +1,7 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const alphaTruckingApi = createApi({
-  reducerPath: "alphaTruckingApi",
+  reducerPath: 'alphaTruckingApi',
   baseQuery: fetchBaseQuery({
     // base url of backend API
     baseUrl: import.meta.env.VITE_SERVER_URL,
@@ -10,7 +10,7 @@ export const alphaTruckingApi = createApi({
       const token = state.getState().auth?.userInfo?.user_token;
       if (token) {
         // include token in req header
-        headers.set("authorization", `Bearer ${token}`);
+        headers.set('authorization', `Bearer ${token}`);
         return headers;
       }
     },
@@ -19,25 +19,36 @@ export const alphaTruckingApi = createApi({
   endpoints: (builder) => ({
     GetLoad: builder.query({
       query: () => ({
-        url: "/API/V1/getload",
-        method: "POST",
+        url: '/API/V1/getload',
+        method: 'POST',
         Authorization: `Bearer`,
       }),
     }),
     GetTrucks: builder.query({
       query: () => ({
-        url: "/API/V1/getAllTrucks",
-        method: "POST",
+        url: '/API/V1/getAllTrucks',
+        method: 'POST',
       }),
     }),
     GetDrivers: builder.query({
       query: () => ({
-        url: "API/V1/getAllDrivers",
-        method: "POST",
+        url: 'API/V1/getAllDrivers',
+        method: 'POST',
+      }),
+    }),
+    PostViews: builder.query({
+      query: (payload) => ({
+        url: 'API/V1/changesaved',
+        method: 'POST',
+        body: { model: payload },
       }),
     }),
   }),
 });
 
-export const { useGetLoadQuery, useGetTrucksQuery, useGetDriversQuery } =
-  alphaTruckingApi;
+export const {
+  useGetLoadQuery,
+  useGetTrucksQuery,
+  useGetDriversQuery,
+  usePostViewsMutation,
+} = alphaTruckingApi;

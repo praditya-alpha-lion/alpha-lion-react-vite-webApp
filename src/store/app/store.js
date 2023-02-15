@@ -1,25 +1,25 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import messageReducer from "../features/messageSlice";
-import loadReducer from "../features/loadSlice";
-import globalStateManagementReducer from "../features/globalStateManagementSlice";
-import { alphaTruckingApi } from "../services/alphaTruckingApi";
-import { setupListeners } from "@reduxjs/toolkit/query";
-import authReducer from "../features/auth/authSlice";
-import viewsManagementReducer from "../features/viewsManagementSlice";
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import messageReducer from '../features/messageSlice';
+import loadReducer from '../features/loadSlice';
+import globalStateReducer from '../features/globalStateSlice';
+import { alphaTruckingApi } from '../services/alphaTruckingApi';
+import { setupListeners } from '@reduxjs/toolkit/query';
+import authReducer from '../features/auth/authSlice';
+import viewsReducer from '../features/viewsSlice';
 
 const reducer = {
   [alphaTruckingApi.reducerPath]: alphaTruckingApi.reducer,
   message: messageReducer,
   load: loadReducer,
-  globalState: globalStateManagementReducer,
+  globalState: globalStateReducer,
   auth: authReducer,
-  views: viewsManagementReducer,
+  views: viewsReducer,
 };
 
 export const store = configureStore({
   reducer: reducer,
   devTools:
-    import.meta.env.VITE_SERVER_REDUX_TOOLKIT_VISIBILITY === "true"
+    import.meta.env.VITE_SERVER_REDUX_TOOLKIT_VISIBILITY === 'true'
       ? true
       : false,
   middleware: (getDefaultMiddleware) =>

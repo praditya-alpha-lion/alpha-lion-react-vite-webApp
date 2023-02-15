@@ -1,3 +1,5 @@
 {
-  "cSpell.words": ["webp"]
+  "cSpell.words": ["webp"],
+  "prettier.singleQuote": true,
+  "prettier.jsxSingleQuote": true
 }

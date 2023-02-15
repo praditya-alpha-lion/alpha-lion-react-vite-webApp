@@ -14,7 +14,8 @@ import { rankItem, compareItems } from "@tanstack/match-sorter-utils";
 import { useDispatch, useSelector } from "react-redux";
 import UtilityBar from "../../components/Table/UtilityBar";
 import CustomTable from "../../components/Table/CustomTable";
-import { addViews } from "../../store/features/viewsManagementSlice";
+import { addViews } from "../../store/features/viewsSlice";
+
 
 
 export default function Table({ tableData, defaultColumns }) {
@@ -145,12 +146,15 @@ export default function Table({ tableData, defaultColumns }) {
   // const { driver } = useSelector((state) => state.views);
   // useEffect(() => {
   //   dispatch(addViews({ view: 'driver', data: table.getState() }))
-  //   // console.log(table.getState())
+  // console.log(table.getState())
   // }, [])
 
   // if (isFetching) {
   //   return <>Fetching</>
   // }
+  // const updateData = usePostViewsQuery(table.getState())
+
+  // console.log(updateData)
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -164,6 +168,7 @@ export default function Table({ tableData, defaultColumns }) {
         )}
         {CustomTable(toggle, table, rows, activeRowHeight, activeNumberOfLines)}
       </div>
+      {/* <pre>{JSON.stringify(table.getState(), null, 2)}</pre> */}
     </DndProvider>
   );
 }

@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { handleToggleMainSideBar } from "../../store/features/globalStateManagementSlice";
+import { handleToggleMainSideBar } from "../../store/features/globalStateSlice";
 import "../../stylesheet/sidebar.scss";
 
 export default function Sidebar() {

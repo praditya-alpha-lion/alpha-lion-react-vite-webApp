@@ -5,7 +5,7 @@ import {
     flexRender,
 } from "@tanstack/react-table";
 import { useDispatch } from 'react-redux';
-import { addViews } from '../../store/features/viewsManagementSlice';
+import { addViews } from '../../store/features/viewsSlice';
 
 const DraggableColumnHeader = ({ header, table, index }) => {
     const { getState, setColumnOrder } = table;
