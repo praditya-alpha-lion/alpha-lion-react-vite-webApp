@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import {
-  flexRender,
   useReactTable,
   getCoreRowModel,
   getFilteredRowModel,
@@ -8,15 +7,12 @@ import {
   getGroupedRowModel,
   getExpandedRowModel,
 } from "@tanstack/react-table";
-import { DndProvider, useDrag, useDrop } from "react-dnd";
+import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { rankItem, compareItems } from "@tanstack/match-sorter-utils";
-import { useDispatch, useSelector } from "react-redux";
+import { rankItem } from "@tanstack/match-sorter-utils";
+import { useSelector } from "react-redux";
 import UtilityBar from "../../components/Table/UtilityBar";
 import CustomTable from "../../components/Table/CustomTable";
-import { addViews } from "../../store/features/viewsSlice";
-
-
 
 export default function Table({ tableData, defaultColumns }) {
   // this is for checking is the side bar is opened ?
@@ -154,7 +150,8 @@ export default function Table({ tableData, defaultColumns }) {
   // }
   // const updateData = usePostViewsQuery(table.getState())
 
-  // console.log(updateData)
+  console.log(table._features)
+
 
   return (
     <DndProvider backend={HTML5Backend}>

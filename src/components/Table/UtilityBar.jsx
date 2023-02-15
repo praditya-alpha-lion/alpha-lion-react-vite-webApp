@@ -1,5 +1,6 @@
-import React from "react";
-import { usePostViewsMutation } from "../../store/services/alphaTruckingApi";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { handleAddViews } from "../../store/features/viewsSlice";
 import TableUtilityFilter from "./TableUtilityFilter";
 import TableUtilityGrouping from "./TableUtilityGrouping";
 import TableUtilityHideFields from "./TableUtilityHideFields";
@@ -14,17 +15,14 @@ export default function UtilityBar(
   setRowHeight,
   table
 ) {
-  const [updateData, response] = usePostViewsMutation()
-  console.log(updateData)
-  const addViews = (table) => {
-    updateData(table.getState())
-      .unwrap()
-      .then(() => { })
-      .then((error) => {
-        console.log(error);
-      });
-    // console.log(table.getState())
-  }
+  // const [updateData, response] = usePostViewsMutation()
+  // const dispatch = useDispatch()
+  // useEffect(() => {
+  //   dispatch(handleAddViews({ view: "driver", data: table.getState() }))
+  // }, [table])
+  // const addViews = (table) => {
+  //   console.log("object")
+  // }
 
   return (
     <div className='flex items-center p-2 w-full justify-between bg-[#2f2a40] select-none' >

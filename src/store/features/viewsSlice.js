@@ -10,12 +10,12 @@ const viewsSlice = createSlice({
   name: 'views',
   initialState,
   reducers: {
-    addViews: (state, { payload }) => {
+    handleAddViews: (state, { payload }) => {
       state[payload.view] = payload.data;
     },
   },
 });
 
-export const { addViews } = viewsSlice.actions;
+export const { handleAddViews } = viewsSlice.actions;
 
 export default viewsSlice.reducer;
