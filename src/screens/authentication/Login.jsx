@@ -1,17 +1,17 @@
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useSelector, useDispatch } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
-import Loading from "../../components/utilities/Loading";
-import { userLogin } from '../../store/features/auth/authActions'
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { useSelector, useDispatch } from 'react-redux';
+import { Navigate, useNavigate } from 'react-router-dom';
+import Loading from '../../components/utilities/Loading';
+import { userLogin } from '../../store/features/auth/authActions';
 
 export default function Login() {
-  const { loading, userInfo, error } = useSelector((state) => state.auth)
-  const dispatch = useDispatch()
+  const { loading, userInfo, error } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   const submitForm = (data) => {
-    dispatch(userLogin(data))
-  }
+    dispatch(userLogin(data));
+  };
 
   const navigate = useNavigate();
   const {
@@ -27,9 +27,9 @@ export default function Login() {
   // redirect authenticated user to profile screen
   useEffect(() => {
     if (userInfo) {
-      navigate('/')
+      navigate('/');
     }
-  }, [navigate, userInfo])
+  }, [navigate, userInfo]);
 
   // const onSubmit = async (data) => {
   //   let myHeaders = new Headers();
@@ -62,9 +62,11 @@ export default function Login() {
   // }; // your form submit function which will invoke after successful validation
 
   if (loading) {
-    return <div className="mx-auto">
-      <Loading />
-    </div>
+    return (
+      <div className='mx-auto'>
+        <Loading />
+      </div>
+    );
   }
 
   return (
@@ -86,14 +88,15 @@ export default function Login() {
                         We are The Alpha Lion Team
                       </h4>
                     </div>
-                    <form onSubmit={handleSubmit(submitForm)} >
+                    <form onSubmit={handleSubmit(submitForm)}>
                       <p className='mb-4'>Please login to your account</p>
                       <div className='mb-4'>
                         <input
                           type='text'
                           className='form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
                           placeholder='Username'
-                          {...register("email")}
+                          value={'praditya@alphalionlogistics.com'}
+                          {...register('email')}
                           required
                         />
                       </div>
@@ -102,14 +105,16 @@ export default function Login() {
                           type='password'
                           className='form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
                           placeholder='Password'
-                          {...register("password")}
+                          value={'12345'}
+                          {...register('password')}
                           required
                         />
                       </div>
                       <div className='text-center pt-1 mb-12 pb-1'>
                         <button
                           className='bg-orange-500 inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3'
-                          type='submit'>
+                          type='submit'
+                        >
                           Log in
                         </button>
                         <a className='text-gray-500'>Forgot password?</a>
