@@ -11,6 +11,7 @@ const viewsSlice = createSlice({
   initialState,
   reducers: {
     handleAddViews: (state, { payload }) => {
+      console.log(payload);
       state[payload.view] = payload.data;
     },
   },

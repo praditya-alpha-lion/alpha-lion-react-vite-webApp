@@ -14,33 +14,28 @@ import { useSelector } from "react-redux";
 import UtilityBar from "../../components/Table/UtilityBar";
 import CustomTable from "../../components/Table/CustomTable";
 
-export default function Table({ tableData, defaultColumns }) {
+export default function Table({ tableData, dataKeys }) {
   // this is for checking is the side bar is opened ?
   const { toggle } = useSelector((state) => state.globalState.mainSideBar);
 
-  const [data, setData] = React.useState(() =>
-    tableData.map((ele, index) => {
-      return {
-        sNo: index + 1,
-        name: ele?.data?.Name || "N/A",
-        phone: ele?.data?.Phone || "N/A",
-        dl: ele?.data?.DL || [],
-        status: ele?.data?.Status || "N/A",
-        dlNo: ele?.data?.["DL #"] || "N/A",
-        state: ele?.data?.State || "N/A",
-        licenseExp: ele?.data?.["License EXP"] || "N/A",
-        snn: ele?.data?.SSN || "N/A",
-        bank: ele?.data?.Bank || "N/A",
-        account: ele?.data?.Account || "N/A",
-        routing: ele?.data?.Routing || "N/A",
-        dob: ele?.data?.DOB || "N/A",
-        application: ele?.data?.Application || [],
-        notes: ele?.data?.Notes || "N/A",
-        pastEmployment: ele?.data?.["Past Employment"] || [],
-        MVR: ele?.data?.MVR || [],
-      };
+  const defaultColumns = dataKeys.map((item) => {
+    return ({
+      accessorKey: item,
+      id: item,
+      header: item,
     })
+  })
+
+  const [data, setData] = React.useState(tableData.map(({ data }) => {
+    const object = {}
+    dataKeys.map((key) => {
+      object[key] = data?.[key] || "N/A"
+    })
+    return object
+  })
   );
+
+
   const [columns] = useState(() => [...defaultColumns]);
   const [globalFilter, setGlobalFilter] = useState("");
   const [columnFilters, setColumnFilters] = useState([]);
@@ -60,20 +55,20 @@ export default function Table({ tableData, defaultColumns }) {
       height: 50,
       numberOfLines: 2,
     },
-    {
-      name: "large",
-      isActive: false,
-      icon: "density_large",
-      height: 70,
-      numberOfLines: 3,
-    },
-    {
-      name: "Extra large",
-      isActive: false,
-      icon: "density_large",
-      height: 90,
-      numberOfLines: 4,
-    },
+    // {
+    //   name: "large",
+    //   isActive: false,
+    //   icon: "density_large",
+    //   height: 70,
+    //   numberOfLines: 3,
+    // },
+    // {
+    //   name: "Extra large",
+    //   isActive: false,
+    //   icon: "density_large",
+    //   height: 90,
+    //   numberOfLines: 4,
+    // },
   ]);
   const [grouping, setGrouping] = useState([]);
   let { activeRowHeight, activeNumberOfLines } = handleRowHeight(rowHeight);
@@ -135,23 +130,6 @@ export default function Table({ tableData, defaultColumns }) {
     debugColumns: true,
   });
   const { rows } = table.getRowModel();
-  // const [allStates, setAllStates] = useState(table.getState())
-
-  // let allStates = table.getState()
-
-  // const { driver } = useSelector((state) => state.views);
-  // useEffect(() => {
-  //   dispatch(addViews({ view: 'driver', data: table.getState() }))
-  // console.log(table.getState())
-  // }, [])
-
-  // if (isFetching) {
-  //   return <>Fetching</>
-  // }
-  // const updateData = usePostViewsQuery(table.getState())
-
-  console.log(table._features)
-
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -212,3 +190,47 @@ function useSkipper() {
 
   return [shouldSkip, skip]
 }
+
+
+  // const [data, setData] = React.useState(tableData.map((ele, index) => {
+  //   return {
+  //     sNo: index + 1,
+  //     name: ele?.data?.Name || "N/A",
+  //     phone: ele?.data?.Phone || "N/A",
+  //     dl: ele?.data?.DL || [],
+  //     status: ele?.data?.Status || "N/A",
+  //     dlNo: ele?.data?.["DL #"] || "N/A",
+  //     state: ele?.data?.State || "N/A",
+  //     licenseExp: ele?.data?.["License EXP"] || "N/A",
+  //     snn: ele?.data?.SSN || "N/A",
+  //     bank: ele?.data?.Bank || "N/A",
+  //     account: ele?.data?.Account || "N/A",
+  //     routing: ele?.data?.Routing || "N/A",
+  //     dob: ele?.data?.DOB || "N/A",
+  //     application: ele?.data?.Application || [],
+  //     notes: ele?.data?.Notes || "N/A",
+  //     pastEmployment: ele?.data?.["Past Employment"] || [],
+  //     MVR: ele?.data?.MVR || [],
+  //   };
+  // })
+  // );
+
+  // console.log(data)
+
+
+    // const [allStates, setAllStates] = useState(table.getState())
+
+  // let allStates = table.getState()
+
+  // const { driver } = useSelector((state) => state.views);
+  // useEffect(() => {
+  //   dispatch(addViews({ view: 'driver', data: table.getState() }))
+  // console.log(table.getState())
+  // }, [])
+
+  // if (isFetching) {
+  //   return <>Fetching</>
+  // }
+  // const updateData = usePostViewsQuery(table.getState())
+
+  // console.log(table._features)

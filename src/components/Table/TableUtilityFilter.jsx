@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDetectOutsideClick } from "../../utilities/custom hooks/useDetectOutsideClick";
 import CustomFilterInput from "./CustomFilterInput";
 
-export default function xTableUtilityFilter(table) {
+export default function TableUtilityFilter(table) {
 
   const [filterConditions, setFilterConditions] = useState([]);
   // Create a ref that we add to the element for which we want to detect outside clicks
@@ -69,7 +69,7 @@ export default function xTableUtilityFilter(table) {
         Filter
       </div>
       {filterToggle && (
-        <div className='absolute top-10 left-0 z-50 bg-[#03001C] p-2 rounded-md w-[600px] '>
+        <div className='absolute top-10 left-0 z-50 bg-[#03001C] p-2 rounded-md w-[600px]  max-h-96 overflow-y-scroll'>
           Filter:
           <div className='h-[.5px] mb-2 mt-1 w-full bg-white' />
           <div className="max-h-[700px] overflow-scroll">

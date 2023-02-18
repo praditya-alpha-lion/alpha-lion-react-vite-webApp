@@ -36,7 +36,13 @@ export const alphaTruckingApi = createApi({
         method: 'POST',
       }),
     }),
-    PostViews: builder.query({
+    GetTrailers: builder.query({
+      query: () => ({
+        url: 'API/V1/getAllTrailers',
+        method: 'POST',
+      }),
+    }),
+    PostViews: builder.mutation({
       query: (payload) => ({
         url: 'API/V1/changesaved',
         method: 'POST',
@@ -50,5 +56,6 @@ export const {
   useGetLoadQuery,
   useGetTrucksQuery,
   useGetDriversQuery,
+  useGetTrailersQuery,
   usePostViewsMutation,
 } = alphaTruckingApi;

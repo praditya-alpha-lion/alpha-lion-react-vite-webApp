@@ -13,7 +13,7 @@ export default function TableUtilitySort(table) {
   return (
     <div
       ref={sortRef}
-      className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer relative'>
+      className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer relative '>
       <div
         className='flex items-center'
         onClick={() => setSortToggle(!sortToggle)}>
@@ -21,7 +21,7 @@ export default function TableUtilitySort(table) {
         Sort
       </div>
       {sortToggle && (
-        <div className='absolute top-10 left-0 z-50 bg-[#03001C] w-[200px] p-2 rounded-md '>
+        <div className='absolute top-10 left-0 z-50 bg-[#03001C] w-[300px] p-2 rounded-md  max-h-96 overflow-y-scroll'>
           Sort By:
           <div className='h-[.5px] mb-2 mt-1 w-full bg-white' />
           {table.getHeaderGroups().map((headerGroup) => (

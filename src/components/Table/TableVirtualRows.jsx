@@ -9,7 +9,7 @@ export default function TableVirtualRows(tableContainerRef, rows, activeRowHeigh
     const rowVirtualizer = useVirtual({
         parentRef: tableContainerRef,
         size: rows.length,
-        overscan: 100,
+        overscan: 50,
     });
     const { virtualItems: virtualRows, totalSize } = rowVirtualizer;
     const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0;

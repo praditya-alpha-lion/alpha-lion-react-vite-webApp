@@ -4,6 +4,7 @@ import Table from "../../components/Table/Table";
 import Loading from "../../components/utilities/Loading";
 import Error from "../../components/utilities/Error";
 import getAllDrivers from "../../store/LocalAPi/getAllDrivers.json"
+
 const defaultColumns = [
   {
     accessorKey: "name",
@@ -98,32 +99,25 @@ export default function Drivers() {
   // }
 
 
+  const keysMap = new Map();
 
-  // const dataSchema = {
-  //   sNo: index + 1,
-  //   name: ele?.data?.Name || "N/A",
-  //   phone: ele?.data?.Phone || "N/A",
-  //   dl: ele?.data?.DL || [],
-  //   status: ele?.data?.Status || "N/A",
-  //   dlNo: ele?.data?.["DL #"] || "N/A",
-  //   state: ele?.data?.State || "N/A",
-  //   licenseExp: ele?.data?.["License EXP"] || "N/A",
-  //   snn: ele?.data?.SSN || "N/A",
-  //   bank: ele?.data?.Bank || "N/A",
-  //   account: ele?.data?.Account || "N/A",
-  //   routing: ele?.data?.Routing || "N/A",
-  //   dob: ele?.data?.DOB || "N/A",
-  //   application: ele?.data?.Application || [],
-  //   notes: ele?.data?.Notes || "N/A",
-  //   pastEmployment: ele?.data?.["Past Employment"] || [],
-  //   MVR: ele?.data?.MVR || [],
-  // };
+  for (let index = 0; index < data.length; index++) {
+    const keys = Object.keys(data[index].data);
+    keys.map((ele) => {
+      keysMap.set(ele);
+    })
+  }
 
+  const dataKeys = [];
+  for (const [key] of keysMap) {
+    dataKeys.push(key);
+  }
+
+  console.log(dataKeys)
   return (
     <Table
-      // dataSchema={dataSchema}
+      dataKeys={dataKeys}
       tableData={data}
-      defaultColumns={defaultColumns}
     />
   );
 }

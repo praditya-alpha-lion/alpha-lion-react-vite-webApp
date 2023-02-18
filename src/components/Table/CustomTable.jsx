@@ -78,7 +78,7 @@ export default function CustomTable(toggle, table, rows, activeRowHeight, active
     return <div
         className={`overflow-scroll ${toggle ? "w-[calc(100vw_-_90px)]" : `w-[calc(100vw_-_230px)]`}`}>
         <div
-            // ref={tableContainerRef}
+            ref={tableContainerRef}
             {...{
                 style: {
                     width: table.getTotalSize(),
