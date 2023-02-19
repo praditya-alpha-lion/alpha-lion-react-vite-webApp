@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { handleAddViews } from "../../store/features/viewsSlice";
+import { TableStateContext } from "./TableContext";
 import TableUtilityFilter from "./TableUtilityFilter";
 import TableUtilityGrouping from "./TableUtilityGrouping";
 import TableUtilityHideFields from "./TableUtilityHideFields";
@@ -8,13 +9,7 @@ import TableUtilityRowHeight from "./TableUtilityRowHeight";
 import TableUtilitySearching from "./TableUtilitySearch";
 import TableUtilitySort from "./TableUtilitySort";
 
-export default function UtilityBar(
-  globalFilter,
-  setGlobalFilter,
-  rowHeight,
-  setRowHeight,
-  table
-) {
+export default function UtilityBar(table, rowHeight, setRowHeight, globalFilter, setGlobalFilter) {
   // const [updateData, response] = usePostViewsMutation()
   // const dispatch = useDispatch()
   // useEffect(() => {
@@ -23,7 +18,8 @@ export default function UtilityBar(
   // const addViews = (table) => {
   //   console.log("object")
   // }
-
+  // const data = useContext(TableStateContext);
+  // console.log(data)
   return (
     <div className='flex items-center p-2 w-full justify-between bg-[#2f2a40] select-none' >
       <div className='flex items-center gap-2 '>
@@ -31,17 +27,16 @@ export default function UtilityBar(
           <span className='material-symbols-rounded text-lg pr-1'>menu</span>
           Views
         </div>
-        {TableUtilityHideFields(table)}
+        {/* {TableUtilityHideFields(table)}
         {TableUtilityFilter(table)}
         {TableUtilitySort(table)}
         {TableUtilityGrouping(table)}
-        {TableUtilityRowHeight(rowHeight, setRowHeight)}
+        {TableUtilityRowHeight(rowHeight, setRowHeight)} */}
         <div onClick={() => addViews(table)} className='bg-purple-600 rounded-lg p-2 px-4'>
           Add Views
         </div>
       </div>
-      {TableUtilitySearching(globalFilter, setGlobalFilter)
-      }
+      {/* {TableUtilitySearching(globalFilter, setGlobalFilter)} */}
     </div>
   );
 }

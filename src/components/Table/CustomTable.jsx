@@ -76,7 +76,7 @@ export default function CustomTable(toggle, table, rows, activeRowHeight, active
 
     const tableContainerRef = React.useRef(null);
     return <div
-        className={`overflow-scroll ${toggle ? "w-[calc(100vw_-_90px)]" : `w-[calc(100vw_-_230px)]`}`}>
+        className={`overflow-scroll ${toggle ? "w-[calc(100vw_-_90px)]" : `w-[calc(100vw_-_230px)] scrollbar-hidden`}`}>
         <div
             ref={tableContainerRef}
             {...{
@@ -84,7 +84,8 @@ export default function CustomTable(toggle, table, rows, activeRowHeight, active
                     width: table.getTotalSize(),
                 },
             }}
-            className={`divTable`}>
+
+            className={`divTable scrollbar-hidden`}>
             <div className='thead bg-[#000000] text-white'>
                 {table.getHeaderGroups().map((headerGroup) => (
                     <div key={headerGroup.id} className='tr'>

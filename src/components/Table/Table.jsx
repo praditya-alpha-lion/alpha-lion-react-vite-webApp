@@ -18,6 +18,8 @@ export default function Table({ tableData, dataKeys }) {
   // this is for checking is the side bar is opened ?
   const { toggle } = useSelector((state) => state.globalState.mainSideBar);
 
+  console.log("Table called")
+
   const defaultColumns = dataKeys.map((item) => {
     return ({
       accessorKey: item,
@@ -78,6 +80,7 @@ export default function Table({ tableData, dataKeys }) {
   );
   const [columnPinning, setColumnPinning] = useState({});
   const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper()
+
   const table = useReactTable({
     columnResizeMode: "onChange",
     state: {
@@ -133,7 +136,7 @@ export default function Table({ tableData, dataKeys }) {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className='p-2 h-screen text-white'>
+      <div className='p-2 h-screen text-white '>
         {UtilityBar(
           globalFilter,
           setGlobalFilter,
@@ -191,46 +194,3 @@ function useSkipper() {
   return [shouldSkip, skip]
 }
 
-
-  // const [data, setData] = React.useState(tableData.map((ele, index) => {
-  //   return {
-  //     sNo: index + 1,
-  //     name: ele?.data?.Name || "N/A",
-  //     phone: ele?.data?.Phone || "N/A",
-  //     dl: ele?.data?.DL || [],
-  //     status: ele?.data?.Status || "N/A",
-  //     dlNo: ele?.data?.["DL #"] || "N/A",
-  //     state: ele?.data?.State || "N/A",
-  //     licenseExp: ele?.data?.["License EXP"] || "N/A",
-  //     snn: ele?.data?.SSN || "N/A",
-  //     bank: ele?.data?.Bank || "N/A",
-  //     account: ele?.data?.Account || "N/A",
-  //     routing: ele?.data?.Routing || "N/A",
-  //     dob: ele?.data?.DOB || "N/A",
-  //     application: ele?.data?.Application || [],
-  //     notes: ele?.data?.Notes || "N/A",
-  //     pastEmployment: ele?.data?.["Past Employment"] || [],
-  //     MVR: ele?.data?.MVR || [],
-  //   };
-  // })
-  // );
-
-  // console.log(data)
-
-
-    // const [allStates, setAllStates] = useState(table.getState())
-
-  // let allStates = table.getState()
-
-  // const { driver } = useSelector((state) => state.views);
-  // useEffect(() => {
-  //   dispatch(addViews({ view: 'driver', data: table.getState() }))
-  // console.log(table.getState())
-  // }, [])
-
-  // if (isFetching) {
-  //   return <>Fetching</>
-  // }
-  // const updateData = usePostViewsQuery(table.getState())
-
-  // console.log(table._features)
