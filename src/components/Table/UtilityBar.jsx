@@ -19,7 +19,7 @@ export default function UtilityBar({ table, rowHeight, setRowHeight, globalFilte
         <TableUtilitySort table={table} />
         <TableUtilityGrouping table={table} />
         <TableUtilityRowHeight rowHeight={rowHeight} setRowHeight={setRowHeight} />
-        <div onClick={() => addViews(table)} className='bg-purple-600 rounded-lg p-2 px-4'>
+        <div className='bg-purple-600 rounded-lg p-2 px-4'>
           Add Views
         </div>
       </div>

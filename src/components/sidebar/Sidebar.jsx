@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
@@ -16,10 +15,19 @@ export default function Sidebar() {
       icons: "home",
       to: "/",
     },
-
     { title: "Chat", icons: "chat", to: "/chats" },
     { title: "Scheduler ", icons: "edit_calendar", to: "/schedule" },
     { title: "Master", icons: "contacts", gap: true, to: "/master" },
+    {
+      title: "Operation", icons: "contacts", gap: true, to: "/operation", subMenu: [
+        { title: "Claims", icons: "", to: "/operation/claims" },
+        { title: "Examination/Tickets", icons: "", to: "/operation/examination-tickets" },
+        { title: "Recruitment - DH Team", icons: "", to: "/operation/recruitment" },
+        { title: "SMS Violation Summary - Shivani", icons: "", to: "/operation/sms-violation-summary" },
+        { title: "SMS Inspections - Shivani", icons: "", to: "/operation/sms-inspections" },
+        { title: "Court Claims", icons: "", to: "/operation/court-claims" },
+      ]
+    },
     { title: "Trailers", icons: "calendar_month", to: "/trailers" },
     { title: "Trucks", icons: "local_shipping", to: "/trucks" },
     { title: "Drivers", icons: "airline_seat_recline_extra", to: "/drivers" },
@@ -85,13 +93,13 @@ export default function Sidebar() {
               {menu.isOpened && (
                 <ul>
                   {menu.subMenu.map((menu, index) => (
-                    <li key={index} className='submenu_item'>
+                    <li key={index} className='submenu_item max-w-[170px]'>
                       <NavLink
                         to={menu.to}
                         className={({ isActive }) =>
                           isActive ? "navLink active" : "navLink"
                         }>
-                        <span className={`title`}>{menu.title}</span>
+                        <span className={`title truncate `}>{menu.title}</span>
                       </NavLink>
                     </li>
                   ))}
@@ -108,7 +116,7 @@ export default function Sidebar() {
                         className={({ isActive }) =>
                           isActive ? "navLink active" : "navLink"
                         }>
-                        <span className={`title`}>{menu.title}</span>
+                        <span className={`title truncate`}>{menu.title}</span>
                       </NavLink>
                     </li>
                   ))}

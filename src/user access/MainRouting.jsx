@@ -15,6 +15,13 @@ import Trailers from "../screens/trailers/Trailers";
 import Chats from "../components/chats/Chats";
 import PageNotFound from "../screens/PageNotFound";
 import { useSelector } from "react-redux";
+import Operation from "../screens/operation/Operation";
+import Claims from "../screens/operation/Claims";
+import ExaminationTickets from "../screens/operation/ExaminationTickets";
+import Recruitment from "../screens/operation/Recruitment";
+import SmsViolationSummary from "../screens/operation/SmsViolationSummary";
+import SmsInspections from "../screens/operation/SmsInspections";
+import CourtClaims from "../screens/operation/CourtClaims";
 
 
 export default function MainRouting() {
@@ -33,6 +40,14 @@ export default function MainRouting() {
         <Route path='/company' element={<Company />} />
         <Route path='/brokers' element={<Brokers />} />
         <Route path='/about' element={<About />} />
+
+        <Route path='/operation' element={<Operation />} />
+        <Route path='/operation/claims' element={<Claims />} />
+        <Route path='/operation/examination-tickets' element={<ExaminationTickets />} />
+        <Route path='/operation/recruitment' element={<Recruitment />} />
+        <Route path='/operation/sms-violation-summary' element={<SmsViolationSummary />} />
+        <Route path='/operation/sms-inspections' element={<SmsInspections />} />
+        <Route path='/operation/court-claims' element={<CourtClaims />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>

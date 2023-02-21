@@ -1,4 +1,4 @@
-@import "theme";
+@import 'theme';
 .sidebar_container {
   background-color: $secondary-100;
   padding: 1rem 0.75rem 1rem 0.75rem;
@@ -59,7 +59,7 @@
   }
   .submenu_item {
     margin: 0.5rem 0;
-    margin-left: 2.5rem;
+    margin-left: 2rem;
   }
   .arrow {
     transform: rotate(0deg);

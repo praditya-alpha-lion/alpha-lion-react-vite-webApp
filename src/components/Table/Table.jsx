@@ -40,6 +40,9 @@ export default function Table({ tableData }) {
   })
   );
 
+
+
+
   return (
     <DndProvider backend={HTML5Backend}>
       <TableComponents toggle={toggle} defaultColumns={defaultColumns} data={data} setData={setData} />

@@ -10,13 +10,15 @@ import {
   getGroupedRowModel,
   getExpandedRowModel,
 } from '@tanstack/react-table';
+import HandelViewsUpdate from './HandelViewsUpdate';
 
 export default function TableComponents({
   defaultColumns,
   data,
   toggle,
-  setData,
+  // setData,
 }) {
+
   const [columns] = useState(() => [...defaultColumns]);
   const [globalFilter, setGlobalFilter] = useState('');
   const [columnFilters, setColumnFilters] = useState([]);
@@ -58,8 +60,7 @@ export default function TableComponents({
     columns.map((column) => column.id)
   );
   const [columnPinning, setColumnPinning] = useState({});
-  const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
-
+  // const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
   const table = useReactTable({
     columnResizeMode: 'onChange',
     state: {
@@ -88,32 +89,35 @@ export default function TableComponents({
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onColumnPinningChange: setColumnPinning,
-    autoResetPageIndex,
+    // autoResetPageIndex,
     // Provide our updateData function to our table meta
-    meta: {
-      updateData: (rowIndex, columnId, value) => {
-        // Skip age index reset until after next rerender
-        skipAutoResetPageIndex();
-        setData((old) =>
-          old.map((row, index) => {
-            if (index === rowIndex) {
-              return {
-                ...old[rowIndex],
-                [columnId]: value,
-              };
-            }
-            return row;
-          })
-        );
-      },
-    },
+    // meta: {
+    //   updateData: (rowIndex, columnId, value) => {
+    //     // Skip age index reset until after next rerender
+    //     skipAutoResetPageIndex();
+    //     // setData((old) =>
+    //       old.map((row, index) => {
+    //         if (index === rowIndex) {
+    //           return {
+    //             ...old[rowIndex],
+    //             [columnId]: value,
+    //           };
+    //         }
+    //         return row;
+    //       })
+    //     );
+    //   },
+    // },
     debugTable: true,
     debugHeaders: true,
     debugColumns: true,
   });
   const { rows } = table.getRowModel();
+  console.log("object")
+
   return (
     <div className='p-2 h-screen text-white '>
+      <HandelViewsUpdate table={table} rowHeight={rowHeight} />
       <UtilityBar
         table={table}
         rowHeight={rowHeight}
@@ -132,17 +136,7 @@ export default function TableComponents({
   );
 }
 
-function handleRowHeight(rowHeight) {
-  let activeRowHeight = 30;
-  let activeNumberOfLines = 1;
-  rowHeight.map((ele) => {
-    if (ele.isActive) {
-      activeRowHeight = ele.height;
-      activeNumberOfLines = ele.numberOfLines;
-    }
-  });
-  return { activeRowHeight, activeNumberOfLines };
-}
+
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -157,18 +151,30 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
   return itemRank.passed;
 };
 
-function useSkipper() {
-  const shouldSkipRef = React.useRef(true);
-  const shouldSkip = shouldSkipRef.current;
-
-  // Wrap a function with this to skip a pagination reset temporarily
-  const skip = React.useCallback(() => {
-    shouldSkipRef.current = false;
-  }, []);
-
-  React.useEffect(() => {
-    shouldSkipRef.current = true;
+function handleRowHeight(rowHeight) {
+  let activeRowHeight = 30;
+  let activeNumberOfLines = 1;
+  rowHeight.map((ele) => {
+    if (ele.isActive) {
+      activeRowHeight = ele.height;
+      activeNumberOfLines = ele.numberOfLines;
+    }
   });
-
-  return [shouldSkip, skip];
+  return { activeRowHeight, activeNumberOfLines };
 }
+
+// function useSkipper() {
+//   const shouldSkipRef = React.useRef(true);
+//   const shouldSkip = shouldSkipRef.current;
+
+//   // Wrap a function with this to skip a pagination reset temporarily
+//   const skip = React.useCallback(() => {
+//     shouldSkipRef.current = false;
+//   }, []);
+
+//   React.useEffect(() => {
+//     shouldSkipRef.current = true;
+//   });
+
+//   return [shouldSkip, skip];
+// }

@@ -23,6 +23,8 @@ export default function TableUtilityRowHeight({ rowHeight, setRowHeight }) {
     });
   };
 
+
+
   return (
     <div
       ref={rowHeightRef}
