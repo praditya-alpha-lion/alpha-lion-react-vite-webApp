@@ -35,6 +35,8 @@ export default function Sidebar() {
     { title: "Repairs", icons: "tools_wrench", to: "/repairs",
     subMenu: [
       { title: "Preventative Maintenance", icons: "", to: "/repairs/preventative_maintenance" },
+      { title: "Work Queue - Kent Yard", icons: "", to: "/repairs/work_queue_kent_yard" },
+      { title: "Preventative Maintenance", icons: "", to: "/repairs/invetory" },
       
     ]
   },

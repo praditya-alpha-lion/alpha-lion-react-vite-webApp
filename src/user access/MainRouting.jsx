@@ -23,7 +23,9 @@ import SmsViolationSummary from "../screens/operation/SmsViolationSummary";
 import SmsInspections from "../screens/operation/SmsInspections";
 import CourtClaims from "../screens/operation/CourtClaims";
 import Repairs from "../screens/repairs/Repairs";
-import Preventative_Maintenance from "../screens/preventativemaintenance/Preventative_Maintenance";
+import PreventativeMaintenance from "../screens/repairs/PreventativeMaintenance";
+import Inventory from "../screens/repairs/Inventory";
+import WorkQueueKentYard from "../screens/repairs/WorkQueueKentYard";
 
 export default function MainRouting() {
   const { userInfo } = useSelector((state) => state.auth)
@@ -50,8 +52,10 @@ export default function MainRouting() {
         <Route path='/operation/sms-inspections' element={<SmsInspections />} />
         <Route path='/operation/court-claims' element={<CourtClaims />} />
 
-        {/* <Route path='/repairs' element={<Repairs />} />
-        <Route path='/repairs/preventative_maintenance' element={<Preventative_Maintenance />} /> */}
+        <Route path='/repairs' element={<Repairs />} />
+        <Route path='/repairs/preventative_maintenance' element={<PreventativeMaintenance />} />
+        <Route path='/repairs/work_queue_kent_yard' element={<WorkQueueKentYard />} />
+        <Route path='/repairs/invetory' element={<Inventory />} />
 
       </Route>
       <Route path="*" element={<PageNotFound />} />
