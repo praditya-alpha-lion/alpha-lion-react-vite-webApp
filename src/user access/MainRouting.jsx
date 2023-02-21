@@ -22,7 +22,8 @@ import Recruitment from "../screens/operation/Recruitment";
 import SmsViolationSummary from "../screens/operation/SmsViolationSummary";
 import SmsInspections from "../screens/operation/SmsInspections";
 import CourtClaims from "../screens/operation/CourtClaims";
-
+import Repairs from "../screens/repairs/Repairs";
+import Preventative_Maintenance from "../screens/preventativemaintenance/Preventative_Maintenance";
 
 export default function MainRouting() {
   const { userInfo } = useSelector((state) => state.auth)
@@ -48,6 +49,10 @@ export default function MainRouting() {
         <Route path='/operation/sms-violation-summary' element={<SmsViolationSummary />} />
         <Route path='/operation/sms-inspections' element={<SmsInspections />} />
         <Route path='/operation/court-claims' element={<CourtClaims />} />
+
+        {/* <Route path='/repairs' element={<Repairs />} />
+        <Route path='/repairs/preventative_maintenance' element={<Preventative_Maintenance />} /> */}
+
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>

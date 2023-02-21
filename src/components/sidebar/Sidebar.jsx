@@ -30,6 +30,16 @@ export default function Sidebar() {
     },
     { title: "Trailers", icons: "calendar_month", to: "/trailers" },
     { title: "Trucks", icons: "local_shipping", to: "/trucks" },
+
+    //here we are adding repairs.
+    { title: "Repairs", icons: "tools_wrench", to: "/repairs",
+    subMenu: [
+      { title: "Preventative Maintenance", icons: "", to: "/repairs/preventative_maintenance" },
+      
+    ]
+  },
+
+   
     { title: "Drivers", icons: "airline_seat_recline_extra", to: "/drivers" },
     {
       title: "Customers",
@@ -41,6 +51,10 @@ export default function Sidebar() {
       icons: "pie_chart",
       to: "/company",
     },
+
+
+
+
     {
       title: "Brokers",
       icons: "diversity_3",
