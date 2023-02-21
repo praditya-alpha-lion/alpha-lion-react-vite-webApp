@@ -1,32 +1,27 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { useDetectOutsideClick } from "../../utilities/custom hooks/useDetectOutsideClick";
-import Switch from "../utilities/Switch";
-import handleAddViews from '../../store/features/viewsSlice'
+import React from 'react';
+import { useDetectOutsideClick } from '../../utilities/custom hooks/useDetectOutsideClick';
+import Switch from '../utilities/Switch';
 
 export default function TableUtilityHideFields({ table }) {
   // Create a ref that we add to the element for which we want to detect outside clicks
   const hiddenFields = React.useRef();
   // Call hook passing in the ref and a function to call on outside click
   const [isHiddenToggle, setIsHiddenToggle] = React.useState(false);
-  const dispatch = useDispatch();
 
   useDetectOutsideClick(hiddenFields, () => setIsHiddenToggle(false));
-
-  console.log("object hide field")
-
-
 
   return (
     <div
       ref={hiddenFields}
-      className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer relative '>
+      className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer relative '
+    >
       <div
         className='flex items-center'
         onClick={() => {
-          setIsHiddenToggle(!isHiddenToggle)
+          setIsHiddenToggle(!isHiddenToggle);
           // dispatch(handleAddViews({ view: "driver", data: table.getState() }))
-        }}>
+        }}
+      >
         <span className='material-symbols-rounded text-lg pr-1'>
           visibility_off
         </span>
@@ -36,7 +31,6 @@ export default function TableUtilityHideFields({ table }) {
     </div>
   );
 }
-
 
 const HideFields = ({ table }) => {
   return (
@@ -55,7 +49,8 @@ const HideFields = ({ table }) => {
         return (
           <label
             key={i}
-            className='flex items-center text-base gap-4 p-1 hover:bg-[#2f2a40] rounded-sm pl-2 cursor-pointer w-full'>
+            className='flex items-center text-base gap-4 p-1 hover:bg-[#2f2a40] rounded-sm pl-2 cursor-pointer w-full'
+          >
             <Switch
               isOn={column.getIsVisible()}
               onColor='#1ec933'
@@ -68,5 +63,4 @@ const HideFields = ({ table }) => {
       })}
     </div>
   );
-}
-
+};
