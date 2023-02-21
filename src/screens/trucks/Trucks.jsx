@@ -15,22 +15,5 @@ export default function Trucks() {
     return <Error error={error} />;
   }
 
-  const keysMap = new Map();
-
-  for (let index = 0; index < data.length; index++) {
-    const keys = Object.keys(data[index].data);
-    keys.map((ele) => {
-      keysMap.set(ele);
-    })
-  }
-
-  const dataKeys = [];
-  for (const [key, value] of keysMap) {
-    dataKeys.push(key);
-  }
-  console.log(dataKeys)
-  return <Table
-    dataKeys={dataKeys}
-    tableData={data}
-  />
+  return <Table tableData={data} />
 }

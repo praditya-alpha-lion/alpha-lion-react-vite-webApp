@@ -4,7 +4,7 @@ import { useDetectOutsideClick } from "../../utilities/custom hooks/useDetectOut
 import Switch from "../utilities/Switch";
 import handleAddViews from '../../store/features/viewsSlice'
 
-export default function TableUtilityHideFields(table) {
+export default function TableUtilityHideFields({ table }) {
   // Create a ref that we add to the element for which we want to detect outside clicks
   const hiddenFields = React.useRef();
   // Call hook passing in the ref and a function to call on outside click
@@ -12,6 +12,10 @@ export default function TableUtilityHideFields(table) {
   const dispatch = useDispatch();
 
   useDetectOutsideClick(hiddenFields, () => setIsHiddenToggle(false));
+
+  console.log("object hide field")
+
+
 
   return (
     <div
@@ -28,12 +32,13 @@ export default function TableUtilityHideFields(table) {
         </span>
         Hide Fields
       </div>
-      {isHiddenToggle && hideFields(table)}
+      {isHiddenToggle && <HideFields table={table} />}
     </div>
   );
 }
 
-function hideFields(table) {
+
+const HideFields = ({ table }) => {
   return (
     <div className='absolute top-10 left-0 z-50 bg-[#03001C] w-[300px]  p-2 rounded-md max-h-96 overflow-y-scroll'>
       <label className='flex items-center text-base gap-4 cursor-pointer p-1 hover:bg-[#2f2a40] rounded-sm pl-2'>
@@ -46,10 +51,10 @@ function hideFields(table) {
         <div>Toggle All</div>
       </label>
 
-      {table.getAllLeafColumns().map((column) => {
+      {table.getAllLeafColumns().map((column, i) => {
         return (
           <label
-            key={column.id}
+            key={i}
             className='flex items-center text-base gap-4 p-1 hover:bg-[#2f2a40] rounded-sm pl-2 cursor-pointer w-full'>
             <Switch
               isOn={column.getIsVisible()}
@@ -64,3 +69,4 @@ function hideFields(table) {
     </div>
   );
 }
+

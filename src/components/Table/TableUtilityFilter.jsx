@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDetectOutsideClick } from "../../utilities/custom hooks/useDetectOutsideClick";
 import CustomFilterInput from "./CustomFilterInput";
 
-export default function TableUtilityFilter(table) {
+export default function TableUtilityFilter({ table }) {
 
   const [filterConditions, setFilterConditions] = useState([]);
   // Create a ref that we add to the element for which we want to detect outside clicks
@@ -43,7 +43,7 @@ export default function TableUtilityFilter(table) {
   let updatedFilters = filterConditions.map((ele) => {
     return {
       id: ele.type,
-      value: ele.value
+      value: ele.value.trim()
     }
   })
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { useDetectOutsideClick } from "../../utilities/custom hooks/useDetectOutsideClick";
 
-export default function TableUtilitySort(table) {
+export default function TableUtilitySort({ table }) {
   // Create a ref that we add to the element for which we want to detect outside clicks
   const sortRef = React.useRef();
   // Call hook passing in the ref and a function to call on outside click

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // A debounced input react component
 function DebouncedInput({
@@ -7,13 +7,13 @@ function DebouncedInput({
   debounce = 500,
   ...props
 }) {
-  const [value, setValue] = React.useState(initialValue);
+  const [value, setValue] = useState(initialValue);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setValue(initialValue);
   }, [initialValue]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const timeout = setTimeout(() => {
       onChange(value);
     }, debounce);
@@ -30,7 +30,7 @@ function DebouncedInput({
   );
 }
 
-export default function TableUtilitySearching(globalFilter, setGlobalFilter) {
+export default function TableUtilitySearching({ globalFilter, setGlobalFilter }) {
   return (
     <div className='w-60'>
       <label
@@ -60,7 +60,7 @@ export default function TableUtilitySearching(globalFilter, setGlobalFilter) {
           className='block w-full p-2 pl-10 bg-[#03001C] border border-gray-300 rounded-lg  text-white text-base'
           placeholder='Search all columns'
           value={globalFilter ?? ""}
-          onChange={(value) => setGlobalFilter(String(value))}
+          onChange={(value) => setGlobalFilter(String(value.trim()))}
         />
       </div>
     </div>

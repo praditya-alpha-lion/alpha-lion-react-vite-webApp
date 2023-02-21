@@ -72,8 +72,7 @@ const reorderColumn = (draggedColumnId, targetColumnId, columnOrder) => {
 };
 
 
-export default function CustomTable(toggle, table, rows, activeRowHeight, activeNumberOfLines) {
-
+export default function CustomTable({ toggle, table, rows, activeRowHeight, activeNumberOfLines }) {
     const tableContainerRef = React.useRef(null);
     return <div
         className={`overflow-scroll ${toggle ? "w-[calc(100vw_-_90px)]" : `w-[calc(100vw_-_230px)] scrollbar-hidden`}`}>
