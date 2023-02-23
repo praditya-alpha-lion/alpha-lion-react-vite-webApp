@@ -1,7 +1,7 @@
 import React from "react";
-import { useDetectOutsideClick } from "../../utilities/custom hooks/useDetectOutsideClick";
+import { useDetectOutsideClick } from "../../../utilities/customHooks/useDetectOutsideClick";
 
-export default function TableUtilityGrouping(table) {
+export default function TableUtilityGrouping({ table }) {
   // Create a ref that we add to the element for which we want to detect outside clicks
   const groupingRef = React.useRef();
   // Call hook passing in the ref and a function to call on outside click
@@ -13,7 +13,7 @@ export default function TableUtilityGrouping(table) {
   return (
     <div
       ref={groupingRef}
-      className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer relative'>
+      className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer relative  max-h-96'>
       <div
         className='flex items-center'
         onClick={() => setGroupingToggle(!groupingToggle)}>
@@ -21,7 +21,7 @@ export default function TableUtilityGrouping(table) {
         Group
       </div>
       {groupingToggle && (
-        <div className='absolute top-10 left-0 z-50 bg-[#03001C] w-[200px] p-2 rounded-md '>
+        <div className='absolute top-10 left-0 z-50 bg-[#03001C] w-[300px] p-2 rounded-md  max-h-96 overflow-y-scroll'>
           Group By:
           <div className='h-[.5px] mb-2 mt-1 w-full bg-white' />
           {table.getHeaderGroups().map((headerGroup) => (

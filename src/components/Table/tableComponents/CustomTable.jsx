@@ -1,0 +1,116 @@
+import React, { useContext, useState } from 'react';
+import TableVirtualRows from '../tableRows/TableVirtualRows';
+import { useDrag, useDrop } from 'react-dnd';
+import { flexRender } from '@tanstack/react-table';
+import { TableContext } from './TableComponents';
+
+const DraggableColumnHeader = ({ header, table, index }) => {
+  const { getState, setColumnOrder } = table;
+  const { columnOrder } = getState();
+  const { column } = header;
+
+  const [, dropRef] = useDrop({
+    accept: 'column',
+    drop: (draggedColumn) => {
+      const newColumnOrder = reorderColumn(
+        draggedColumn.id,
+        column.id,
+        columnOrder
+      );
+      setColumnOrder(newColumnOrder);
+    },
+  });
+
+  const [{ isDragging }, dragRef, previewRef] = useDrag({
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+    item: () => column,
+    type: 'column',
+  });
+
+  return (
+    <div
+      className={`th ${index === 0 && 'fixed-column'}`}
+      {...{
+        key: header.id,
+        style: {
+          width: header.getSize(),
+        },
+      }}
+      ref={(el) => {
+        previewRef(el);
+        dropRef(el);
+      }}
+      colSpan={header.colSpan}
+    >
+      <div
+        ref={dragRef}
+        className='capitalize text-left text-lg font-normal px-2 truncate'
+      >
+        {header.isPlaceholder
+          ? null
+          : flexRender(header.column.columnDef.header, header.getContext())}
+      </div>
+      <div
+        {...{
+          onMouseDown: header.getResizeHandler(),
+          onTouchStart: header.getResizeHandler(),
+          className: `resizer ${header.column.getIsResizing() ? 'isResizing' : ''
+            }`,
+        }}
+      />
+    </div>
+  );
+};
+const reorderColumn = (draggedColumnId, targetColumnId, columnOrder) => {
+  columnOrder.splice(
+    columnOrder.indexOf(targetColumnId),
+    0,
+    columnOrder.splice(columnOrder.indexOf(draggedColumnId), 1)[0]
+  );
+  return [...columnOrder];
+};
+
+export default function CustomTable() {
+  const { toggle, table } = useContext(TableContext);
+  const tableContainerRef = React.useRef(null);
+  const { rows } = table.getRowModel();
+  return (
+    <div
+      className={`overflow-scroll ${toggle
+        ? 'w-[calc(100vw_-_90px)]'
+        : `w-[calc(100vw_-_230px)] scrollbar-hidden`
+        }`}
+    >
+      <div
+        ref={tableContainerRef}
+        {...{
+          style: {
+            width: table.getTotalSize(),
+          },
+        }}
+        className={`divTable scrollbar-hidden`}
+      >
+        <div className='thead bg-[#000000] text-white'>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <div key={headerGroup.id} className='tr'>
+              {headerGroup.headers.map((header, index) => (
+                <DraggableColumnHeader
+                  key={header.id}
+                  header={header}
+                  table={table}
+                  index={index}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
+        <TableVirtualRows
+          tableContainerRef={tableContainerRef}
+          rows={rows}
+        />
+      </div>
+    </div>
+  );
+}

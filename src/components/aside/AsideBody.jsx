@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  alphaTruckingApi,
-  useGetDriversQuery,
-  useGetLoadQuery,
-  useGetTrucksQuery,
-} from "../../store/services/alphaTruckingApi";
+import { useGetLoadQuery } from "../../store/services/alphaTruckingApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoad } from "../../store/features/loadSlice";
 import Loading from "../utilities/Loading";

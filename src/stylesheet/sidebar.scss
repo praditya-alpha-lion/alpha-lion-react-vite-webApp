@@ -1,10 +1,11 @@
-@import "theme";
+@import 'theme';
 .sidebar_container {
   background-color: $secondary-100;
   padding: 1rem 0.75rem 1rem 0.75rem;
   color: $primary-900;
   border-right: 0.5px solid $primary-800;
   transition: width 0.5s;
+  overflow-y: scroll;
   .image {
     display: flex;
     justify-content: center;
@@ -59,7 +60,7 @@
   }
   .submenu_item {
     margin: 0.5rem 0;
-    margin-left: 2.5rem;
+    margin-left: 2rem;
   }
   .arrow {
     transform: rotate(0deg);

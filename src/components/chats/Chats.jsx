@@ -38,6 +38,7 @@ export default function Chats() {
       socket.on("rec_msg", ({ message }) => {
         // console.log(message);
         if (message?.user_token !== user_token) {
+          console.table(message);
           dispatch(
             addMessage({
               created_at: message?.created_at,

@@ -1,8 +1,7 @@
-import { motion } from "framer-motion";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { handleToggleMainSideBar } from "../../store/features/globalStateManagementSlice";
+import { handleToggleMainSideBar } from "../../store/features/globalStateSlice";
 import "../../stylesheet/sidebar.scss";
 
 export default function Sidebar() {
@@ -14,39 +13,58 @@ export default function Sidebar() {
     {
       title: "Dashboard",
       icons: "home",
-      to: "/frontend",
+      to: "/",
     },
+    { title: "Chat", icons: "chat", to: "/chats" },
+    { title: "Scheduler ", icons: "edit_calendar", to: "/schedule" },
+    { title: "Master", icons: "contacts", gap: true, to: "/master" },
+    {
+      title: "Operation", icons: "contacts", gap: true, to: "/operation", subMenu: [
+        { title: "Claims", icons: "", to: "/operation/claims" },
+        { title: "Examination/Tickets", icons: "", to: "/operation/examination-tickets" },
+        { title: "Recruitment - DH Team", icons: "", to: "/operation/recruitment" },
+        { title: "SMS Violation Summary - Shivani", icons: "", to: "/operation/sms-violation-summary" },
+        { title: "SMS Inspections - Shivani", icons: "", to: "/operation/sms-inspections" },
+        { title: "Court Claims", icons: "", to: "/operation/court-claims" },
+      ]
+    },
+    { title: "Trailers", icons: "calendar_month", to: "/trailers" },
+    { title: "Trucks", icons: "local_shipping", to: "/trucks" },
+    //here we are adding repairs.
+    {
+      title: "Repairs", icons: "tools_wrench", to: "/repairs",
+      subMenu: [
+        { title: "Preventative Maintenance", icons: "", to: "/repairs/preventative-maintenance" },
+        { title: "Work Queue - Kent Yard", icons: "", to: "/repairs/work-queue-kent-yard" },
+        { title: "Preventative Maintenance", icons: "", to: "/repairs/inventory" },
 
-    { title: "Chat", icons: "chat", to: "/frontend/chats" },
-    { title: "Scheduler ", icons: "edit_calendar", to: "/frontend/schedule" },
-    { title: "Master", icons: "contacts", gap: true, to: "/frontend/master" },
-    { title: "Trailers", icons: "calendar_month", to: "/frontend/trailers" },
-    { title: "Trucks", icons: "local_shipping", to: "/frontend/trucks" },
-    { title: "Drivers", icons: "airline_seat_recline_extra", to: "/frontend/drivers" },
+      ]
+    },
+    { title: "Drivers", icons: "airline_seat_recline_extra", to: "/drivers" },
     {
       title: "Customers",
       icons: "support_agent",
-      to: "/frontend/customers",
+      to: "/customers",
     },
     {
       title: "Company",
       icons: "pie_chart",
-      to: "/frontend/company",
+      to: "/company",
     },
     {
       title: "Brokers",
       icons: "diversity_3",
-      to: "/frontend/brokers",
+      to: "/brokers",
     },
     {
       title: "About",
       icons: "info",
-      to: "/frontend/about",
+      to: "/about",
     },
   ]);
 
   return (
-    <div className={`sidebar_container ${toggle ? "closed" : "opened"} `}>
+    <div className={`sidebar_container scrollbar-hidden ${toggle ? "closed" : "opened"} `}>
       <div
         className='navLink menu'
         onClick={() => dispatch(handleToggleMainSideBar())}>
@@ -85,13 +103,13 @@ export default function Sidebar() {
               {menu.isOpened && (
                 <ul>
                   {menu.subMenu.map((menu, index) => (
-                    <li key={index} className='submenu_item'>
+                    <li key={index} className='submenu_item max-w-[170px]'>
                       <NavLink
                         to={menu.to}
                         className={({ isActive }) =>
                           isActive ? "navLink active" : "navLink"
                         }>
-                        <span className={`title`}>{menu.title}</span>
+                        <span className={`title truncate `}>{menu.title}</span>
                       </NavLink>
                     </li>
                   ))}
@@ -108,7 +126,7 @@ export default function Sidebar() {
                         className={({ isActive }) =>
                           isActive ? "navLink active" : "navLink"
                         }>
-                        <span className={`title`}>{menu.title}</span>
+                        <span className={`title truncate`}>{menu.title}</span>
                       </NavLink>
                     </li>
                   ))}

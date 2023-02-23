@@ -15,24 +15,48 @@ import Trailers from "../screens/trailers/Trailers";
 import Chats from "../components/chats/Chats";
 import PageNotFound from "../screens/PageNotFound";
 import { useSelector } from "react-redux";
-
+import Operation from "../screens/operation/Operation";
+import Claims from "../screens/operation/Claims";
+import ExaminationTickets from "../screens/operation/ExaminationTickets";
+import Recruitment from "../screens/operation/Recruitment";
+import SmsViolationSummary from "../screens/operation/SmsViolationSummary";
+import SmsInspections from "../screens/operation/SmsInspections";
+import CourtClaims from "../screens/operation/CourtClaims";
+import Repairs from "../screens/repairs/Repairs";
+import PreventativeMaintenance from "../screens/repairs/PreventativeMaintenance";
+import Inventory from "../screens/repairs/Inventory";
+import WorkQueueKentYard from "../screens/repairs/WorkQueueKentYard";
 
 export default function MainRouting() {
   const { userInfo } = useSelector((state) => state.auth)
   return (
     <Routes>
-      <Route path='/frontend' element={userInfo ? <Dashboard /> : <Login />} />
+      <Route path='/' element={userInfo ? <Dashboard /> : <Login />} />
       <Route element={<ProtectedRoute />}>
-        <Route path='/frontend/chats' element={<Chats />} />
-        <Route path='/frontend/schedule' element={<Schedule />} />
-        <Route path='/frontend/master' element={<Master />} />
-        <Route path='/frontend/trailers' element={<Trailers />} />
-        <Route path='/frontend/trucks' element={<Trucks />} />
-        <Route path='/frontend/drivers' element={<Drivers />} />
-        <Route path='/frontend/customers' element={<Customer />} />
-        <Route path='/frontend/company' element={<Company />} />
-        <Route path='/frontend/brokers' element={<Brokers />} />
-        <Route path='/frontend/about' element={<About />} />
+        <Route path='/chats' element={<Chats />} />
+        <Route path='/schedule' element={<Schedule />} />
+        <Route path='/master' element={<Master />} />
+        <Route path='/trailers' element={<Trailers />} />
+        <Route path='/trucks' element={<Trucks />} />
+        <Route path='/drivers' element={<Drivers />} />
+        <Route path='/customers' element={<Customer />} />
+        <Route path='/company' element={<Company />} />
+        <Route path='/brokers' element={<Brokers />} />
+        <Route path='/about' element={<About />} />
+
+        <Route path='/operation' element={<Operation />} />
+        <Route path='/operation/claims' element={<Claims />} />
+        <Route path='/operation/examination-tickets' element={<ExaminationTickets />} />
+        <Route path='/operation/recruitment' element={<Recruitment />} />
+        <Route path='/operation/sms-violation-summary' element={<SmsViolationSummary />} />
+        <Route path='/operation/sms-inspections' element={<SmsInspections />} />
+        <Route path='/operation/court-claims' element={<CourtClaims />} />
+
+        <Route path='/repairs' element={<Repairs />} />
+        <Route path='/repairs/preventative-maintenance' element={<PreventativeMaintenance />} />
+        <Route path='/repairs/work-queue-kent-yard' element={<WorkQueueKentYard />} />
+        <Route path='/repairs/inventory' element={<Inventory />} />
+
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>

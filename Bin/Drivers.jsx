@@ -94,7 +94,7 @@ const columns = [
     dataIndex: "application",
     render: (application) => (
       <div className='flex overflow-x-scroll gap-1  max-w-[400px]'>
-        {/* {console.log(application)} */}
+        {console.log(application)}
         {application.map((img, i) => (
           <img
             className='h-[100px]'
@@ -121,7 +121,7 @@ const Drivers = () => {
   const { toggle, width } = useSelector(
     (state) => state.globalState.mainSideBar
   );
-  // console.log(toggle, width);
+  console.log(toggle, width);
   const {
     register,
     handleSubmit,

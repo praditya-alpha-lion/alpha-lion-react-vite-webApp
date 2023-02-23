@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { onChangeSearch } from "../../store/features/globalStateManagementSlice";
+import { onChangeSearch } from "../../store/features/globalStateSlice";
 import AsideThreeDotsDropDown from "./AsideThreeDotsDropDown";
 
 export default function AsideHeaderSearch() {

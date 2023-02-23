@@ -1,36 +1,36 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { TableContext } from "../src/components/Table/tableComponents/TableComponents";
+export default function TableUtilitySearching() {
+  const { globalFilter, setGlobalFilter } = useContext(TableContext);
+  // A debounced input react component
+  function DebouncedInput({
+    value: initialValue,
+    onChange,
+    debounce = 500,
+    ...props
+  }) {
+    const [value, setValue] = useState(initialValue);
 
-// A debounced input react component
-function DebouncedInput({
-  value: initialValue,
-  onChange,
-  debounce = 500,
-  ...props
-}) {
-  const [value, setValue] = React.useState(initialValue);
+    useEffect(() => {
+      setValue(initialValue);
+    }, [initialValue]);
 
-  React.useEffect(() => {
-    setValue(initialValue);
-  }, [initialValue]);
+    useEffect(() => {
+      const timeout = setTimeout(() => {
+        onChange(value);
+      }, debounce);
 
-  React.useEffect(() => {
-    const timeout = setTimeout(() => {
-      onChange(value);
-    }, debounce);
+      return () => clearTimeout(timeout);
+    }, [value]);
 
-    return () => clearTimeout(timeout);
-  }, [value]);
-
-  return (
-    <input
-      {...props}
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-    />
-  );
-}
-
-export default function TableUtilitySearching(globalFilter, setGlobalFilter) {
+    return (
+      <input
+        {...props}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
+    );
+  }
   return (
     <div className='w-60'>
       <label
@@ -60,7 +60,7 @@ export default function TableUtilitySearching(globalFilter, setGlobalFilter) {
           className='block w-full p-2 pl-10 bg-[#03001C] border border-gray-300 rounded-lg  text-white text-base'
           placeholder='Search all columns'
           value={globalFilter ?? ""}
-          onChange={(value) => setGlobalFilter(String(value))}
+          onChange={(value) => setGlobalFilter(String(value.trim()))}
         />
       </div>
     </div>

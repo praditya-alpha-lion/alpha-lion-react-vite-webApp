@@ -10,7 +10,7 @@ export default function CustomFilterInput({ table, type, operator, value, id, re
                     } else if (type === 'operator') {
                         ele.operator = value;
                     } else if (type === 'value') {
-                        ele.value = value;
+                        ele.value = value
                     }
                 }
                 return ele;

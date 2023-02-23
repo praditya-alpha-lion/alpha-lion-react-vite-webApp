@@ -1,5 +1,19 @@
 import React from "react";
+import Table from "../../components/Table/Table";
+import Error from "../../components/utilities/Error";
+import Loading from "../../components/utilities/Loading";
+import { useGetTrailersQuery } from "../../store/services/alphaTruckingApi";
+
 
 export default function Trailers() {
-  return <div>Trailers</div>;
+  let { data, error, isFetching } = useGetTrailersQuery();
+
+  if (isFetching) {
+    return <Loading />;
+  }
+  if (error) {
+    return <Error error={error} />;
+  }
+
+  return <Table tableData={data} />
 }

@@ -1,8 +1,8 @@
 import { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { handleFilterChange } from "../../store/features/globalStateManagementSlice";
+import { handleFilterChange } from "../../store/features/globalStateSlice";
 import "../../stylesheet/filterModal.scss";
-import { useDetectOutsideClick } from "../../utilities/custom hooks/useDetectOutsideClick";
+import { useDetectOutsideClick } from "../../utilities/customHooks/useDetectOutsideClick";
 
 export default function AsideThreeDotsDropDown() {
   // Create a ref that we add to the element for which we want to detect outside clicks
