@@ -32,16 +32,26 @@ export default function Sidebar() {
     { title: "Trucks", icons: "local_shipping", to: "/trucks" },
 
     //here we are adding repairs.
-    { title: "Repairs", icons: "tools_wrench", to: "/repairs",
-    subMenu: [
-      { title: "Preventative Maintenance", icons: "", to: "/repairs/preventative_maintenance" },
-      { title: "Work Queue - Kent Yard", icons: "", to: "/repairs/work_queue_kent_yard" },
-      { title: "Preventative Maintenance", icons: "", to: "/repairs/invetory" },
-      
-    ]
-  },
+    {
+      title: "Repairs", icons: "tools_wrench", to: "/repairs",
+      subMenu: [
+        { title: "Preventative Maintenance", icons: "", to: "/repairs/preventative_maintenance" },
+        { title: "Work Queue - Kent Yard", icons: "", to: "/repairs/work_queue_kent_yard" },
+        { title: "Preventative Maintenance", icons: "", to: "/repairs/invetory" },
 
-   
+      ]
+    },
+    //here we are adding repairs.
+    {
+      title: "Payroll", icons: "tools_wrench",
+      subMenu: [
+        { title: "Drivers", icons: "", to: "/payrolls/driverspayroll" },
+        { title: "Company", icons: "", to: "/payrolls/companypayroll" },
+
+      ]
+    },
+
+
     { title: "Drivers", icons: "airline_seat_recline_extra", to: "/drivers" },
     {
       title: "Customers",

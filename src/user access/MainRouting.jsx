@@ -26,6 +26,8 @@ import Repairs from "../screens/repairs/Repairs";
 import PreventativeMaintenance from "../screens/repairs/PreventativeMaintenance";
 import Inventory from "../screens/repairs/Inventory";
 import WorkQueueKentYard from "../screens/repairs/WorkQueueKentYard";
+import CompanyPayroll from "../screens/payrolls/CompanyPayroll";
+import DriversPayroll from "../screens/payrolls/DriversPayroll";
 
 export default function MainRouting() {
   const { userInfo } = useSelector((state) => state.auth)
@@ -56,6 +58,9 @@ export default function MainRouting() {
         <Route path='/repairs/preventative_maintenance' element={<PreventativeMaintenance />} />
         <Route path='/repairs/work_queue_kent_yard' element={<WorkQueueKentYard />} />
         <Route path='/repairs/invetory' element={<Inventory />} />
+
+        <Route path='/payrolls/driverspayroll' element={<DriversPayroll />} />
+        <Route path='/payrolls/companypayroll' element={<CompanyPayroll />} />
 
       </Route>
       <Route path="*" element={<PageNotFound />} />
