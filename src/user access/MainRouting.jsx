@@ -60,7 +60,7 @@ export default function MainRouting() {
         <Route path='/repairs/invetory' element={<Inventory />} />
 
         <Route path='/payrolls/driverspayroll' element={<DriversPayroll />} />
-        <Route path='/payrolls/companypayroll' element={<CompanyPayroll />} />
+        <Route path='/payrolls/employeepayroll' element={<EmployeePayroll />} />
 
       </Route>
       <Route path="*" element={<PageNotFound />} />

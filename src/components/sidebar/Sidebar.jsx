@@ -37,7 +37,7 @@ export default function Sidebar() {
       subMenu: [
         { title: "Preventative Maintenance", icons: "", to: "/repairs/preventative_maintenance" },
         { title: "Work Queue - Kent Yard", icons: "", to: "/repairs/work_queue_kent_yard" },
-        { title: "Preventative Maintenance", icons: "", to: "/repairs/invetory" },
+        { title: "Inventory", icons: "", to: "/repairs/invetory" },
 
       ]
     },
@@ -46,7 +46,8 @@ export default function Sidebar() {
       title: "Payroll", icons: "tools_wrench",
       subMenu: [
         { title: "Drivers", icons: "", to: "/payrolls/driverspayroll" },
-        { title: "Company", icons: "", to: "/payrolls/companypayroll" },
+        { title: "Employee", icons: "", to: "/payrolls/employeepayroll" },
+{ title: "Owner Operator", icons: "", to: "/payrolls/companypayroll" },
 
       ]
     },
