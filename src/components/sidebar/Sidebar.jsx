@@ -43,13 +43,20 @@ export default function Sidebar() {
     },
     //here we are adding repairs.
     {
-      title: "Payroll", icons: "tools_wrench",
+      title: "Payroll", icons: "attach_money",
       subMenu: [
         { title: "Drivers", icons: "", to: "/payrolls/driverspayroll" },
         { title: "Employee", icons: "", to: "/payrolls/employeepayroll" },
-{ title: "Owner Operator", icons: "", to: "/payrolls/companypayroll" },
+        { title: "Owner Operator", icons: "", to: "/payrolls/owneroperator" },
 
       ]
+    },
+
+    //for sales.
+
+    {
+      title: "Sales", icons: "real_estate_agent", to: "/sales/Sales",
+
     },
 
 
