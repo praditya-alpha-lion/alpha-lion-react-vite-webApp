@@ -8,7 +8,7 @@ export default function TableVirtualRows({ tableContainerRef, rows }) {
   const rowVirtualizer = useVirtual({
     parentRef: tableContainerRef,
     size: rows.length,
-    overscan: 10,
+    overscan: 50,
   });
   const { virtualItems: virtualRows, totalSize } = rowVirtualizer;
   const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0;
@@ -18,7 +18,7 @@ export default function TableVirtualRows({ tableContainerRef, rows }) {
       : 0;
 
   return (
-    <div className='tbody'>
+    <div className='tbody text-white'>
       {paddingTop > 0 && <div style={{ height: `${paddingTop}px` }}></div>}
       {virtualRows.map((virtualRow) => {
         const row = rows[virtualRow.index];

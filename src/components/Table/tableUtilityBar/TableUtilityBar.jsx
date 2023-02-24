@@ -8,26 +8,32 @@ import TableUtilitySearching from "./TableUtilitySearch";
 import TableUtilitySort from "./TableUtilitySort";
 import { TableContext } from "../tableComponents/TableComponents";
 import { handleAddViews } from "../../../store/features/viewsSlice";
+import TableUtilityViews from "./tableViews/TableUtilityViews";
+import { usePostViewsMutation } from "../../../store/services/alphaTruckingApi";
 export default function TableUtilityBar() {
   const { table } = useContext(TableContext);
   const dispatch = useDispatch();
-  // const [tableStates, setTableStates] = useState(table.options.state);
+  // const [tableStates, setTableStates] = useState();
+  const [updatePost, result] = usePostViewsMutation()
 
   // let tabledata = table.options.state
   useEffect(() => {
-    // dispatch(handleAddViews(tabledata))
-  }, [])
+    let data = table.options.state
+    // console.log(data)
 
+    // setTableStates(table.options.state)
+    updatePost({ model: table.options.state })
+    // dispatch(handleAddViews({ view: "driver", data: tableStates }))
+  }, [table.options.state])
+
+  // console.log(tableStates)x
 
   return (
-    <div className='flex items-center p-2 w-full justify-between bg-[#2f2a40] select-none' >
+    <div className='flex items-center p-2  w-full justify-between bg-[#2f2a40] select-none' >
       <div className='flex items-center gap-2 '>
-        <div className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer'>
-          <span className='material-symbols-rounded text-lg pr-1'>menu</span>
-          Views
-        </div>
+        <TableUtilityViews table={table} />
         <TableUtilityHideFields table={table} />
-        {/* <TableUtilityFilter table={table} /> */}
+        <TableUtilityFilter table={table} />
         <TableUtilitySort table={table} />
         <TableUtilityGrouping table={table} />
         <TableUtilityRowHeight />

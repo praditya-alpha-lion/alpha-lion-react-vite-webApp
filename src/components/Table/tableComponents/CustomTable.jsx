@@ -5,8 +5,8 @@ import { flexRender } from '@tanstack/react-table';
 import { TableContext } from './TableComponents';
 
 const DraggableColumnHeader = ({ header, table, index }) => {
-  const { getState, setColumnOrder } = table;
-  const { columnOrder } = getState();
+  const { setColumnOrder } = table;
+  const { columnOrder } = table.options.state;
   const { column } = header;
 
   const [, dropRef] = useDrop({
@@ -64,6 +64,8 @@ const DraggableColumnHeader = ({ header, table, index }) => {
   );
 };
 const reorderColumn = (draggedColumnId, targetColumnId, columnOrder) => {
+  // console.log(columnOrder, draggedColumnId)
+  // debugger
   columnOrder.splice(
     columnOrder.indexOf(targetColumnId),
     0,
@@ -73,14 +75,15 @@ const reorderColumn = (draggedColumnId, targetColumnId, columnOrder) => {
 };
 
 export default function CustomTable() {
+  // console.log("Table called")
   const { toggle, table } = useContext(TableContext);
   const tableContainerRef = React.useRef(null);
   const { rows } = table.getRowModel();
   return (
     <div
-      className={`overflow-scroll ${toggle
+      className={`overflow-scroll scrollbar-hidden px-2 ${toggle
         ? 'w-[calc(100vw_-_90px)]'
-        : `w-[calc(100vw_-_230px)] scrollbar-hidden`
+        : `w-[calc(100vw_-_230px)] `
         }`}
     >
       <div

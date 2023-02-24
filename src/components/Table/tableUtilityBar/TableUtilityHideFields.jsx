@@ -19,7 +19,6 @@ export default function TableUtilityHideFields({ table }) {
         className='flex items-center'
         onClick={() => {
           setIsHiddenToggle(!isHiddenToggle);
-          // dispatch(handleAddViews({ view: "driver", data: table.getState() }))
         }}
       >
         <span className='material-symbols-rounded text-lg pr-1'>

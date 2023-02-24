@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import TableComponents from "./tableComponents/TableComponents";
 import { useSelector } from "react-redux";
+import { useGetSavedViewQuery } from "../../store/services/alphaTruckingApi";
+import Loading from "../utilities/Loading";
+import Error from "../utilities/Error";
 
 
 export default function Table({ tableData }) {
+  const { driver } = useSelector(state => state.views);
+  const { data, error, isFetching } = useGetSavedViewQuery();
+
+
   // this is for checking is the side bar is opened ?
   const { toggle } = useSelector((state) => state.globalState.mainSideBar);
   const keysMap = new Map();
@@ -30,7 +37,7 @@ export default function Table({ tableData }) {
     })
   })
 
-  const [data, setData] = React.useState(tableData.map(({ data }) => {
+  const [tableDataModified, setTableDataModified] = React.useState(tableData.map(({ data }) => {
     const object = {}
     dataKeys.map((key) => {
       object[key] = data?.[key] || "N/A"
@@ -39,9 +46,22 @@ export default function Table({ tableData }) {
   })
   );
 
+  if (isFetching) {
+    return <Loading />
+  }
+
+  if (error) {
+    return <Error />
+  }
+
+
+  console.log(data)
+
+
+
   return (
     <DndProvider backend={HTML5Backend}>
-      <TableComponents toggle={toggle} defaultColumns={defaultColumns} data={data} setData={setData} />
+      <TableComponents toggle={toggle} defaultColumns={defaultColumns} data={tableDataModified} setData={setTableDataModified} tableConditions={data} />
     </DndProvider>
   );
 }

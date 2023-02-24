@@ -19,9 +19,10 @@ export default function TableComponents({
   data,
   toggle,
   setData,
+  tableConditions
 }) {
   const [columns] = useState(() => [...defaultColumns]);
-  const [globalFilter, setGlobalFilter] = useState('');
+  const [globalFilter, setGlobalFilter] = useState(tableConditions?.model?.globalFilter);
   const [columnFilters, setColumnFilters] = useState([]);
   const [sorting, setSorting] = useState([]);
   const [rowHeight, setRowHeight] = useState([
@@ -58,7 +59,7 @@ export default function TableComponents({
   let { activeRowHeight, activeNumberOfLines } = handleRowHeight(rowHeight);
   const [columnOrder, setColumnOrder] = useState(
     //must start out with populated columnOrder so we can splice
-    columns.map((column) => column.id)
+    tableConditions?.model?.columnOrder || columns.map((column) => column.id)
   );
   const [columnPinning, setColumnPinning] = useState({});
   const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
@@ -114,12 +115,19 @@ export default function TableComponents({
     // debugColumns: true,
   });
 
+  useEffect(() => {
+    // let conditions = tableConditions
+    // delete conditions['pagination']
 
 
+    // console.log(tableConditions)
+
+    table.setState(tableConditions?.model)
+  }, [])
 
   return (
     <TableContext.Provider value={{ table: table, rowHeight: rowHeight, setRowHeight: setRowHeight, globalFilter: globalFilter, setGlobalFilter: setGlobalFilter, toggle: toggle, activeRowHeight: activeRowHeight, activeNumberOfLines: activeNumberOfLines }}>
-      <div className='p-2 h-screen text-white overflow-scroll'>
+      <div className=' w-full  overflow-hidden h-screen text-white'>
         <TableUtilityBar />
         <CustomTable />
       </div>

@@ -42,6 +42,12 @@ export const alphaTruckingApi = createApi({
         method: 'POST',
       }),
     }),
+    GetSavedView: builder.query({
+      query: () => ({
+        url: 'API/V1//getsavedviewmodel',
+        method: 'POST',
+      }),
+    }),
     PostViews: builder.mutation({
       query: (payload) => ({
         url: 'API/V1/changesaved',
@@ -57,5 +63,6 @@ export const {
   useGetTrucksQuery,
   useGetDriversQuery,
   useGetTrailersQuery,
+  useGetSavedViewQuery,
   usePostViewsMutation,
 } = alphaTruckingApi;

@@ -11,10 +11,7 @@ const viewsSlice = createSlice({
   initialState,
   reducers: {
     handleAddViews: (state, { payload }) => {
-      // console.log(payload.view);
-      // state[payload.view] = payload.data;
-      // console.log(state);
-      state.driver = payload;
+      state[payload.view] = payload.data;
     },
   },
 });

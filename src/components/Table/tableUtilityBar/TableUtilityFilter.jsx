@@ -55,7 +55,7 @@ export default function TableUtilityFilter({ table }) {
   return (
     <div
       ref={filterRef}
-      className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer relative'>
+      className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer relative '>
       <div
         className='flex items-center'
         onClick={() => setFilterToggle(!filterToggle)}>
@@ -68,7 +68,7 @@ export default function TableUtilityFilter({ table }) {
         <div className='absolute top-10 left-0 z-50 bg-[#03001C] p-2 rounded-md w-[600px]  max-h-96 overflow-y-scroll'>
           Filter:
           <div className='h-[.5px] mb-2 mt-1 w-full bg-white' />
-          <div className="max-h-[700px] overflow-scroll">
+          <div className="max-h-[700px] overflow-scroll scrollbar-hidden">
             {filterConditions?.length < 1 ? (
               <div className='text-gray-400 m-4'>
                 No filter conditions are applied to this view
