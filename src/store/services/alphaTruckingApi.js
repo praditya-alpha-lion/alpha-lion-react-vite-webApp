@@ -50,7 +50,19 @@ export const alphaTruckingApi = createApi({
     }),
     GetClaims: builder.query({
       query: () => ({
-        url: 'API/V1/getclaimsdata',
+        url: 'API/V1/getClaimsData',
+        method: 'POST',
+      }),
+    }),
+    GetRecruitmentDHTeamData: builder.query({
+      query: () => ({
+        url: 'API/V1/GetRecruitmentDHTeamData',
+        method: 'POST',
+      }),
+    }),
+    GetCourtClaimData: builder.query({
+      query: () => ({
+        url: 'API/V1/GetCourtClaimData',
         method: 'POST',
       }),
     }),
@@ -65,6 +77,8 @@ export const alphaTruckingApi = createApi({
 });
 
 export const {
+  useGetRecruitmentDHTeamDataQuery,
+  useGetCourtClaimDataQuery,
   useGetClaimsQuery,
   useGetLoadQuery,
   useGetTrucksQuery,

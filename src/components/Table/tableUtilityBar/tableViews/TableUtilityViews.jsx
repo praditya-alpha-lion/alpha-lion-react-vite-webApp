@@ -81,10 +81,10 @@ export const ViewsComponent = () => {
 		}
 	}
 	const [views, viewsDispatch] = useReducer(reducer, initialState);
-	const [createToggle, setCreateToggle] = useState(false)
+	const [createToggle, setCreateToggle] = useState(true)
 
 	return (
-		<div className='text-black bg-white h-full overflow-y-scroll overflow-x-visible border-[#c8c8c8] border-r-[1px] p-2 pr-0  flex flex-col justify-between select-none transition-all'>
+		<div className='text-black bg-white h-full  border-[#c8c8c8] border-r-[1px] p-2 flex flex-col justify-between select-none transition-all'>
 			<div>
 				<div className="flex items-center relative mb-4">
 					<span className="material-symbols-rounded absolute text-[20px] ml-4 text-[rgb(68, 68, 68)]  font-extralight ">
@@ -117,7 +117,6 @@ export const ViewsComponent = () => {
 															return (
 																<div key={i} className='flex items-center justify-between p-2 rounded cursor-pointer hover:bg-slate-100' >
 																	<div className='font-medium ml-7 text-base truncate'>{ele.title}</div>
-
 																	<TableViewsPopUpMenuToolkit />
 																</div>
 															)
@@ -164,9 +163,7 @@ export const ViewsComponent = () => {
 													Grid
 												</div>
 											</div>
-											<span className="material-symbols-rounded font-extralight">
-												add
-											</span>
+											<TableViewsAddToolkit />
 										</div>
 									)
 								})
@@ -179,22 +176,60 @@ export const ViewsComponent = () => {
 	);
 };
 
-
-
-
 function TableViewsPopUpMenuToolkit() {
-	const [showMenu, setShowMenu] = useState(false);
-	// useDetectOutsideClick()
+	// Create a ref that we add to the element for which we want to detect outside clicks
+	const viewsMenu = React.useRef();
+	// Call hook passing in the ref and a function to call on outside click
+	const [isMenuToggle, setIsMenuToggle] = React.useState(false);
+
+	useDetectOutsideClick(viewsMenu, () => setIsMenuToggle(false));
 	return (
-		<div className='relative'>
-			<span className="material-symbols-rounded font-extralight text-base mx-1" onClick={() => setShowMenu(!showMenu)}>expand_circle_down</span>
-			{showMenu && (
-				<div className="absolute  w-48 top-6 -right- bg-white p-4  z-50 shadow-lg border-gray-200 rounded border">
-					<ul>
-						<li>Menu Item 1</li>
-						<li>Menu Item 2</li>
-						<li>Menu Item 3</li>
-					</ul>
+		<div ref={viewsMenu} className='relative'>
+			<span className="material-symbols-rounded font-extralight text-base mx-1 " onClick={() => setIsMenuToggle(!isMenuToggle)}>add</span>
+			{isMenuToggle && (
+				<div className="absolute w-72 top-6 -right- bg-white p-2  z-50 shadow-lg border-gray-200 rounded border ">
+					<div className='flex items-center p-2 rounded cursor-pointer hover:bg-slate-100'>
+						<span className="material-symbols-rounded font-extralight">edit</span>
+						<div className='font-medium text-base truncate ml-2'>Rename</div>
+					</div>
+					<div className='flex items-center p-2 rounded cursor-pointer hover:bg-slate-100'>
+						<span className="material-symbols-rounded font-extralight">content_copy</span>
+						<div className='font-medium text-base truncate ml-2'>Duplicate View</div>
+					</div>
+					<div className='flex items-center p-2 rounded cursor-pointer hover:bg-slate-100'>
+						<span className="material-symbols-rounded font-extralight">delete</span>
+						<div className='font-medium text-base truncate ml-2'>Delete View</div>
+					</div>
+				</div>
+			)}
+		</div>
+	);
+}
+
+function TableViewsAddToolkit() {
+	// Create a ref that we add to the element for which we want to detect outside clicks
+	const viewsMenu = React.useRef();
+	// Call hook passing in the ref and a function to call on outside click
+	const [isMenuToggle, setIsMenuToggle] = React.useState(false);
+
+	useDetectOutsideClick(viewsMenu, () => setIsMenuToggle(false));
+	return (
+		<div ref={viewsMenu} className='relative'>
+			<span className="material-symbols-rounded font-extralight " onClick={() => setIsMenuToggle(!isMenuToggle)}>add</span>
+			{isMenuToggle && (
+				<div className="absolute w-72 bottom-6  bg-white p-2  z-50 shadow-lg border-gray-200 rounded border ">
+					<div className='flex items-center p-2 rounded cursor-pointer hover:bg-slate-100'>
+						<span className="material-symbols-rounded font-extralight">edit</span>
+						<div className='font-medium text-base truncate ml-2'>Rename</div>
+					</div>
+					<div className='flex items-center p-2 rounded cursor-pointer hover:bg-slate-100'>
+						<span className="material-symbols-rounded font-extralight">content_copy</span>
+						<div className='font-medium text-base truncate ml-2'>Duplicate View</div>
+					</div>
+					<div className='flex items-center p-2 rounded cursor-pointer hover:bg-slate-100'>
+						<span className="material-symbols-rounded font-extralight">delete</span>
+						<div className='font-medium text-base truncate ml-2'>Delete View</div>
+					</div>
 				</div>
 			)}
 		</div>

@@ -13,6 +13,5 @@ export default function Claims() {
     if (error) {
         return <Error error={error} />;
     }
-    console.log(data)
     return <Table tableData={data} />
 }
