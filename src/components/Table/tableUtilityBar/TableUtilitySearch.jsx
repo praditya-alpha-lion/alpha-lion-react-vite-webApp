@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { TableContext } from "../tableComponents/TableComponents";
 export default function TableUtilitySearching() {
+  const [isOpen, setIsOpen] = useState(false)
   const { globalFilter, setGlobalFilter } = useContext(TableContext);
   // A debounced input react component
   function DebouncedInput({
@@ -31,38 +32,32 @@ export default function TableUtilitySearching() {
       />
     );
   }
+  // console.log(isOpen)
   return (
-    <div className='w-60'>
-      <label
-        htmlFor='default-search'
-        className='mb-2 text-sm font-medium bg-[#03001C] sr-only '>
-        Search
-      </label>
-      <div className='relative'>
-        <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
-          <svg
-            aria-hidden='true'
-            className='w-5 h-5 text-gray-500 dark:text-gray-400'
-            fill='none'
-            stroke='currentColor'
-            viewBox='0 0 24 24'
-            xmlns='http://www.w3.org/2000/svg'>
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              strokeWidth='2'
-              d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'></path>
-          </svg>
+    <div className='relative flex items-center'>
+      <span onClick={() => toggleIsOpen(isOpen, setIsOpen)} className={`material-symbols-rounded font-light cursor-pointer text-[#7e7e7e] p-1 rounded ${isOpen && "#4d4d4d"} ${globalFilter && 'bg-[#e1d5f9]'}`}>
+        search
+      </span>
+      {
+        isOpen && <div className='absolute right-[-3px] w-[300px] top-[37px]  flex items-center border-2 border-t-0 border-[#e8e8e8]  bg-white overflow-hidden rounded-br rounded-bl z-10
+        '>
+          <DebouncedInput
+            id='default-search'
+            className='block w-full p-2 bg-white text-black text-base placeholder:text-[#757575] outline-none'
+            placeholder='Find in view'
+            value={globalFilter ?? ""}
+            onChange={(value) => setGlobalFilter(String(value.trim()))}
+          />
+          <span className="material-symbols-rounded text-black font-light p-1 py-2 cursor-pointer" onClick={() => toggleIsOpen(isOpen, setIsOpen)}>
+            close
+          </span>
         </div>
-        <DebouncedInput
-          type='search'
-          id='default-search'
-          className='block w-full p-2 pl-10 bg-[#03001C] border border-gray-300 rounded-lg  text-white text-base'
-          placeholder='Search all columns'
-          value={globalFilter ?? ""}
-          onChange={(value) => setGlobalFilter(String(value.trim()))}
-        />
-      </div>
+      }
+
     </div>
   );
 }
+
+const toggleIsOpen = (isOpen, setIsOpen) => {
+  setIsOpen(!isOpen)
+} 

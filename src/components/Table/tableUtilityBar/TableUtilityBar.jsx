@@ -29,19 +29,17 @@ export default function TableUtilityBar() {
   // console.log(tableStates)x
 
   return (
-    <div className='flex items-center p-2  w-full justify-between bg-[#2f2a40] select-none' >
+    <div className='flex items-center p-1  w-full justify-between  select-none bg-white border-[#c8c8c8] border-b-[1px]' >
       <div className='flex items-center gap-2 '>
         <TableUtilityViews table={table} />
+        <div className="w-[.5px] bg-black h-6" />
         <TableUtilityHideFields table={table} />
         <TableUtilityFilter table={table} />
-        <TableUtilitySort table={table} />
         <TableUtilityGrouping table={table} />
+        <TableUtilitySort table={table} />
         <TableUtilityRowHeight />
-        <div className='bg-purple-600 rounded-lg p-2 px-4'>
-          Add Views
-        </div>
       </div>
-      {TableUtilitySearching()}
+      <TableUtilitySearching />
     </div>
   );
 }

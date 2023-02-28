@@ -22,7 +22,7 @@ export default function TableComponents({
   tableConditions
 }) {
   const [columns] = useState(() => [...defaultColumns]);
-  const [globalFilter, setGlobalFilter] = useState(tableConditions?.model?.globalFilter);
+  const [globalFilter, setGlobalFilter] = useState(tableConditions?.model?.globalFilter || []);
   const [columnFilters, setColumnFilters] = useState([]);
   const [sorting, setSorting] = useState([]);
   const [rowHeight, setRowHeight] = useState([
@@ -56,6 +56,7 @@ export default function TableComponents({
     // },
   ]);
   const [grouping, setGrouping] = useState([]);
+  const [viewsToggle, setViewsToggle] = useState(false)
   let { activeRowHeight, activeNumberOfLines } = handleRowHeight(rowHeight);
   const [columnOrder, setColumnOrder] = useState(
     //must start out with populated columnOrder so we can splice
@@ -122,11 +123,11 @@ export default function TableComponents({
 
     // console.log(tableConditions)
 
-    table.setState(tableConditions?.model)
+    // table.setState(tableConditions?.model)
   }, [])
 
   return (
-    <TableContext.Provider value={{ table: table, rowHeight: rowHeight, setRowHeight: setRowHeight, globalFilter: globalFilter, setGlobalFilter: setGlobalFilter, toggle: toggle, activeRowHeight: activeRowHeight, activeNumberOfLines: activeNumberOfLines }}>
+    <TableContext.Provider value={{ table: table, rowHeight: rowHeight, setRowHeight: setRowHeight, globalFilter: globalFilter, setGlobalFilter: setGlobalFilter, toggle: toggle, activeRowHeight: activeRowHeight, activeNumberOfLines: activeNumberOfLines, viewsToggle: viewsToggle, setViewsToggle: setViewsToggle }}>
       <div className=' w-full  overflow-hidden h-screen text-white'>
         <TableUtilityBar />
         <CustomTable />

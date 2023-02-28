@@ -13,9 +13,9 @@ export default function TableUtilityGrouping({ table }) {
   return (
     <div
       ref={groupingRef}
-      className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer relative  max-h-96'>
+      className='flex items-center hover:bg-black hover:bg-opacity-10 rounded-md text-[#4d4d4d] p-0.5 px-2 text-lg cursor-pointer relative  max-h-96'>
       <div
-        className='flex items-center'
+        className='flex items-center font-medium'
         onClick={() => setGroupingToggle(!groupingToggle)}>
         <span className='material-symbols-rounded text-lg pr-1'>ballot</span>
         Group

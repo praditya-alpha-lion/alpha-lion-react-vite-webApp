@@ -3,6 +3,7 @@ import TableVirtualRows from '../tableRows/TableVirtualRows';
 import { useDrag, useDrop } from 'react-dnd';
 import { flexRender } from '@tanstack/react-table';
 import { TableContext } from './TableComponents';
+import { ResizableSidebar } from '../../utilities/ResizableSidebar';
 
 const DraggableColumnHeader = ({ header, table, index }) => {
   const { setColumnOrder } = table;
@@ -75,45 +76,54 @@ const reorderColumn = (draggedColumnId, targetColumnId, columnOrder) => {
 };
 
 export default function CustomTable() {
-  // console.log("Table called")
-  const { toggle, table } = useContext(TableContext);
+  const { toggle, table, viewsToggle } = useContext(TableContext);
   const tableContainerRef = React.useRef(null);
   const { rows } = table.getRowModel();
   return (
-    <div
-      className={`overflow-scroll scrollbar-hidden px-2 ${toggle
-        ? 'w-[calc(100vw_-_90px)]'
-        : `w-[calc(100vw_-_230px)] `
-        }`}
-    >
+    <div className='grid grid-cols-[auto_1fr] gri'>
+      {
+        viewsToggle && (
+          <ResizableSidebar />
+        )
+      }
       <div
-        ref={tableContainerRef}
-        {...{
-          style: {
-            width: table.getTotalSize(),
-          },
-        }}
-        className={`divTable scrollbar-hidden`}
+        className={`overflow-scroll scrollbar-hidden pr-64 
+       ${toggle
+            ? 'w-[calc(100vw_-_80px)]'
+            : `w-[calc(100vw_-_220px)] `
+          }
+        `}
       >
-        <div className='thead bg-[#000000] text-white'>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <div key={headerGroup.id} className='tr'>
-              {headerGroup.headers.map((header, index) => (
-                <DraggableColumnHeader
-                  key={header.id}
-                  header={header}
-                  table={table}
-                  index={index}
-                />
-              ))}
-            </div>
-          ))}
+        <div
+          ref={tableContainerRef}
+          {...{
+            style: {
+              width: table.getTotalSize(),
+            },
+          }}
+          className={`divTable scrollbar-hidden`}
+        >
+          <div className='thead bg-[#f5f5f5] text-[#333333]'>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <div key={headerGroup.id} className='tr'>
+                {headerGroup.headers.map((header, index) => (
+                  <DraggableColumnHeader
+                    key={header.id}
+                    header={header}
+                    table={table}
+                    index={index}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
+          <TableVirtualRows
+            tableContainerRef={tableContainerRef}
+            rows={rows}
+          />
         </div>
-        <TableVirtualRows
-          tableContainerRef={tableContainerRef}
-          rows={rows}
-        />
       </div>
     </div>
   );
 }
+

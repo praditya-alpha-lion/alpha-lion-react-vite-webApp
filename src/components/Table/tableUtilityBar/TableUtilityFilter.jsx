@@ -55,9 +55,9 @@ export default function TableUtilityFilter({ table }) {
   return (
     <div
       ref={filterRef}
-      className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer relative '>
+      className='flex items-center hover:bg-black hover:bg-opacity-10 rounded-md text-[#4d4d4d] p-0.5 px-2 text-lg cursor-pointer relative '>
       <div
-        className='flex items-center'
+        className='flex items-center font-medium'
         onClick={() => setFilterToggle(!filterToggle)}>
         <span className='material-symbols-rounded text-lg pr-1'>
           filter_list

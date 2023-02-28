@@ -73,7 +73,7 @@ const globalStateSlice = createSlice({
     handleScreenTabsToggle: (state) => {
       state.screenTabsToggle = !state.screenTabsToggle;
     },
-    handleToggleMainSideBar: (state, { payload }) => {
+    handleToggleMainSideBar: (state) => {
       state.mainSideBar.toggle = !state.mainSideBar.toggle;
       if (state.mainSideBar.toggle) {
         state.mainSideBar.width = 80;

@@ -1,43 +1,202 @@
-import React from 'react'
+import React, { useContext, useReducer, useState } from 'react'
 import { useDetectOutsideClick } from '../../../../utilities/customHooks/useDetectOutsideClick';
+import { TableContext } from '../../tableComponents/TableComponents';
 
-export default function TableUtilityViews({ table }) {
-    // Create a ref that we add to the element for which we want to detect outside clicks
-    const hiddenFields = React.useRef();
-    // Call hook passing in the ref and a function to call on outside click
-    const [isHiddenToggle, setIsHiddenToggle] = React.useState(false);
+export default function TableUtilityViews() {
+	const { viewsToggle, setViewsToggle } = useContext(TableContext);
 
-    useDetectOutsideClick(hiddenFields, () => setIsHiddenToggle(false));
-
-    return (
-        <div
-            ref={hiddenFields}
-            className='flex items-center bg-[#03001C] rounded-md text-white p-1 px-2 text-lg hover:bg-opacity-50 cursor-pointer relative '
-        >
-            <div
-                className='flex items-center'
-                onClick={() => {
-                    setIsHiddenToggle(!isHiddenToggle);
-                }}
-            >
-                <span className='material-symbols-rounded text-lg pr-1'>menu</span>
-                Views
-            </div>
-            {isHiddenToggle && <HideFields table={table} />}
-        </div>
-    );
+	return (
+		<div
+			className='flex items-center hover:bg-black hover:bg-opacity-10 rounded-md text-[#4d4d4d] p-0.5 px-2 text-lg cursor-pointer relative '
+		>
+			<div
+				className='flex items-center font-medium'
+				onClick={() => {
+					setViewsToggle(!viewsToggle);
+				}}
+			>
+				<span className='material-symbols-rounded pr-1 text-lg'>menu</span>
+				Views
+			</div>
+		</div>
+	);
 }
 
-const HideFields = ({ table }) => {
-    return (
-        <div className='absolute top-[2.90rem] -left-2 z-50 bg-[#03001C] w-[300px]  p-2 rounded-md h-[calc(100vh_-_3.5rem)] overflow-y-scroll'>
-            <label className='flex items-center text-base gap-4 cursor-pointer p-1 hover:bg-[#2f2a40] rounded-sm pl-2'>
-                <div>Personal Views</div>
-            </label>
-            <label className='flex items-center text-base gap-4 cursor-pointer p-1 hover:bg-[#2f2a40] rounded-sm pl-2'>
-                <div>Others Views</div>
-            </label>
-        </div>
-    );
+export const ViewsComponent = () => {
+	const initialState = {
+		myView: {
+			title: 'My Views', collapsed: false, data: [
+				{
+					title: "My Favorites", collapsed: false, data: [
+						{ title: "Forms", data: [] },
+						{ title: "Forms another", data: [] },
+					]
+				},
+				{
+					title: 'My Personal Views', collapsed: false, data: [
+						{ title: "other Forms", data: [] },
+						{ title: "Driver dsaD Sds Ds sD  dsAD", data: [] },
+					]
+				},
+			]
+		},
+		allViews: {
+			title: 'All Views', collapsed: true, data: [
+				{
+					title: 'collaborative', collapsed: true, data: [
+						{ title: "Sleeper", data: [] },
+						{ title: "Host", data: [] },
+					]
+				},
+				{
+					title: 'Personal Views', collapsed: true, data: [
+						{ title: "other Forms", data: [] },
+						{ title: "Driver dsaD Sds Ds sD  dsAD", data: [] },
+					]
+				},
+			],
+		},
+	}
+	function reducer(state, { type, targetState, title }) {
+		switch (type) {
+			case 'toggleView':
+				return {
+					...state, [targetState]: {
+						collapsed: !state?.[targetState]?.collapsed, title: state?.[targetState]?.title, data: state?.[targetState]?.data
+					}
+				};
+			case 'toggleViewChild':
+				return {
+					...state, [targetState]: {
+						collapsed: state?.[targetState]?.collapsed, title: state?.[targetState]?.title, data: state?.[targetState]?.data.map((item) => {
+							if (item.title === title) {
+								item.collapsed = !item.collapsed;
+							}
+							return item
+						})
+					}
+				};
+			default:
+				throw new Error();
+		}
+	}
+	const [views, viewsDispatch] = useReducer(reducer, initialState);
+	const [createToggle, setCreateToggle] = useState(false)
+
+	return (
+		<div className='text-black bg-white h-full overflow-y-scroll overflow-x-visible border-[#c8c8c8] border-r-[1px] p-2 pr-0  flex flex-col justify-between select-none transition-all'>
+			<div>
+				<div className="flex items-center relative mb-4">
+					<span className="material-symbols-rounded absolute text-[20px] ml-4 text-[rgb(68, 68, 68)]  font-extralight ">
+						search
+					</span>
+					<input type="text" className=" focus:outline-none focus:border-blue-500 border-[#e8e8e8] mx-2 border-b transition-colors w-full p-2 px-4 pl-10 placeholder:text-[rgb(68, 68, 68)]" placeholder="Find a view" />
+				</div>
+				<div>
+					{
+						Object.keys(views).map((viewName, index) => {
+							return (
+								<div key={viewName}>
+									<div className='flex justify-between items-center p-2 rounded cursor-pointer hover:bg-slate-100' onClick={() => viewsDispatch({ type: 'toggleView', targetState: viewName })}>
+										<div className='font-medium text-lg'>{views?.[viewName].title}</div>
+										<div className='flex items-center gap-1'>
+											{/* <span className="material-symbols-rounded font-extralight  cursor-pointer rounded hover:bg-slate-300">add</span> */}
+											<span className="material-symbols-rounded font-extralight">{views?.[viewName].collapsed ? "expand_more" : 'expand_less'}</span>
+										</div>
+									</div>
+									{
+										views?.[viewName]?.collapsed && (
+											views?.[viewName]?.data?.map((item, i) => {
+												return (
+													<div key={i}>
+														<div className='flex items-center p-2 rounded cursor-pointer hover:bg-slate-100' onClick={() => viewsDispatch({ type: 'toggleViewChild', targetState: viewName, title: item.title })}>
+															<span className="material-symbols-rounded font-extralight">{item.collapsed ? 'expand_more' : "chevron_right"}</span>
+															<div className='font-medium text-base truncate'>{item.title}</div>
+														</div>
+														{item.collapsed && item.data?.map((ele, i) => {
+															return (
+																<div key={i} className='flex items-center justify-between p-2 rounded cursor-pointer hover:bg-slate-100' >
+																	<div className='font-medium ml-7 text-base truncate'>{ele.title}</div>
+
+																	<TableViewsPopUpMenuToolkit />
+																</div>
+															)
+														}
+														)}
+
+													</div>
+												)
+											}
+											)
+										)
+									}
+									{index < Object.keys(views).length - 1 && <div className='h-[1px] w-full bg-[#e8e8e8] px-2 my-2 ' />}
+								</div>
+							)
+						})
+					}
+				</div>
+			</div>
+
+			<div className='border-t-[1px] border-[#e8e8e8] pt-2 mx-2 '>
+				<div className="flex justify-between p-2 cursor-pointer" onClick={() => setCreateToggle(!createToggle)}>
+					<div className="text-xl  font-medium">
+						Create...
+					</div>
+					<span className="material-symbols-rounded font-extralight">
+						{
+							createToggle ? "expand_more" : "expand_less"
+						}
+					</span>
+				</div>
+				{
+					createToggle && (
+						<div className='p-2'>
+							{
+								[...new Array(1)].map((item, i) => {
+									return (
+										<div key={i} className='flex justify-between items-center p-2 rounded-md hover:bg-[#f4f4f4] cursor-pointer'>
+											<div className='flex items-center gap-2'>
+												<span className="material-symbols-rounded font-extralight">
+													table_view
+												</span>
+												<div>
+													Grid
+												</div>
+											</div>
+											<span className="material-symbols-rounded font-extralight">
+												add
+											</span>
+										</div>
+									)
+								})
+							}
+						</div>
+					)
+				}
+			</div>
+		</div >
+	);
 };
 
+
+
+
+function TableViewsPopUpMenuToolkit() {
+	const [showMenu, setShowMenu] = useState(false);
+	// useDetectOutsideClick()
+	return (
+		<div className='relative'>
+			<span className="material-symbols-rounded font-extralight text-base mx-1" onClick={() => setShowMenu(!showMenu)}>expand_circle_down</span>
+			{showMenu && (
+				<div className="absolute  w-48 top-6 -right- bg-white p-4  z-50 shadow-lg border-gray-200 rounded border">
+					<ul>
+						<li>Menu Item 1</li>
+						<li>Menu Item 2</li>
+						<li>Menu Item 3</li>
+					</ul>
+				</div>
+			)}
+		</div>
+	);
+}

@@ -18,7 +18,7 @@ export default function TableVirtualRows({ tableContainerRef, rows }) {
       : 0;
 
   return (
-    <div className='tbody text-white'>
+    <div className='tbody text-black'>
       {paddingTop > 0 && <div style={{ height: `${paddingTop}px` }}></div>}
       {virtualRows.map((virtualRow) => {
         const row = rows[virtualRow.index];

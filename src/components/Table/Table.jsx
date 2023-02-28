@@ -40,22 +40,22 @@ export default function Table({ tableData }) {
   const [tableDataModified, setTableDataModified] = React.useState(tableData.map(({ data }) => {
     const object = {}
     dataKeys.map((key) => {
-      object[key] = data?.[key] || "N/A"
+      object[key] = data?.[key]
     })
     return object
   })
   );
 
-  if (isFetching) {
-    return <Loading />
-  }
+  // if (isFetching) {
+  //   return <Loading />
+  // }
 
-  if (error) {
-    return <Error />
-  }
+  // if (error) {
+  //   return <Error />
+  // }
 
 
-  console.log(data)
+  // console.log(data)
 
 
 

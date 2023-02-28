@@ -20,12 +20,12 @@ export default function Sidebar() {
     { title: "Master", icons: "contacts", gap: true, to: "/master" },
     {
       title: "Operation", icons: "contacts", gap: true, to: "/operation", subMenu: [
-        { title: "Claims", icons: "", to: "/operation/claims" },
-        { title: "Examination/Tickets", icons: "", to: "/operation/examination-tickets" },
-        { title: "Recruitment - DH Team", icons: "", to: "/operation/recruitment" },
-        { title: "SMS Violation Summary - Shivani", icons: "", to: "/operation/sms-violation-summary" },
-        { title: "SMS Inspections - Shivani", icons: "", to: "/operation/sms-inspections" },
-        { title: "Court Claims", icons: "", to: "/operation/court-claims" },
+        { title: "Claims", to: "/operation/claims" },
+        { title: "Examination/Tickets", to: "/operation/examination-tickets" },
+        { title: "Recruitment - DH Team", to: "/operation/recruitment" },
+        { title: "SMS Violation Summary - Shivani", to: "/operation/sms-violation-summary" },
+        { title: "SMS Inspections - Shivani", to: "/operation/sms-inspections" },
+        { title: "Court Claims", to: "/operation/court-claims" },
       ]
     },
     { title: "Trailers", icons: "calendar_month", to: "/trailers" },
@@ -34,9 +34,17 @@ export default function Sidebar() {
     {
       title: "Repairs", icons: "tools_wrench", to: "/repairs",
       subMenu: [
-        { title: "Preventative Maintenance", icons: "", to: "/repairs/preventative-maintenance" },
-        { title: "Work Queue - Kent Yard", icons: "", to: "/repairs/work-queue-kent-yard" },
-        { title: "Preventative Maintenance", icons: "", to: "/repairs/inventory" },
+        { title: "Preventative Maintenance", to: "/repairs/preventative-maintenance" },
+        { title: "Work Queue - Kent Yard", to: "/repairs/work-queue-kent-yard" },
+        { title: "Preventative Maintenance", to: "/repairs/inventory" },
+
+      ]
+    },
+    {
+      title: "Payroll", icons: "tools_wrench", to: "/payrolls",
+      subMenu: [
+        { title: "Drivers", to: "/payrolls/drivers-payroll" },
+        { title: "Company", to: "/payrolls/company-payroll" },
 
       ]
     },

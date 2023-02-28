@@ -44,7 +44,13 @@ export const alphaTruckingApi = createApi({
     }),
     GetSavedView: builder.query({
       query: () => ({
-        url: 'API/V1//getsavedviewmodel',
+        url: 'API/V1/getsavedviewmodel',
+        method: 'POST',
+      }),
+    }),
+    GetClaims: builder.query({
+      query: () => ({
+        url: 'API/V1/getclaimsdata',
         method: 'POST',
       }),
     }),
@@ -59,6 +65,7 @@ export const alphaTruckingApi = createApi({
 });
 
 export const {
+  useGetClaimsQuery,
   useGetLoadQuery,
   useGetTrucksQuery,
   useGetDriversQuery,
