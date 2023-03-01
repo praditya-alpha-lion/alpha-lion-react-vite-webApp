@@ -26,6 +26,8 @@ export default function Sidebar() {
         { title: "SMS Violation Summary - Shivani", to: "/operation/sms-violation-summary" },
         { title: "SMS Inspections - Shivani", to: "/operation/sms-inspections" },
         { title: "Court Claims", to: "/operation/court-claims" },
+        { title: "Driver Hiring Form", to: "/operation/driver-hiring-form" },
+        { title: "Carriers", to: "/operation/carriers" },
       ]
     },
     { title: "Trailers", icons: "calendar_month", to: "/trailers" },
@@ -72,7 +74,7 @@ export default function Sidebar() {
   ]);
 
   return (
-    <div className={`sidebar_container scrollbar-hidden ${toggle ? "closed" : "opened"} `}>
+    <div className={`sidebar_container scrollbar-hidden select-none ${toggle ? "closed" : "opened"} `}>
       <div
         className='navLink menu'
         onClick={() => dispatch(handleToggleMainSideBar())}>

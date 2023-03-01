@@ -66,6 +66,18 @@ export const alphaTruckingApi = createApi({
         method: 'POST',
       }),
     }),
+    GetDriverHiringFormData: builder.query({
+      query: () => ({
+        url: 'API/V1/getDriverHiringFormData',
+        method: 'POST',
+      }),
+    }),
+    GetCarriersData: builder.query({
+      query: () => ({
+        url: 'API/V1/getCarriersData',
+        method: 'POST',
+      }),
+    }),
     PostViews: builder.mutation({
       query: (payload) => ({
         url: 'API/V1/changesaved',
@@ -79,6 +91,8 @@ export const alphaTruckingApi = createApi({
 export const {
   useGetRecruitmentDHTeamDataQuery,
   useGetCourtClaimDataQuery,
+  useGetDriverHiringFormDataQuery,
+  useGetCarriersDataQuery,
   useGetClaimsQuery,
   useGetLoadQuery,
   useGetTrucksQuery,

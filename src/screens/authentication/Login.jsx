@@ -21,45 +21,12 @@ export default function Login() {
     formState: { errors },
   } = useForm();
 
-  //   email: "pradtiya@alphalionlogistics.com",
-  //   password: "12345",
-
   // redirect authenticated user to profile screen
   useEffect(() => {
     if (userInfo) {
       navigate('/');
     }
   }, [navigate, userInfo]);
-
-  // const onSubmit = async (data) => {
-  //   let myHeaders = new Headers();
-  //   myHeaders.append("Content-Type", "application/json");
-
-  //   let raw = JSON.stringify({
-  //     email: data.userId,
-  //     password: data.password,
-  // email: "pradtiya@alphalionlogistics.com",
-  // password: "12345",
-  //   });
-
-  //   let requestOptions = {
-  //     method: "POST",
-  //     headers: myHeaders,
-  //     body: raw,
-  //     redirect: "follow",
-  //   };
-
-  //   const isLogin = await fetch(
-  //     "http://192.168.1.30/API/V1/weblogin",
-  //     requestOptions
-  //   );
-
-  //   let isLoginIn = await isLogin.json();
-  //   if (isLoginIn.message !== "Incorrect") {
-  //     // dispatch(handleUserLogin(isLoginIn));
-  //     navigate("/dashboard");
-  //   }
-  // }; // your form submit function which will invoke after successful validation
 
   if (loading) {
     return (

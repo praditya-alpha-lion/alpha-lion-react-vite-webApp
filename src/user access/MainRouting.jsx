@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router";
+import { useSelector } from "react-redux";
 import Login from "../screens/authentication/Login";
 import ProtectedRoute from "../screens/authentication/ProtectedRoute";
 import Dashboard from "../screens/dashboard/Dashboard";
@@ -14,7 +15,6 @@ import About from "../screens/about/About";
 import Trailers from "../screens/trailers/Trailers";
 import Chats from "../components/chats/Chats";
 import PageNotFound from "../screens/PageNotFound";
-import { useSelector } from "react-redux";
 import Operation from "../screens/operation/Operation";
 import Claims from "../screens/operation/Claims";
 import ExaminationTickets from "../screens/operation/ExaminationTickets";
@@ -29,6 +29,8 @@ import WorkQueueKentYard from "../screens/repairs/WorkQueueKentYard";
 import DriversPayroll from '../screens/payrolls/DriversPayroll'
 import CompanyPayroll from '../screens/payrolls/CompanyPayroll'
 import Payrolls from "../screens/payrolls/Payrolls";
+import DriverHiringForm from "../screens/operation/DriverHiringForm";
+import Carriers from "../screens/operation/Carriers";
 
 export default function MainRouting() {
   const { userInfo } = useSelector((state) => state.auth)
@@ -54,6 +56,8 @@ export default function MainRouting() {
         <Route path='/operation/sms-violation-summary' element={<SmsViolationSummary />} />
         <Route path='/operation/sms-inspections' element={<SmsInspections />} />
         <Route path='/operation/court-claims' element={<CourtClaims />} />
+        <Route path='/operation/driver-hiring-form' element={<DriverHiringForm />} />
+        <Route path='/operation/carriers' element={<Carriers />} />
 
         <Route path='/repairs' element={<Repairs />} />
         <Route path='/repairs/preventative-maintenance' element={<PreventativeMaintenance />} />

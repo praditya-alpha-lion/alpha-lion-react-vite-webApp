@@ -1,6 +1,7 @@
 import React, { useContext, useReducer, useState } from 'react'
 import { useDetectOutsideClick } from '../../../../utilities/customHooks/useDetectOutsideClick';
 import { TableContext } from '../../tableComponents/TableComponents';
+import { useForm } from 'react-hook-form';
 
 export default function TableUtilityViews() {
 	const { viewsToggle, setViewsToggle } = useContext(TableContext);
@@ -24,26 +25,26 @@ export default function TableUtilityViews() {
 
 export const ViewsComponent = () => {
 	const initialState = {
-		myView: {
-			title: 'My Views', collapsed: false, data: [
-				{
-					title: "My Favorites", collapsed: false, data: [
-						{ title: "Forms", data: [] },
-						{ title: "Forms another", data: [] },
-					]
-				},
-				{
-					title: 'My Personal Views', collapsed: false, data: [
-						{ title: "other Forms", data: [] },
-						{ title: "Driver dsaD Sds Ds sD  dsAD", data: [] },
-					]
-				},
-			]
-		},
+		// myView: {
+		// 	title: 'My Views', collapsed: false, data: [
+		// 		// {
+		// 		// 	title: "My Favorites", collapsed: false, data: [
+		// 		// 		{ title: "Forms", data: [] },
+		// 		// 		{ title: "Forms another", data: [] },
+		// 		// 	]
+		// 		// },
+		// 		{
+		// 			title: 'My Personal Views', collapsed: false, data: [
+		// 				{ title: "other Forms", data: [] },
+		// 				{ title: "Driver dsaD Sds Ds sD  dsAD", data: [] },
+		// 			]
+		// 		},
+		// 	]
+		// },
 		allViews: {
 			title: 'All Views', collapsed: true, data: [
 				{
-					title: 'collaborative', collapsed: true, data: [
+					title: 'Others Views', collapsed: true, data: [
 						{ title: "Sleeper", data: [] },
 						{ title: "Host", data: [] },
 					]
@@ -185,7 +186,7 @@ function TableViewsPopUpMenuToolkit() {
 	useDetectOutsideClick(viewsMenu, () => setIsMenuToggle(false));
 	return (
 		<div ref={viewsMenu} className='relative'>
-			<span className="material-symbols-rounded font-extralight text-base mx-1 " onClick={() => setIsMenuToggle(!isMenuToggle)}>add</span>
+			<span className="material-symbols-rounded font-extralight text-base mx-1" onClick={() => setIsMenuToggle(!isMenuToggle)}>expand_circle_down</span>
 			{isMenuToggle && (
 				<div className="absolute w-72 top-6 -right- bg-white p-2  z-50 shadow-lg border-gray-200 rounded border ">
 					<div className='flex items-center p-2 rounded cursor-pointer hover:bg-slate-100'>
@@ -210,26 +211,32 @@ function TableViewsAddToolkit() {
 	// Create a ref that we add to the element for which we want to detect outside clicks
 	const viewsMenu = React.useRef();
 	// Call hook passing in the ref and a function to call on outside click
-	const [isMenuToggle, setIsMenuToggle] = React.useState(false);
-
+	const [isMenuToggle, setIsMenuToggle] = React.useState(true);
 	useDetectOutsideClick(viewsMenu, () => setIsMenuToggle(false));
+	const {
+		register,
+		handleSubmit,
+		watch,
+		formState: { errors },
+	} = useForm();
+
+	const submitForm = (data) => {
+		console.log(data)
+	};
+
 	return (
-		<div ref={viewsMenu} className='relative'>
+		<div ref={viewsMenu} className='relative flex items-center'>
 			<span className="material-symbols-rounded font-extralight " onClick={() => setIsMenuToggle(!isMenuToggle)}>add</span>
 			{isMenuToggle && (
-				<div className="absolute w-72 bottom-6  bg-white p-2  z-50 shadow-lg border-gray-200 rounded border ">
-					<div className='flex items-center p-2 rounded cursor-pointer hover:bg-slate-100'>
-						<span className="material-symbols-rounded font-extralight">edit</span>
-						<div className='font-medium text-base truncate ml-2'>Rename</div>
-					</div>
-					<div className='flex items-center p-2 rounded cursor-pointer hover:bg-slate-100'>
-						<span className="material-symbols-rounded font-extralight">content_copy</span>
-						<div className='font-medium text-base truncate ml-2'>Duplicate View</div>
-					</div>
-					<div className='flex items-center p-2 rounded cursor-pointer hover:bg-slate-100'>
-						<span className="material-symbols-rounded font-extralight">delete</span>
-						<div className='font-medium text-base truncate ml-2'>Delete View</div>
-					</div>
+				<div className="absolute w-96 -bottom-4 left-16 bg-white p-4 z-50 shadow-lg border-gray-200 rounded border ">
+					<form onSubmit={handleSubmit(submitForm)}>
+						<input required {...register('addView')} type="text" className='w-full mb-1 border border-black rounded p-2 py-1' />
+						<label className='text-sm text-red-500'>Try entering a non-empty view name.</label>
+						<div className='flex justify-end gap-2 mt-8'>
+							<button className='rounded hover:bg-gray-200 p-1 px-3 text-lg'>Cancel</button>
+							<button className='rounded bg-blue-600 p-1 px-3 text-white text-lg disabled:bg-blue-300' disabled={false} >Create New View</button>
+						</div>
+					</form>
 				</div>
 			)}
 		</div>
