@@ -57,7 +57,7 @@ body,
   height: 100%;
   width: 1.5px;
   background: rgba(255, 255, 255, 0.5);
-  cursor: col-resize;
+  cursor: ew-resize;
   user-select: none;
   touch-action: none;
 }
@@ -126,6 +126,7 @@ body,
   overflow-wrap: break-word;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  word-break: break-all;
 }
 
 .webkitLineClamp1 {
