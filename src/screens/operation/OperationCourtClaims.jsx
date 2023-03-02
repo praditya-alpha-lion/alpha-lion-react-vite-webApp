@@ -4,7 +4,7 @@ import Error from "../../components/utilities/Error"
 import Table from '../../components/Table/Table';
 import { useGetCourtClaimDataQuery } from '../../store/services/alphaTruckingApi';
 
-export default function CourtClaims() {
+export default function OperationCourtClaims() {
     const { data, error, isFetching } = useGetCourtClaimDataQuery()
 
     if (isFetching) {

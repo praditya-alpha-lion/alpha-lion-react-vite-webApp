@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function SmsViolationSummary() {
+export default function OperationSmsViolationSummary() {
     return (
         <div>
             SmsViolationSummary

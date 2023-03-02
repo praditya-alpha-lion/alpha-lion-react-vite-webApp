@@ -1,6 +1,6 @@
 import React, { useContext, useReducer, useState } from 'react'
-import { useDetectOutsideClick } from '../../../../utilities/customHooks/useDetectOutsideClick';
-import { TableContext } from '../../tableComponents/TableComponents';
+import { useDetectOutsideClick } from '../src/utilities/customHooks/useDetectOutsideClick';
+import { TableContext } from '../src/components/Table/tableComponents/TableComponents';
 import { useForm } from 'react-hook-form';
 
 export default function TableUtilityViews() {
@@ -221,10 +221,8 @@ function TableViewsAddToolkit() {
 	} = useForm();
 
 	const submitForm = (data) => {
-		console.log(data, formState)
+		console.log(data)
 	};
-
-	console.log(watch)
 
 	return (
 		<div ref={viewsMenu} className='relative flex items-center'>
@@ -235,7 +233,7 @@ function TableViewsAddToolkit() {
 						<input required {...register('addView')} type="text" className='w-full mb-1 border border-black rounded p-2 py-1' />
 						<label className='text-sm text-red-500'>Try entering a non-empty view name.</label>
 						<div className='flex justify-end gap-2 mt-8'>
-							<button className='rounded hover:bg-gray-200 p-1 px-3 text-lg' onClick={() => setIsMenuToggle(!isMenuToggle)}>Cancel</button>
+							<button className='rounded hover:bg-gray-200 p-1 px-3 text-lg'>Cancel</button>
 							<button className='rounded bg-blue-600 p-1 px-3 text-white text-lg disabled:bg-blue-300' disabled={false} >Create New View</button>
 						</div>
 					</form>

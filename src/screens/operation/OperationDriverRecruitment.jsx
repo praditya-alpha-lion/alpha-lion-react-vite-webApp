@@ -1,12 +1,11 @@
 import React from 'react'
-import { useGetCarriersDataQuery } from '../../store/services/alphaTruckingApi';
+import { useGetRecruitmentDHTeamDataQuery } from '../../store/services/alphaTruckingApi'
 import Loading from "../../components/utilities/Loading"
 import Error from "../../components/utilities/Error"
 import Table from '../../components/Table/Table';
 
-export default function Carriers() {
-    const { data, error, isFetching } = useGetCarriersDataQuery()
-
+export default function OperationDriverRecruitment() {
+    const { data, error, isFetching } = useGetRecruitmentDHTeamDataQuery()
     if (isFetching) {
         return <Loading />;
     }

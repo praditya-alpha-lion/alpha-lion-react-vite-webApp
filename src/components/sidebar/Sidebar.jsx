@@ -19,24 +19,55 @@ export default function Sidebar() {
     { title: "Scheduler ", icons: "edit_calendar", to: "/schedule" },
     { title: "Master", icons: "contacts", gap: true, to: "/master" },
     {
+      title: "Dispatch", icons: "contacts", gap: true, to: "/dispatch", subMenu: [
+        { title: "Drivers", to: "/dispatch/drivers" },
+        { title: "Trucks", to: "/dispatch/trucks" },
+        { title: "Trailers", to: "/dispatch/trailers" },
+        { title: "Master", to: "/dispatch/master" },
+      ]
+    },
+    {
+      title: "USPS", icons: "contacts", gap: true, to: "/usps", subMenu: [
+        { title: "schedule", to: "/usps/schedule" },
+        { title: "dispatch", to: "/usps/dispatch" },
+      ]
+    },
+    {
+      title: "sales", icons: "contacts", gap: true, to: "/sales", subMenu: [
+        { title: "brokers", to: "/sales/brokers" },
+        { title: "current shippers", to: "/sales/current-shippers" },
+        { title: "customers", to: "/sales/customers" },
+        { title: "sales template", to: "/sales/sales-template" },
+      ]
+    },
+    {
       title: "Operation", icons: "contacts", gap: true, to: "/operation", subMenu: [
         { title: "Claims", to: "/operation/claims" },
         { title: "Examination/Tickets", to: "/operation/examination-tickets" },
-        { title: "Recruitment - DH Team", to: "/operation/recruitment" },
+        { title: "Recruitment - DH Team", to: "/operation/driver-recruitment" },
         { title: "SMS Violation Summary - Shivani", to: "/operation/sms-violation-summary" },
         { title: "SMS Inspections - Shivani", to: "/operation/sms-inspections" },
         { title: "Court Claims", to: "/operation/court-claims" },
         { title: "Driver Hiring Form", to: "/operation/driver-hiring-form" },
         { title: "Carriers", to: "/operation/carriers" },
+        { title: "Loss Runs", to: "/operation/loss-runs" },
+        { title: "assets", to: "/operation/assets" },
+        { title: "insurance claims", to: "/operation/insurance-claims" },
+        { title: "recordable accidents", to: "/operation/recordable-accidents" },
+        { title: "insurance adjuster", to: "/operation/insurance-adjuster" },
+        { title: "insurance company", to: "/operation/insurance-company" },
+        { title: "driver hiring instruction", to: "/operation/driver-hiring-instruction" },
+        { title: "social media", to: "/operation/social-media" },
       ]
     },
-    { title: "Trailers", icons: "calendar_month", to: "/trailers" },
-    { title: "Trucks", icons: "local_shipping", to: "/trucks" },
     //here we are adding repairs.
     {
       title: "Repairs", icons: "tools_wrench", to: "/repairs",
       subMenu: [
-        { title: "Preventative Maintenance", to: "/repairs/preventative-maintenance" },
+        {
+          title: "Preventative Maintenance", to: "/repairs/preventative-maintenance", subMenu: [
+            { title: "Preventative Maintenance", to: "/repairs/preventative-maintenance" },]
+        },
         { title: "Work Queue - Kent Yard", to: "/repairs/work-queue-kent-yard" },
         { title: "Preventative Maintenance", to: "/repairs/inventory" },
 
@@ -50,6 +81,18 @@ export default function Sidebar() {
 
       ]
     },
+    {
+      title: "audit", icons: "tools_wrench", to: "/audit",
+      subMenu: [
+        { title: "california", to: "/audit/california" },
+        { title: "FMSCA", to: "/audit/fmsca" },
+        { title: "oregon", to: "/audit/oregon" },
+        { title: "washington", to: "/audit/washington" },
+
+      ]
+    },
+    { title: "Trailers", icons: "calendar_month", to: "/trailers" },
+    { title: "Trucks", icons: "local_shipping", to: "/trucks" },
     { title: "Drivers", icons: "airline_seat_recline_extra", to: "/drivers" },
     {
       title: "Customers",
@@ -65,6 +108,11 @@ export default function Sidebar() {
       title: "Brokers",
       icons: "diversity_3",
       to: "/brokers",
+    },
+    {
+      title: "IFTA",
+      icons: "diversity_3",
+      to: "/ifta",
     },
     {
       title: "About",
@@ -119,7 +167,7 @@ export default function Sidebar() {
                         className={({ isActive }) =>
                           isActive ? "navLink active" : "navLink"
                         }>
-                        <span className={`title truncate `}>{menu.title}</span>
+                        <span className={`title truncate capitalize `}>{menu.title}</span>
                       </NavLink>
                     </li>
                   ))}
@@ -136,7 +184,7 @@ export default function Sidebar() {
                         className={({ isActive }) =>
                           isActive ? "navLink active" : "navLink"
                         }>
-                        <span className={`title truncate`}>{menu.title}</span>
+                        <span className={`title truncate capitalize`}>{menu.title}</span>
                       </NavLink>
                     </li>
                   ))}

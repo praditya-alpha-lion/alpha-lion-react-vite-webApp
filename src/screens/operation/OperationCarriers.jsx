@@ -1,11 +1,11 @@
 import React from 'react'
-import { useGetClaimsQuery } from '../../store/services/alphaTruckingApi';
+import { useGetCarriersDataQuery } from '../../store/services/alphaTruckingApi';
 import Loading from "../../components/utilities/Loading"
 import Error from "../../components/utilities/Error"
 import Table from '../../components/Table/Table';
 
-export default function Claims() {
-    const { data, error, isFetching } = useGetClaimsQuery()
+export default function OperationCarriers() {
+    const { data, error, isFetching } = useGetCarriersDataQuery()
 
     if (isFetching) {
         return <Loading />;

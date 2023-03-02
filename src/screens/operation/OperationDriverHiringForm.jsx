@@ -4,7 +4,7 @@ import Loading from "../../components/utilities/Loading"
 import Error from "../../components/utilities/Error"
 import Table from '../../components/Table/Table';
 
-export default function DriverHiringForm() {
+export default function OperationDriverHiringForm() {
     const { data, error, isFetching } = useGetDriverHiringFormDataQuery()
 
     if (isFetching) {

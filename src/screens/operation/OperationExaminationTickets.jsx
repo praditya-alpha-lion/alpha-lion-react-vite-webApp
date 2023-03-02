@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function ExaminationTickets() {
+export default function OperationExaminationTickets() {
     return (
         <div>
             ExaminationTickets

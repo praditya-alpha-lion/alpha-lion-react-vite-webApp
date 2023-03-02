@@ -1,11 +1,12 @@
 import React from 'react'
-import { useGetRecruitmentDHTeamDataQuery } from '../../store/services/alphaTruckingApi'
+import { useGetClaimsQuery } from '../../store/services/alphaTruckingApi';
 import Loading from "../../components/utilities/Loading"
 import Error from "../../components/utilities/Error"
 import Table from '../../components/Table/Table';
 
-export default function Recruitment() {
-    const { data, error, isFetching } = useGetRecruitmentDHTeamDataQuery()
+export default function OperationClaims() {
+    const { data, error, isFetching } = useGetClaimsQuery()
+
     if (isFetching) {
         return <Loading />;
     }

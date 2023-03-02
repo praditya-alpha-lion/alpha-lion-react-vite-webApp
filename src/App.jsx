@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 function App() {
   const { userInfo } = useSelector((state) => state.auth)
   return (
-    <div className='app'>
+    <div className='app text-white'>
       {userInfo && <Sidebar />}
       <MainRouting />
     </div>
