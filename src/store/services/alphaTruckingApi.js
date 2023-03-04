@@ -11,6 +11,7 @@ export const alphaTruckingApi = createApi({
       if (token) {
         // include token in req header
         headers.set('authorization', `Bearer ${token}`);
+        // headers.set('method', 'POST');
         return headers;
       }
     },
@@ -21,7 +22,6 @@ export const alphaTruckingApi = createApi({
       query: () => ({
         url: '/API/V1/getload',
         method: 'POST',
-        Authorization: `Bearer`,
       }),
     }),
     GetTrucks: builder.query({
@@ -81,8 +81,82 @@ export const alphaTruckingApi = createApi({
     PostViews: builder.mutation({
       query: (payload) => ({
         url: 'API/V1/changesaved',
-        method: 'POST',
+
         body: { model: payload },
+        method: 'POST',
+      }),
+    }),
+    // OPERATIONS API
+    GetDriverRecruitmentData: builder.query({
+      query: () => ({
+        url: 'API/V1/getDriverRecruitmentData',
+        method: 'POST',
+      }),
+    }),
+    GetSocialMedia: builder.query({
+      query: () => ({
+        url: 'API/V1/getSocialMedia',
+        method: 'POST',
+      }),
+    }),
+    GetDriverHiringInstructions: builder.query({
+      query: () => ({
+        url: 'API/V1/getDriverHiringInstructions',
+        method: 'POST',
+      }),
+    }),
+    GetSmsViolationSummary: builder.query({
+      query: () => ({
+        url: 'API/V1/getSmsViolationSummary',
+        method: 'POST',
+      }),
+    }),
+    GetExaminationTickets: builder.query({
+      query: () => ({
+        url: 'API/V1/getExaminationTickets',
+        method: 'POST',
+      }),
+    }),
+    GetInsuranceCompany: builder.query({
+      query: () => ({
+        url: 'API/V1/getInsuranceCompany',
+        method: 'POST',
+      }),
+    }),
+    GetInsuranceAdjuster: builder.query({
+      query: () => ({
+        url: 'API/V1/getInsuranceAdjuster',
+        method: 'POST',
+      }),
+    }),
+    GetInsuranceClaims: builder.query({
+      query: () => ({
+        url: 'API/V1/getInsuranceClaims',
+        method: 'POST',
+      }),
+    }),
+    GetRecordableAccidents: builder.query({
+      query: () => ({
+        url: 'API/V1/getRecordableAccidents',
+        method: 'POST',
+      }),
+    }),
+    GetAssets: builder.query({
+      query: () => ({
+        url: 'API/V1/getAssets',
+        method: 'POST',
+      }),
+    }),
+    GetLossRuns: builder.query({
+      query: () => ({
+        url: 'API/V1/getLossRuns',
+        method: 'POST',
+      }),
+    }),
+    GetCarriers: builder.query({
+      query: () => ({
+        url: 'API/V1/getCarriers',
+        method: 'POST',
       }),
     }),
   }),
@@ -90,14 +164,25 @@ export const alphaTruckingApi = createApi({
 
 export const {
   useGetRecruitmentDHTeamDataQuery,
+  useGetSmsViolationSummaryQuery,
+  useGetDriverHiringInstructionsQuery,
   useGetCourtClaimDataQuery,
   useGetDriverHiringFormDataQuery,
   useGetCarriersDataQuery,
+  useGetCarriersQuery,
   useGetClaimsQuery,
   useGetLoadQuery,
+  useGetAssetsQuery,
+  useGetLossRunsQuery,
+  useGetRecordableAccidentsQuery,
+  useGetInsuranceClaimsQuery,
+  useGetInsuranceAdjusterQuery,
+  useGetInsuranceCompanyQuery,
+  useGetExaminationTicketsQuery,
   useGetTrucksQuery,
   useGetDriversQuery,
   useGetTrailersQuery,
   useGetSavedViewQuery,
+  useGetSocialMediaQuery,
   usePostViewsMutation,
 } = alphaTruckingApi;

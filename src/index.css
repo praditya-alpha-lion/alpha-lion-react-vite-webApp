@@ -76,6 +76,36 @@ body,
     opacity: 1;
   }
 }
+.resizerHeader {
+  position: absolute;
+  right: 0px;
+  top: 10%;
+  height: 80%;
+  width: 2.5px;
+  border-radius: 2px;
+  background: blue;
+  cursor: ew-resize;
+  user-select: none;
+  touch-action: none;
+}
+
+.resizerHeader.isResizingHeader {
+  background: blue;
+  opacity: 1;
+}
+
+@media (hover: hover) {
+  .resizerHeader {
+    opacity: 0;
+  }
+  .resizerHeader:hover {
+    opacity: 1;
+  }
+
+  /* *:hover > .resizerHeader {
+    opacity: 1;
+  } */
+}
 /* ************** table resizer code end **************** */
 
 .tr:hover {

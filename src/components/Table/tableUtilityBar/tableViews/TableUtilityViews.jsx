@@ -2,6 +2,7 @@ import React, { useContext, useReducer, useState } from 'react'
 import { useDetectOutsideClick } from '../../../../utilities/customHooks/useDetectOutsideClick';
 import { TableContext } from '../../tableComponents/TableComponents';
 import { useForm } from 'react-hook-form';
+import UniqueCharacterGenerator from '../../../../utilities/UniqueCharacterGenerator';
 
 export default function TableUtilityViews() {
 	const { viewsToggle, setViewsToggle } = useContext(TableContext);
@@ -45,20 +46,21 @@ export const ViewsComponent = () => {
 			title: 'All Views', collapsed: true, data: [
 				{
 					title: 'Others Views', collapsed: true, data: [
-						{ title: "Sleeper", data: [] },
-						{ title: "Host", data: [] },
+						{ title: "Sleeper", data: [], id: 1 },
+						{ title: "Host", data: [], id: 2 },
 					]
 				},
 				{
 					title: 'Personal Views', collapsed: true, data: [
-						{ title: "other Forms", data: [] },
-						{ title: "Driver dsaD Sds Ds sD  dsAD", data: [] },
+						{ title: "other Forms", data: [], id: 3 },
+						{ title: "Driver dsaD Sds Ds sD  dsAD", data: [], id: 4 },
+						{ title: "view 2", data: [], id: 5 },
 					]
 				},
 			],
 		},
 	}
-	function reducer(state, { type, targetState, title }) {
+	function reducer(state, { type, targetState, title, viewTitle, id }) {
 		switch (type) {
 			case 'toggleView':
 				return {
@@ -77,13 +79,53 @@ export const ViewsComponent = () => {
 						})
 					}
 				};
+			case 'addView':
+				return {
+					...state, [targetState]: {
+						collapsed: state?.[targetState]?.collapsed, title: state?.[targetState]?.title, data: state?.[targetState]?.data.map((item) => {
+							if (item.title === title) {
+								item.data.push({ title: viewTitle, data: [], id: UniqueCharacterGenerator(8) })
+							}
+							return item
+						})
+					}
+				};
+			case 'removeView':
+				return {
+					...state, [targetState]: {
+						collapsed: state?.[targetState]?.collapsed, title: state?.[targetState]?.title, data: state?.[targetState]?.data.map((element) => {
+							element.data = element.data?.filter((item) => {
+								console.log(id)
+								return item.id !== id
+							})
+							return element
+						})
+					}
+				};
+			case 'copyView':
+				return {
+					...state, [targetState]: {
+						collapsed: state?.[targetState]?.collapsed, title: state?.[targetState]?.title, data: state?.[targetState]?.data.map((element) => {
+							let data = element?.data?.map((item) => {
+								if (item.id === id) {
+									item.title = item.title + 'copy'
+									item.id = UniqueCharacterGenerator(8)
+								}
+								return item
+							})
+							console.log(data)
+							// element.data += data;
+							return element
+						})
+					}
+				};
 			default:
 				throw new Error();
 		}
 	}
 	const [views, viewsDispatch] = useReducer(reducer, initialState);
 	const [createToggle, setCreateToggle] = useState(true)
-
+	// console.log(views)
 	return (
 		<div className='text-black bg-white h-full  border-[#c8c8c8] border-r-[1px] p-2 flex flex-col justify-between select-none transition-all'>
 			<div>
@@ -118,7 +160,7 @@ export const ViewsComponent = () => {
 															return (
 																<div key={i} className='flex items-center justify-between p-2 rounded cursor-pointer hover:bg-slate-100' >
 																	<div className='font-medium ml-7 text-base truncate'>{ele.title}</div>
-																	<TableViewsPopUpMenuToolkit />
+																	<TableViewsPopUpMenuToolkit viewsDispatch={viewsDispatch} title={ele.title} viewName={viewName} id={ele.id} />
 																</div>
 															)
 														}
@@ -155,7 +197,7 @@ export const ViewsComponent = () => {
 							{
 								[...new Array(1)].map((item, i) => {
 									return (
-										<div key={i} className='flex justify-between items-center p-2 rounded-md hover:bg-[#f4f4f4] cursor-pointer'>
+										<div key={i} className='flex justify-between items-center p-2 rounded-md  cursor-pointer'>
 											<div className='flex items-center gap-2'>
 												<span className="material-symbols-rounded font-extralight">
 													table_view
@@ -164,7 +206,7 @@ export const ViewsComponent = () => {
 													Grid
 												</div>
 											</div>
-											<TableViewsAddToolkit />
+											<TableViewsAddToolkit viewsDispatch={viewsDispatch} views={views} />
 										</div>
 									)
 								})
@@ -177,7 +219,7 @@ export const ViewsComponent = () => {
 	);
 };
 
-function TableViewsPopUpMenuToolkit() {
+function TableViewsPopUpMenuToolkit({ viewsDispatch, title, viewName, id }) {
 	// Create a ref that we add to the element for which we want to detect outside clicks
 	const viewsMenu = React.useRef();
 	// Call hook passing in the ref and a function to call on outside click
@@ -193,11 +235,11 @@ function TableViewsPopUpMenuToolkit() {
 						<span className="material-symbols-rounded font-extralight">edit</span>
 						<div className='font-medium text-base truncate ml-2'>Rename</div>
 					</div>
-					<div className='flex items-center p-2 rounded cursor-pointer hover:bg-slate-100'>
+					<div className='flex items-center p-2 rounded cursor-pointer hover:bg-slate-100' onClick={() => { setIsMenuToggle(!isMenuToggle); viewsDispatch({ type: 'copyView', targetState: viewName, id: id, viewTitle: title }) }}>
 						<span className="material-symbols-rounded font-extralight">content_copy</span>
 						<div className='font-medium text-base truncate ml-2'>Duplicate View</div>
 					</div>
-					<div className='flex items-center p-2 rounded cursor-pointer hover:bg-slate-100'>
+					<div className='flex items-center p-2 rounded cursor-pointer hover:bg-slate-100' onClick={() => { setIsMenuToggle(!isMenuToggle); viewsDispatch({ type: 'removeView', targetState: viewName, id: id, viewTitle: title }) }}>
 						<span className="material-symbols-rounded font-extralight">delete</span>
 						<div className='font-medium text-base truncate ml-2'>Delete View</div>
 					</div>
@@ -207,36 +249,63 @@ function TableViewsPopUpMenuToolkit() {
 	);
 }
 
-function TableViewsAddToolkit() {
+function TableViewsAddToolkit({ viewsDispatch, views }) {
 	// Create a ref that we add to the element for which we want to detect outside clicks
 	const viewsMenu = React.useRef();
 	// Call hook passing in the ref and a function to call on outside click
-	const [isMenuToggle, setIsMenuToggle] = React.useState(true);
+	const [isMenuToggle, setIsMenuToggle] = React.useState(false);
 	useDetectOutsideClick(viewsMenu, () => setIsMenuToggle(false));
 	const {
-		register,
-		handleSubmit,
-		watch,
-		formState: { errors },
-	} = useForm();
+		register, handleSubmit, watch, getValues, setValue, setError, clearErrors, formState: { errors }
+	} = useForm({
+		defaultValues: {
+			addView: `View ${views?.allViews?.data[1]?.data.length - 1}`,
+		}
+	});
+
+	// watch: UseFormWatch < TFieldValues >;
+	// getValues: UseFormGetValues < TFieldValues >;
+	// getFieldState: UseFormGetFieldState < TFieldValues >;
+	// setError: UseFormSetError < TFieldValues >;
+	// clearErrors: UseFormClearErrors < TFieldValues >;
+	// setValue: UseFormSetValue < TFieldValues >;
+	// trigger: UseFormTrigger < TFieldValues >;
+	// formState: FormState < TFieldValues >;
+	// resetField: UseFormResetField < TFieldValues >;
+	// reset: UseFormReset < TFieldValues >;
+	// handleSubmit: UseFormHandleSubmit < TFieldValues >;
+	// unregister: UseFormUnregister < TFieldValues >;
+	// control: Control < TFieldValues, TContext >;
+	// register: UseFormRegister < TFieldValues >;
+	// setFocus: UseFormSetFocus < TFieldValues >;
 
 	const submitForm = (data) => {
-		console.log(data, formState)
-	};
-
-	console.log(watch)
-
+		views.allViews.data[1].data.map(({ title }) => {
+			if (title === data.addView) {
+				console.log("object")
+				setError("addView", { type: "manual", message: "unique name required" });
+			}
+		})
+		if (!errors.addView) {
+			viewsDispatch({ type: 'addView', targetState: 'allViews', title: 'Personal Views', viewTitle: data.addView })
+			setIsMenuToggle(!isMenuToggle)
+			setValue('addView', `View ${views.allViews.data[1].data.length}`)
+		}
+	}
 	return (
 		<div ref={viewsMenu} className='relative flex items-center'>
-			<span className="material-symbols-rounded font-extralight " onClick={() => setIsMenuToggle(!isMenuToggle)}>add</span>
+			<span className="material-symbols-rounded font-extralight hover:bg-[#f4f4f4]" onClick={() => setIsMenuToggle(!isMenuToggle)}>add</span>
 			{isMenuToggle && (
 				<div className="absolute w-96 -bottom-4 left-16 bg-white p-4 z-50 shadow-lg border-gray-200 rounded border ">
 					<form onSubmit={handleSubmit(submitForm)}>
-						<input required {...register('addView')} type="text" className='w-full mb-1 border border-black rounded p-2 py-1' />
-						<label className='text-sm text-red-500'>Try entering a non-empty view name.</label>
+						<input {...register('addView', { required: true })} type="text" className='w-full mb-1 border border-black rounded p-2 py-1' placeholder='Enter View Name' />
+						<div className='h-5'>
+							{errors?.addView?.type === 'required' && <label className='text-sm text-red-500'>Try entering a non-empty view name.</label>}
+							{errors?.addView?.message === 'unique name required' && <label className='text-sm text-red-500'>Try entering a different view name.</label>}
+						</div>
 						<div className='flex justify-end gap-2 mt-8'>
 							<button className='rounded hover:bg-gray-200 p-1 px-3 text-lg' onClick={() => setIsMenuToggle(!isMenuToggle)}>Cancel</button>
-							<button className='rounded bg-blue-600 p-1 px-3 text-white text-lg disabled:bg-blue-300' disabled={false} >Create New View</button>
+							<button className='rounded bg-blue-600 p-1 px-3 text-white text-lg disabled:bg-blue-300' disabled={errors.addView ? true : false} type={'submit'} >Create New View</button>
 						</div>
 					</form>
 				</div>

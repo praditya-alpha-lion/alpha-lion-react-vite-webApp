@@ -123,7 +123,7 @@ export default function MainRouting() {
     { path: '/trailer', component: <Trailers /> },
     { path: '/trucks', component: <Trucks /> },
     { path: '/drivers', component: <Drivers /> },
-    { path: '/customer', component: <Customer /> },
+    { path: '/customers', component: <Customer /> },
     { path: '/company', component: <Company /> },
     { path: '/brokers', component: <Brokers /> },
     { path: '/about', component: <About /> },

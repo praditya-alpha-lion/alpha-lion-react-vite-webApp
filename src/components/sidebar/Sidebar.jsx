@@ -17,9 +17,9 @@ export default function Sidebar() {
     },
     { title: "Chat", icons: "chat", to: "/chats" },
     { title: "Scheduler ", icons: "edit_calendar", to: "/schedule" },
-    { title: "Master", icons: "contacts", gap: true, to: "/master" },
+    { title: "Master", icons: "contacts", to: "/master" },
     {
-      title: "Dispatch", icons: "contacts", gap: true, to: "/dispatch", subMenu: [
+      title: "Dispatch", icons: "contacts", to: "/dispatch", subMenu: [
         { title: "Drivers", to: "/dispatch/drivers" },
         { title: "Trucks", to: "/dispatch/trucks" },
         { title: "Trailers", to: "/dispatch/trailers" },
@@ -27,13 +27,13 @@ export default function Sidebar() {
       ]
     },
     {
-      title: "USPS", icons: "contacts", gap: true, to: "/usps", subMenu: [
+      title: "USPS", icons: "contacts", to: "/usps", subMenu: [
         { title: "schedule", to: "/usps/schedule" },
         { title: "dispatch", to: "/usps/dispatch" },
       ]
     },
     {
-      title: "sales", icons: "contacts", gap: true, to: "/sales", subMenu: [
+      title: "sales", icons: "contacts", to: "/sales", subMenu: [
         { title: "brokers", to: "/sales/brokers" },
         { title: "current shippers", to: "/sales/current-shippers" },
         { title: "customers", to: "/sales/customers" },
@@ -41,8 +41,15 @@ export default function Sidebar() {
       ]
     },
     {
-      title: "Operation", icons: "contacts", gap: true, to: "/operation", subMenu: [
-        { title: "Claims", to: "/operation/claims" },
+      title: "Operation", icons: "contacts", to: "/operation", subMenu: [
+        {
+          title: "Claims", to: "/operation/claims", subMenu: [
+            { title: "insurance adjuster", to: "/operation/insurance-adjuster" },
+            { title: "insurance company", to: "/operation/insurance-company" },
+            { title: "insurance claims", to: "/operation/insurance-claims" },
+
+          ]
+        },
         { title: "Examination/Tickets", to: "/operation/examination-tickets" },
         { title: "Recruitment - DH Team", to: "/operation/driver-recruitment" },
         { title: "SMS Violation Summary - Shivani", to: "/operation/sms-violation-summary" },
@@ -52,10 +59,7 @@ export default function Sidebar() {
         { title: "Carriers", to: "/operation/carriers" },
         { title: "Loss Runs", to: "/operation/loss-runs" },
         { title: "assets", to: "/operation/assets" },
-        { title: "insurance claims", to: "/operation/insurance-claims" },
         { title: "recordable accidents", to: "/operation/recordable-accidents" },
-        { title: "insurance adjuster", to: "/operation/insurance-adjuster" },
-        { title: "insurance company", to: "/operation/insurance-company" },
         { title: "driver hiring instruction", to: "/operation/driver-hiring-instruction" },
         { title: "social media", to: "/operation/social-media" },
       ]
@@ -64,12 +68,9 @@ export default function Sidebar() {
     {
       title: "Repairs", icons: "tools_wrench", to: "/repairs",
       subMenu: [
-        {
-          title: "Preventative Maintenance", to: "/repairs/preventative-maintenance", subMenu: [
-            { title: "Preventative Maintenance", to: "/repairs/preventative-maintenance" },]
-        },
+        { title: "Preventative Maintenance", to: "/repairs/preventative-maintenance", },
         { title: "Work Queue - Kent Yard", to: "/repairs/work-queue-kent-yard" },
-        { title: "Preventative Maintenance", to: "/repairs/inventory" },
+        { title: "Inventory", to: "/repairs/inventory" },
 
       ]
     },
@@ -77,7 +78,7 @@ export default function Sidebar() {
       title: "Payroll", icons: "tools_wrench", to: "/payrolls",
       subMenu: [
         { title: "Drivers", to: "/payrolls/drivers-payroll" },
-        { title: "Company", to: "/payrolls/company-payroll" },
+        { title: "Employee", to: "/payrolls/company-payroll" },
 
       ]
     },
@@ -139,7 +140,7 @@ export default function Sidebar() {
           return (
             <li className='menu_item' key={i}>
               <NavLink
-                to={menu.to && menu.to}
+                to={menu?.to && menu.to}
                 className={({ isActive }) =>
                   isActive ? "navLink active" : "navLink"
                 }
@@ -152,56 +153,105 @@ export default function Sidebar() {
                 </div>
                 {menu.subMenu && (
                   <span
-                    className={`material-symbols-rounded arrow ${menu.isOpened && "rotate_arrow"
-                      }`}>
+                    className={`material-symbols-rounded arrow ${menu.isOpened && "rotate_arrow"}`}>
                     arrow_right
                   </span>
                 )}
               </NavLink>
               {menu.isOpened && (
                 <ul>
-                  {menu.subMenu.map((menu, index) => (
-                    <li key={index} className='submenu_item max-w-[170px]'>
-                      <NavLink
-                        to={menu.to}
-                        className={({ isActive }) =>
-                          isActive ? "navLink active" : "navLink"
-                        }>
-                        <span className={`title truncate capitalize `}>{menu.title}</span>
-                      </NavLink>
-                    </li>
-                  ))}
+                  {menu.subMenu.map((menu, index) => {
+                    return (
+                      <div key={menu.to} className={`${menu?.subMenu && menu.isOpened ? "bg-[#13142b] rounded-lg ml-8" : menu?.subMenu && 'ml-8'}`}>
+                        {menu?.subMenu ? <NavLink
+                          to={menu?.to && menu.to}
+                          className={({ isActive }) =>
+                            isActive ? "navLink mt-3 " : "navLink mt-3"
+                          }
+                          onClick={() => {
+                            if (menu.subMenu) toggleMenu(setMenus, menu, 1);
+                          }}>
+                          <div>
+                            <span className='material-symbols-rounded'>{menu.icons}</span>
+                            <span className={`title`}>{menu.title}</span>
+                          </div>
+                          {menu.subMenu && (
+                            <span
+                              className={`material-symbols-rounded arrow ${menu.isOpened && "rotate_arrow"}`}>
+                              arrow_right
+                            </span>
+                          )}
+                        </NavLink>
+                          : <li key={index} className='submenu_item max-w-[170px]'>
+                            <NavLink
+                              to={menu.to}
+                              className={({ isActive }) =>
+                                isActive ? "navLink active" : "navLink"
+                              }>
+                              <span className={`title truncate capitalize `}>{menu.title}</span>
+                            </NavLink>
+                          </li>
+                        }
+                        {
+                          menu.isOpened && menu.subMenu.map((subMenu) => {
+                            return (
+                              <li key={subMenu.to} className='submenu_item max-w-[170px]' style={{ marginLeft: 0 }}>
+                                <NavLink
+                                  to={subMenu.to}
+                                  className={({ isActive }) =>
+                                    isActive ? "navLink active" : "navLink"
+                                  }>
+                                  <span className={`title truncate capitalize `}>{subMenu.title}</span>
+                                </NavLink>
+                              </li>
+                            )
+                          })
+                        }
+                      </div>
+                    )
+                  })}
                 </ul>
-              )}
+              )
+              }
 
               {/* this is for displaying the menu list on hover in the closed drawer */}
-              {menu.subMenu && toggle && (
-                <ul className='toggle_closed'>
-                  {menu.subMenu.map((menu, index) => (
-                    <li key={index} className='submenu_item'>
-                      <NavLink
-                        to={menu.to}
-                        className={({ isActive }) =>
-                          isActive ? "navLink active" : "navLink"
-                        }>
-                        <span className={`title truncate capitalize`}>{menu.title}</span>
-                      </NavLink>
-                    </li>
-                  ))}
-                </ul>
-              )}
+              {
+                menu.subMenu && toggle && (
+                  <ul className='toggle_closed'>
+                    {menu.subMenu.map((menu, index) => (
+                      <li key={index} className='submenu_item'>
+                        <NavLink
+                          to={menu.to}
+                          className={({ isActive }) =>
+                            isActive ? "navLink active" : "navLink"
+                          }>
+                          <span className={`title truncate capitalize`}>{menu.title}</span>
+                        </NavLink>
+                      </li>
+                    ))}
+                  </ul>
+                )
+              }
             </li>
           );
         })}
       </ul>
-    </div>
+    </div >
   );
 }
-function toggleMenu(setMenus, menu) {
+
+function toggleMenu(setMenus, menu, depth) {
   setMenus((prev) => {
-    return prev.map((prevMenu, i) => {
-      if (menu.title === prevMenu.title) {
+    return prev.map((prevMenu) => {
+      if (menu.to === prevMenu.to) {
         prevMenu.isOpened = !prevMenu.isOpened;
+      }
+      if (depth === 1 && prevMenu.subMenu) {
+        prevMenu.subMenu.map((item) => {
+          if (menu.to === item.to) {
+            item.isOpened = !item.isOpened;
+          }
+        })
       }
       return prevMenu;
     });

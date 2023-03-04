@@ -1,9 +1,16 @@
 import React from 'react'
+import { useGetRecordableAccidentsQuery } from '../../store/services/alphaTruckingApi'
+import Loading from "../../components/utilities/Loading"
+import Error from "../../components/utilities/Error"
+import Table from '../../components/Table/Table';
 
 export default function OperationRecordableAccidents() {
-    return (
-        <div>
-            OperationRecordableAccidents
-        </div>
-    )
+    const { data, error, isFetching } = useGetRecordableAccidentsQuery()
+    if (isFetching) {
+        return <Loading />;
+    }
+    if (error) {
+        return <Error error={error} />;
+    }
+    return <Table tableData={data} />
 }

@@ -32,7 +32,7 @@ const DraggableColumnHeader = ({ header, table, index }) => {
 
   return (
     <div
-      className={`th ${index === 0 && 'fixed-column'}`}
+      className={`th bg-[#f5f5f5] ${index === 0 && 'fixed-column'}`}
       {...{
         key: header.id,
         style: {
@@ -57,7 +57,7 @@ const DraggableColumnHeader = ({ header, table, index }) => {
         {...{
           onMouseDown: header.getResizeHandler(),
           onTouchStart: header.getResizeHandler(),
-          className: `resizer ${header.column.getIsResizing() ? 'isResizing' : ''
+          className: `resizerHeader ${header.column.getIsResizing() ? 'isResizingHeader' : ''
             }`,
         }}
       />

@@ -15,7 +15,7 @@ export default function Trailers() {
     return <Error error={error} />;
   }
 
-  console.log(data)
+  // console.log(data)
 
   return <Table tableData={data} />
 }
