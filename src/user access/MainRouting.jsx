@@ -27,8 +27,8 @@ import Repairs from "../screens/repairs/Repairs";
 import PreventativeMaintenance from "../screens/repairs/PreventativeMaintenance";
 import Inventory from "../screens/repairs/Inventory";
 import WorkQueueKentYard from "../screens/repairs/WorkQueueKentYard";
-import DriversPayroll from '../screens/payrolls/DriversPayroll'
-import CompanyPayroll from '../screens/payrolls/CompanyPayroll'
+import DriversPayroll from "../screens/payrolls/DriversPayroll";
+import CompanyPayroll from "../screens/payrolls/CompanyPayroll";
 import Payrolls from "../screens/payrolls/Payrolls";
 import OperationDriverHiringForm from "../screens/operation/OperationDriverHiringForm";
 import OperationCarriers from "../screens/operation/OperationCarriers";
@@ -65,85 +65,114 @@ import AuditOregon from "../screens/audit/AuditOregon";
 import AuditWashington from "../screens/audit/AuditWashington";
 
 export default function MainRouting() {
-  const { userInfo } = useSelector((state) => state.auth)
+  const { userInfo } = useSelector((state) => state.auth);
 
   const routes = [
-    { path: '/dispatch', component: <Dispatch /> },
-    { path: '/dispatch/drivers', component: <DispatchDrivers /> },
-    { path: '/dispatch/master', component: <DispatchMaster /> },
-    { path: '/dispatch/trailers', component: <DispatchTrailers /> },
-    { path: '/dispatch/trucks', component: <DispatchTrucks /> },
+    { path: "/dispatch", component: <Dispatch /> },
+    { path: "/dispatch/drivers", component: <DispatchDrivers /> },
+    { path: "/dispatch/master", component: <DispatchMaster /> },
+    { path: "/dispatch/trailers", component: <DispatchTrailers /> },
+    { path: "/dispatch/trucks", component: <DispatchTrucks /> },
 
-    { path: '/usps', component: <USPS /> },
-    { path: '/usps/dispatch', component: <USPSDispatch /> },
-    { path: '/usps/schedule', component: <USPSSchedule /> },
+    { path: "/usps", component: <USPS /> },
+    { path: "/usps/dispatch", component: <USPSDispatch /> },
+    { path: "/usps/schedule", component: <USPSSchedule /> },
 
-    { path: '/sales', component: <Sales /> },
-    { path: '/sales/brokers', component: <SalesBrokers /> },
-    { path: '/sales/current-shippers', component: <SalesCurrentShippers /> },
-    { path: '/sales/customers', component: <SalesCustomers /> },
-    { path: '/sales/sales-template', component: <SalesTemplate /> },
+    { path: "/sales", component: <Sales /> },
+    { path: "/sales/brokers", component: <SalesBrokers /> },
+    { path: "/sales/current-shippers", component: <SalesCurrentShippers /> },
+    { path: "/sales/customers", component: <SalesCustomers /> },
+    { path: "/sales/sales-template", component: <SalesTemplate /> },
 
-    { path: '/operation', component: <Operation /> },
-    { path: '/operation/claims', component: <OperationClaims /> },
-    { path: '/operation/examination-tickets', component: <OperationExaminationTickets /> },
-    { path: '/operation/driver-recruitment', component: <OperationDriverRecruitment /> },
-    { path: '/operation/sms-violation-summary', component: <OperationSmsViolationSummary /> },
-    { path: '/operation/sms-inspections', component: <OperationSmsInspections /> },
-    { path: '/operation/court-claims', component: <OperationCourtClaims /> },
-    { path: '/operation/driver-hiring-form', component: <OperationDriverHiringForm /> },
-    { path: '/operation/carriers', component: <OperationCarriers /> },
-    { path: '/operation/loss-runs', component: <OperationLossRuns /> },
-    { path: '/operation/assets', component: <OperationAssets /> },
-    { path: '/operation/insurance-claims', component: <OperationInsuranceClaims /> },
-    { path: '/operation/recordable-accidents', component: <OperationRecordableAccidents /> },
-    { path: '/operation/insurance-adjuster', component: <OperationInsuranceAdjuster /> },
-    { path: '/operation/insurance-company', component: <OperationInsuranceCompany /> },
-    { path: '/operation/driver-hiring-instruction', component: <OperationDriverHiringInstructions /> },
-    { path: '/operation/social-media', component: <OperationSocialMedia /> },
+    { path: "/operation", component: <Operation /> },
+    { path: "/operation/claims", component: <OperationClaims /> },
+    {
+      path: "/operation/examination-tickets",
+      component: <OperationExaminationTickets />,
+    },
+    {
+      path: "/operation/driver-recruitment",
+      component: <OperationDriverRecruitment />,
+    },
+    {
+      path: "/operation/sms-violation-summary",
+      component: <OperationSmsViolationSummary />,
+    },
+    {
+      path: "/operation/sms-inspections",
+      component: <OperationSmsInspections />,
+    },
+    { path: "/operation/court-claims", component: <OperationCourtClaims /> },
+    {
+      path: "/operation/driver-hiring-form",
+      component: <OperationDriverHiringForm />,
+    },
+    { path: "/operation/carriers", component: <OperationCarriers /> },
+    { path: "/operation/loss-runs", component: <OperationLossRuns /> },
+    { path: "/operation/assets", component: <OperationAssets /> },
+    {
+      path: "/operation/insurance-claims",
+      component: <OperationInsuranceClaims />,
+    },
+    {
+      path: "/operation/recordable-accidents",
+      component: <OperationRecordableAccidents />,
+    },
+    {
+      path: "/operation/insurance-adjuster",
+      component: <OperationInsuranceAdjuster />,
+    },
+    {
+      path: "/operation/insurance-company",
+      component: <OperationInsuranceCompany />,
+    },
+    {
+      path: "/operation/driver-hiring-instruction",
+      component: <OperationDriverHiringInstructions />,
+    },
+    { path: "/operation/social-media", component: <OperationSocialMedia /> },
 
-    { path: '/repairs', component: <Repairs /> },
-    { path: '/repairs/preventative-maintenance', component: <PreventativeMaintenance /> },
-    { path: '/repairs/work-queue-kent-yard', component: <WorkQueueKentYard /> },
-    { path: '/repairs/inventory', component: <Inventory /> },
+    { path: "/repairs", component: <Repairs /> },
+    {
+      path: "/repairs/preventative-maintenance",
+      component: <PreventativeMaintenance />,
+    },
+    { path: "/repairs/work-queue-kent-yard", component: <WorkQueueKentYard /> },
+    { path: "/repairs/inventory", component: <Inventory /> },
 
-    { path: '/payrolls', component: <Payrolls /> },
-    { path: '/payrolls/drivers-payroll', component: <DriversPayroll /> },
-    { path: '/payrolls/company-payroll', component: <CompanyPayroll /> },
+    { path: "/payrolls", component: <Payrolls /> },
+    { path: "/payrolls/drivers-payroll", component: <DriversPayroll /> },
+    { path: "/payrolls/company-payroll", component: <CompanyPayroll /> },
 
-    { path: '/audit', component: <Audit /> },
-    { path: '/audit/california', component: <AuditCalifornia /> },
-    { path: '/audit/fmsca', component: <AuditDOT_FMSCA /> },
-    { path: '/audit/oregon', component: <AuditOregon /> },
-    { path: '/audit/washington', component: <AuditWashington /> },
+    { path: "/audit", component: <Audit /> },
+    { path: "/audit/california", component: <AuditCalifornia /> },
+    { path: "/audit/fmsca", component: <AuditDOT_FMSCA /> },
+    { path: "/audit/oregon", component: <AuditOregon /> },
+    { path: "/audit/washington", component: <AuditWashington /> },
 
-    { path: '/chats', component: <Chats /> },
-    { path: '/schedule', component: <Schedule /> },
-    { path: '/master', component: <Master /> },
-    { path: '/trailer', component: <Trailers /> },
-    { path: '/trucks', component: <Trucks /> },
-    { path: '/drivers', component: <Drivers /> },
-    { path: '/customers', component: <Customer /> },
-    { path: '/company', component: <Company /> },
-    { path: '/brokers', component: <Brokers /> },
-    { path: '/about', component: <About /> },
-    { path: '/dispatch', component: <About /> },
-    { path: '/ifta', component: <IFTA /> },
-
-  ]
-
+    { path: "/chats", component: <Chats /> },
+    { path: "/schedule", component: <Schedule /> },
+    { path: "/master", component: <Master /> },
+    { path: "/trailers", component: <Trailers /> },
+    { path: "/trucks", component: <Trucks /> },
+    { path: "/drivers", component: <Drivers /> },
+    { path: "/customers", component: <Customer /> },
+    { path: "/company", component: <Company /> },
+    { path: "/brokers", component: <Brokers /> },
+    { path: "/about", component: <About /> },
+    { path: "/dispatch", component: <About /> },
+    { path: "/ifta", component: <IFTA /> },
+  ];
 
   return (
     <Routes>
-      <Route path='/' element={userInfo ? <Dashboard /> : <Login />} />
+      <Route path="/" element={userInfo ? <Dashboard /> : <Login />} />
       <Route element={<ProtectedRoute />}>
-        {
-          routes.map(({ path, component }, index) => {
-            return <Route key={index} path={path} element={component} />
-          })
-        }
+        {routes.map(({ path, component }, index) => {
+          return <Route key={index} path={path} element={component} />;
+        })}
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
-  )
+  );
 }

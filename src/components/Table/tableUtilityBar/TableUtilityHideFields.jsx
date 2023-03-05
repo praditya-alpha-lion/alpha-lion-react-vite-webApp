@@ -1,6 +1,6 @@
-import React from 'react';
-import { useDetectOutsideClick } from '../../../utilities/customHooks/useDetectOutsideClick';
-import Switch from '../../utilities/Switch';
+import React from "react";
+import { useDetectOutsideClick } from "../../../utilities/customHooks/useDetectOutsideClick";
+import Switch from "../../utilities/Switch";
 
 export default function TableUtilityHideFields({ table }) {
   // Create a ref that we add to the element for which we want to detect outside clicks
@@ -13,15 +13,15 @@ export default function TableUtilityHideFields({ table }) {
   return (
     <div
       ref={hiddenFields}
-      className='flex items-center hover:bg-black hover:bg-opacity-10 rounded-md text-[#4d4d4d] p-0.5 px-2 text-lg  cursor-pointer relative '
+      className="flex items-center hover:bg-black hover:bg-opacity-10 rounded-md text-[#4d4d4d] p-0.5 px-2 text-lg  cursor-pointer relative "
     >
       <div
-        className='flex items-center font-medium'
+        className="flex items-center font-medium"
         onClick={() => {
           setIsHiddenToggle(!isHiddenToggle);
         }}
       >
-        <span className='material-symbols-rounded text-lg pr-1'>
+        <span className="material-symbols-rounded text-lg pr-1">
           visibility_off
         </span>
         Hide Fields
@@ -33,13 +33,13 @@ export default function TableUtilityHideFields({ table }) {
 
 const HideFields = ({ table }) => {
   return (
-    <div className='absolute top-10 left-0 z-50 bg-white w-[300px]  p-2 rounded-md max-h-96 overflow-y-scroll border-[#c8c8c8] border-2'>
-      <label className='flex items-center text-base gap-4 cursor-pointer p-1 hover:bg-black hover:bg-opacity-10 rounded-sm pl-2'>
+    <div className="absolute top-10 left-0 z-50 bg-white w-[300px]  p-2 rounded-md max-h-96 overflow-y-scroll border-[#c8c8c8] border-2">
+      <label className="flex items-center text-base gap-4 cursor-pointer p-1 hover:bg-black hover:bg-opacity-10 rounded-sm pl-2">
         <Switch
           isOn={table.getIsAllColumnsVisible()}
-          onColor='#1ec933'
+          onColor="#1ec933"
           handleToggle={table.getToggleAllColumnsVisibilityHandler()}
-          size='small'
+          size="small"
         />
         <div>Toggle All</div>
       </label>
@@ -48,15 +48,15 @@ const HideFields = ({ table }) => {
         return (
           <label
             key={i}
-            className='flex items-center text-base gap-4 p-1 hover:bg-black hover:bg-opacity-10 rounded-sm pl-2 cursor-pointer w-full'
+            className="flex items-center text-base gap-4 p-1 hover:bg-black hover:bg-opacity-10 rounded-sm pl-2 cursor-pointer w-full"
           >
             <Switch
               isOn={column.getIsVisible()}
-              onColor='#1ec933'
-              size='small'
+              onColor="#1ec933"
+              size="small"
               handleToggle={column.getToggleVisibilityHandler()}
             />
-            <div className='capitalize truncate'>{column.id}</div>
+            <div className="capitalize truncate">{column.id}</div>
           </label>
         );
       })}
