@@ -13,10 +13,10 @@ export default function TableUtilitySort({ table }) {
   return (
     <div
       ref={sortRef}
-      className="flex items-center hover:bg-black hover:bg-opacity-10 rounded-md text-[#4d4d4d] p-0.5 px-2 text-lg cursor-pointer relative "
+      className={`flex items-center hover:bg-black hover:bg-opacity-10 rounded-md text-[#4d4d4d] p-0.5 px-2 text-lg cursor-pointer relative  ${table?.options?.state?.sorting?.length !== 0 && 'bg-[#e1d5f9]'}`}
     >
       <div
-        className="flex items-center font-medium"
+        className={`flex items-center font-medium `}
         onClick={() => setSortToggle(!sortToggle)}
       >
         <span className="material-symbols-rounded text-lg pr-1">swap_vert</span>

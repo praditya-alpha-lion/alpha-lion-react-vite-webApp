@@ -13,7 +13,7 @@ export default function TableUtilityGrouping({ table }) {
   return (
     <div
       ref={groupingRef}
-      className="flex items-center hover:bg-black hover:bg-opacity-10 rounded-md text-[#4d4d4d] p-0.5 px-2 text-lg cursor-pointer relative  max-h-96"
+      className={`flex items-center hover:bg-black hover:bg-opacity-10 rounded-md text-[#4d4d4d] p-0.5 px-2 text-lg cursor-pointer relative  max-h-96 ${table?.options?.state?.grouping?.length !== 0 && 'bg-[#e1d5f9]'}`}
     >
       <div
         className="flex items-center font-medium"

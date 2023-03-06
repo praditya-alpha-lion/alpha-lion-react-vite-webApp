@@ -24,7 +24,6 @@ export default function OperationAssets() {
             modal.baseId.push(element.id)
         }
     }
-    console.log(modal)
 
     return <Table tableData={data} />
 }

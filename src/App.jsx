@@ -4,7 +4,6 @@ import MainRouting from "./user access/MainRouting";
 import { useSelector } from 'react-redux'
 function App() {
   const { userInfo } = useSelector((state) => state.auth)
-  console.log("app started")
   return (
     <div className='app text-white'>
       {userInfo && <Sidebar />}

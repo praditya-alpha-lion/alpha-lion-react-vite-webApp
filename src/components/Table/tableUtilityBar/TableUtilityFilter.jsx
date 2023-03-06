@@ -52,10 +52,12 @@ export default function TableUtilityFilter({ table }) {
     table.setColumnFilters(updatedFilters);
   }, [filterConditions]);
 
+  // console.log(object)
+
   return (
     <div
       ref={filterRef}
-      className="flex items-center hover:bg-black hover:bg-opacity-10 rounded-md text-[#4d4d4d] p-0.5 px-2 text-lg cursor-pointer relative "
+      className={`flex items-center hover:bg-black hover:bg-opacity-10 rounded-md text-[#4d4d4d] p-0.5 px-2 text-lg cursor-pointer relative ${filterConditions.length !== 0 && 'bg-[#e1d5f9]'}`}
     >
       <div
         className="flex items-center font-medium"

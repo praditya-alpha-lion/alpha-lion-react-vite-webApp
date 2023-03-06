@@ -95,7 +95,6 @@ export const ViewsComponent = () => {
 					...state, [targetState]: {
 						collapsed: state?.[targetState]?.collapsed, title: state?.[targetState]?.title, data: state?.[targetState]?.data.map((element) => {
 							element.data = element.data?.filter((item) => {
-								console.log(id)
 								return item.id !== id
 							})
 							return element
@@ -113,7 +112,6 @@ export const ViewsComponent = () => {
 								}
 								return item
 							})
-							console.log(data)
 							// element.data += data;
 							return element
 						})
@@ -282,7 +280,6 @@ function TableViewsAddToolkit({ viewsDispatch, views }) {
 	const submitForm = (data) => {
 		views.allViews.data[1].data.map(({ title }) => {
 			if (title === data.addView) {
-				console.log("object")
 				setError("addView", { type: "manual", message: "unique name required" });
 			}
 		})
