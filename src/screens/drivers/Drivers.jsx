@@ -11,7 +11,7 @@ export default function Drivers() {
   // let { data, error, isFetching } = useGetDriversQuery();
   let data = getAllDrivers;
   // if (isFetching) {
-  return <Loading />;
+  // return <Loading />;
   // }
   // if (error) {
   //   return <Error error={error} />;
