@@ -22,7 +22,7 @@ export default function TableComponents({
   tableConditions
 }) {
   const [columns] = useState(() => [...defaultColumns]);
-  const [globalFilter, setGlobalFilter] = useState(tableConditions?.model?.globalFilter || []);
+  const [globalFilter, setGlobalFilter] = useState(tableConditions?.model?.globalFilter || '');
   const [columnFilters, setColumnFilters] = useState([]);
   const [sorting, setSorting] = useState([]);
   const [rowHeight, setRowHeight] = useState([

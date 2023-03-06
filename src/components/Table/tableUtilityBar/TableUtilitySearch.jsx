@@ -3,36 +3,7 @@ import { TableContext } from "../tableComponents/TableComponents";
 export default function TableUtilitySearching() {
   const [isOpen, setIsOpen] = useState(false)
   const { globalFilter, setGlobalFilter } = useContext(TableContext);
-  // A debounced input react component
-  function DebouncedInput({
-    value: initialValue,
-    onChange,
-    debounce = 500,
-    ...props
-  }) {
-    const [value, setValue] = useState(initialValue);
 
-    useEffect(() => {
-      setValue(initialValue);
-    }, [initialValue]);
-
-    useEffect(() => {
-      const timeout = setTimeout(() => {
-        onChange(value);
-      }, debounce);
-
-      return () => clearTimeout(timeout);
-    }, [value]);
-
-    return (
-      <input
-        {...props}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-      />
-    );
-  }
-  // console.log(isOpen)
   return (
     <div className='relative flex items-center'>
       <span onClick={() => toggleIsOpen(isOpen, setIsOpen)} className={`material-symbols-rounded font-light cursor-pointer text-[#7e7e7e] p-1 rounded ${isOpen && "#4d4d4d"} ${globalFilter && 'bg-[#e1d5f9]'}`}>
@@ -55,6 +26,36 @@ export default function TableUtilitySearching() {
       }
 
     </div>
+  );
+}
+
+// A debounced input react component
+function DebouncedInput({
+  value: initialValue,
+  onChange,
+  debounce = 500,
+  ...props
+}) {
+  const [value, setValue] = useState(initialValue);
+
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      onChange(value);
+    }, debounce);
+
+    return () => clearTimeout(timeout);
+  }, [value]);
+
+  return (
+    <input
+      {...props}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+    />
   );
 }
 
