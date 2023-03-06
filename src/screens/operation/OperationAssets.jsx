@@ -12,5 +12,19 @@ export default function OperationAssets() {
     if (error) {
         return <Error error={error} />;
     }
+
+    const modal = {
+        name: 'Operation Assets',
+        baseId: []
+    }
+
+    for (const key in data) {
+        if (Object.hasOwnProperty.call(data, key)) {
+            const element = data[key];
+            modal.baseId.push(element.id)
+        }
+    }
+    console.log(modal)
+
     return <Table tableData={data} />
 }

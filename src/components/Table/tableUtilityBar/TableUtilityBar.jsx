@@ -7,7 +7,6 @@ import TableUtilityRowHeight from "./TableUtilityRowHeight";
 import TableUtilitySearching from "./TableUtilitySearch";
 import TableUtilitySort from "./TableUtilitySort";
 import { TableContext } from "../tableComponents/TableComponents";
-import { handleAddViews } from "../../../store/features/viewsSlice";
 import TableUtilityViews from "./tableViews/TableUtilityViews";
 import { usePostViewsMutation } from "../../../store/services/alphaTruckingApi";
 export default function TableUtilityBar() {

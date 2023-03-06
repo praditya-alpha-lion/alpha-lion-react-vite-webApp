@@ -10,15 +10,15 @@ const DraggableColumnHeader = ({ header, table, index }) => {
   const { columnOrder } = table.options.state;
   const { column } = header;
 
-  const divRef = useRef(null);
+  // const divRef = useRef(null);
 
-  const handleMouseDown = () => {
-    divRef.current.style.cursor = "grabbing";
-  };
+  // const handleMouseDown = () => {
+  //   divRef.current.style.cursor = "grabbing";
+  // };
 
-  const handleMouseUp = () => {
-    divRef.current.style.cursor = "grab";
-  };
+  // const handleMouseUp = () => {
+  //   divRef.current.style.cursor = "grab";
+  // };
 
   const [, dropRef] = useDrop({
     accept: "column",
@@ -42,8 +42,8 @@ const DraggableColumnHeader = ({ header, table, index }) => {
 
   return (
     <div
-      onDragCapture={handleMouseDown}
-      onDropCapture={handleMouseUp}
+      // onDragCapture={handleMouseDown}
+      // onDropCapture={handleMouseUp}
       className={`th bg-[#f5f5f5]   ${index === 0 && "fixed-column "}`}
       {...{
         key: header.id,
@@ -54,7 +54,7 @@ const DraggableColumnHeader = ({ header, table, index }) => {
       ref={(el) => {
         previewRef(el);
         dropRef(el);
-        divRef;
+        // divRef;
       }}
       colSpan={header.colSpan}
     >
@@ -70,9 +70,8 @@ const DraggableColumnHeader = ({ header, table, index }) => {
         {...{
           onMouseDown: header.getResizeHandler(),
           onTouchStart: header.getResizeHandler(),
-          className: `resizerHeader ${
-            header.column.getIsResizing() ? "isResizingHeader" : ""
-          }`,
+          className: `resizerHeader ${header.column.getIsResizing() ? "isResizingHeader" : ""
+            }`,
         }}
       />
     </div>
