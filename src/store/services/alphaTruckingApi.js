@@ -18,6 +18,8 @@ export const alphaTruckingApi = createApi({
   }),
 
   endpoints: (builder) => ({
+    // views api endpoint
+
     GetLoad: builder.query({
       query: () => ({
         url: '/API/V1/getload',
