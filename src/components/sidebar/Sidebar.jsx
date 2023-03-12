@@ -257,3 +257,107 @@ function toggleMenu(setMenus, menu, depth) {
     });
   });
 }
+
+
+
+// [
+//   {
+//     "baseid": "appTAdSTyVQUZeoDG",
+//     "basemetadata": {
+//       "createdAt": {
+//         "_seconds": 1678540019,
+//         "_nanoseconds": 3000000
+//       },
+//       "createdBy": "dummy user",
+//       "name": "Alpha Operations 2022",
+//       "baseid": "appTAdSTyVQUZeoDG"
+//     },
+//     "tablemetadata": [
+//       {
+//         "base_id": "appTAdSTyVQUZeoDG",
+//         "table_id": "tblgW0MYMhDVcQKVb",
+//         "table_name": "Truck - DH Team/Operations Insurance"
+//       },
+//       {
+//         "base_id": "appTAdSTyVQUZeoDG",
+//         "table_id": "tblDIgzUqlXHQjixQ",
+//         "table_name": "Company Info - Operations"
+//       },
+//       {
+//         "base_id": "appTAdSTyVQUZeoDG",
+//         "table_id": "tblYs9fOVZAXsMXp4",
+//         "table_name": "Loss Runs - Operations"
+//       },
+//       {
+//         "base_id": "appTAdSTyVQUZeoDG",
+//         "table_id": "tblvLpECzEvSGftSw",
+//         "table_name": "Insurance Adjuster - Operations"
+//       },
+//       {
+//         "base_id": "appTAdSTyVQUZeoDG",
+//         "table_id": "tblhcajqUeOknJUyG",
+//         "table_name": "Social Media 🤳 - Dimple"
+//       },
+//       {
+//         "base_id": "appTAdSTyVQUZeoDG",
+//         "table_id": "tblypJKFcKd0Jm5ns",
+//         "table_name": "Driver Hiring Instructions - Gurpreet"
+//       },
+//       {
+//         "base_id": "appTAdSTyVQUZeoDG",
+//         "table_id": "tblZbgbRBQZWEgnvI",
+//         "table_name": "Broker"
+//       },
+//       {
+//         "base_id": "appTAdSTyVQUZeoDG",
+//         "table_id": "tbl9dghAtt2BxuhnX",
+//         "table_name": "Recordable Accidents"
+//       },
+//       {
+//         "base_id": "appTAdSTyVQUZeoDG",
+//         "table_id": "tbll9LOG6W5c3UuTf",
+//         "table_name": "Recruitment - DH Team"
+//       },
+//       {
+//         "base_id": "appTAdSTyVQUZeoDG",
+//         "table_id": "tblRcTHdXYkenFEeO",
+//         "table_name": "Claims"
+//       },
+//       {
+//         "base_id": "appTAdSTyVQUZeoDG",
+//         "table_id": "tbl4AlOUezpUNRXtz",
+//         "table_name": "ASSET(TRUCKS)"
+//       },
+//       {
+//         "base_id": "appTAdSTyVQUZeoDG",
+//         "table_id": "tblrFUnKnMpTrTFWv",
+//         "table_name": "SMS Violation Summary"
+//       },
+//       {
+//         "base_id": "appTAdSTyVQUZeoDG",
+//         "table_id": "tblBpaWRn0D4qhbPD",
+//         "table_name": "Carriers -  DH/Operations"
+//       },
+//       {
+//         "base_id": "appTAdSTyVQUZeoDG",
+//         "table_id": "tblKdC6MOIk1atK67",
+//         "table_name": "SMS Inspections"
+//       },
+//       {
+//         "base_id": "appTAdSTyVQUZeoDG",
+//         "table_id": "tblen9HFPaFsy03Wv",
+//         "table_name": "Court Claims"
+//       },
+//       {
+//         "base_id": "appTAdSTyVQUZeoDG",
+//         "table_id": "tblKZBds68OTPrUet",
+//         "table_name": "Trailer Sync"
+//       },
+//       {
+//         "base_id": "appTAdSTyVQUZeoDG",
+//         "table_id": "tblDIgzUqlXHQjixQ",
+//         "table_name": "Company Info - Operations"
+//       }
+//     ]
+//   }
+// ]
