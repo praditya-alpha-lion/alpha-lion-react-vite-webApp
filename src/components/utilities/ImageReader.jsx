@@ -6,17 +6,12 @@ export default function ImageReader({ data }) {
     const [isViewerOpen, setIsViewerOpen] = useState(false);
 
     let images;
+    let thumbnails;
     if (data) {
-        images = data?.map(({ thumbnails }) => thumbnails?.small?.url)
+        thumbnails = data?.map(({ thumbnails }) => thumbnails?.medium?.url)
+        images = data?.map(({ url }) => url)
     }
 
-
-    // const images = [
-    //     "http://placeimg.com/1200/800/nature",
-    //     "http://placeimg.com/800/1200/nature",
-    //     "http://placeimg.com/1920/1080/nature",
-    //     "http://placeimg.com/1500/500/nature"
-    // ];
     const openImageViewer = useCallback((index) => {
         setCurrentImage(index);
         setIsViewerOpen(true);
@@ -30,7 +25,7 @@ export default function ImageReader({ data }) {
     return Array.isArray(images) && (
         <div className=" h-full -mt-1 overflow-x-scroll overflow-y-hidden scrollbar-hidden">
             <div className="flex gap-2  h-full m-1 p-1">
-                {images.map((src, index) => (
+                {thumbnails.map((src, index) => (
                     <img
                         src={src}
                         onClick={() => openImageViewer(index)}

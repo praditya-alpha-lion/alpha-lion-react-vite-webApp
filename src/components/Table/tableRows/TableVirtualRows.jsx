@@ -84,14 +84,7 @@ export default function TableVirtualRows({ tableContainerRef, rows }) {
                     // Otherwise, just render the regular cell
                     <>
                       {cell.column.columnDef.field_type === 'image' ? <>
-                        {/* {
-                          console.log(cell?.getValue().map(({ thumbnails }) => thumbnails?.small?.url))
-                        } */}
-                        {/* <ImageReader /> */}
                         <ImageReader data={cell?.getValue()} />
-                        {/* <ImageReader images={cell?.getValue().map(({ thumbnails }) => {
-                          return thumbnails.small.url
-                        })} /> */}
                       </> : cell.column.columnDef.field_type === 'widgets' ? 'widgets' : flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </>
                   )}
