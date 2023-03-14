@@ -1,9 +1,15 @@
 import React, { useState, useCallback } from "react"
 import ImageViewer from "react-simple-image-viewer";
 
-export default function ImageReader({ images }) {
+export default function ImageReader({ data }) {
     const [currentImage, setCurrentImage] = useState(0);
     const [isViewerOpen, setIsViewerOpen] = useState(false);
+
+    let images;
+    if (data) {
+        images = data?.map(({ thumbnails }) => thumbnails?.small?.url)
+    }
+
 
     // const images = [
     //     "http://placeimg.com/1200/800/nature",
@@ -11,7 +17,6 @@ export default function ImageReader({ images }) {
     //     "http://placeimg.com/1920/1080/nature",
     //     "http://placeimg.com/1500/500/nature"
     // ];
-    console.log(images)
     const openImageViewer = useCallback((index) => {
         setCurrentImage(index);
         setIsViewerOpen(true);
