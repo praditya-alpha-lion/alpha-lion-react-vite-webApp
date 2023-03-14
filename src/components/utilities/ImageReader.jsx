@@ -4,14 +4,14 @@ import ImageViewer from "react-simple-image-viewer";
 export default function ImageReader({ images }) {
     const [currentImage, setCurrentImage] = useState(0);
     const [isViewerOpen, setIsViewerOpen] = useState(false);
-    // console.log(images)
+
     // const images = [
     //     "http://placeimg.com/1200/800/nature",
     //     "http://placeimg.com/800/1200/nature",
     //     "http://placeimg.com/1920/1080/nature",
     //     "http://placeimg.com/1500/500/nature"
     // ];
-
+    console.log(images)
     const openImageViewer = useCallback((index) => {
         setCurrentImage(index);
         setIsViewerOpen(true);
@@ -22,7 +22,7 @@ export default function ImageReader({ images }) {
         setIsViewerOpen(false);
     };
 
-    return (
+    return Array.isArray(images) && (
         <div className=" h-full -mt-1 overflow-x-scroll overflow-y-hidden scrollbar-hidden">
             <div className="flex gap-2  h-full m-1 p-1">
                 {images.map((src, index) => (

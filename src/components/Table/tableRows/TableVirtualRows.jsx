@@ -84,20 +84,16 @@ export default function TableVirtualRows({ tableContainerRef, rows }) {
                     // Otherwise, just render the regular cell
                     <>
                       {cell.column.columnDef.field_type === 'image' ? <>
-
-                        {/* <ImageReader images={cell?.getValue()?.map(({ thumbnails }) => {
-                          return thumbnails
-                        })} /> */}
-
-                        {console.log(cell.getValue())}
+                        {console.log(cell?.getValue())}
                         {/* {
-                          cell.getValue().map(({ thumbnails }) => {
-                            return { thumbnails }
-                          })
-                        }
-                        <ImageReader /> */}
-                        {/* <img src={cell.getValue()[0]?.thumbnails?.small?.url || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8UaO8zvh5DjMIZ3C-jUQyIdtnCH9VUBvPRCZIbf60YQ&s'} alt="img" className="object-contain w-10 h-full" /> */}
-                        {/* {console.log(cell.getValue())} */}
+                          console.log(cell?.getValue().map(({ thumbnails }) => thumbnails?.small?.url))
+                        } */}
+                        {/* <ImageReader /> */}
+                        <ImageReader images={cell?.getValue()[0]?.url} />
+                        {/* <ImageReader images={[cell?.getValue()?.map(({ thumbnails }) => {
+                          return thumbnails.small.url
+                        })]} /> */}
+
                       </> : cell.column.columnDef.field_type === 'widgets' ? 'widgets' : flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </>
                   )}
