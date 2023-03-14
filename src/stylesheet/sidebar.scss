@@ -1,8 +1,10 @@
 @import 'theme';
 .sidebar_container {
+  background-color: white !important;
   background-color: $secondary-100;
   padding: 1rem 0.75rem 1rem 0.75rem;
   color: $primary-900;
+  // color: black !important;
   border-right: 0.5px solid $primary-800;
   transition: width 0.5s;
   // overflow-y: scroll;
@@ -47,19 +49,20 @@
     overflow: hidden;
     text-overflow: ellipsis;
     cursor: pointer;
+    color: black;
     div {
       display: flex;
       align-items: center;
     }
     &:hover {
-      background-color: $blueAccent-200;
+      background-color: rgb(225, 225, 225);
     }
   }
   .title {
     margin-left: 0.75rem;
   }
   .active {
-    background-color: $blueAccent-100 !important;
+    background-color: rgb(225, 225, 225) !important;
   }
   .submenu_item {
     margin: 0.5rem 0;

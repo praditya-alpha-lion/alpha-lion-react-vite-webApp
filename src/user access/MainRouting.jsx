@@ -63,11 +63,14 @@ import AuditCalifornia from "../screens/audit/AuditCalifornia";
 import AuditDOT_FMSCA from "../screens/audit/AuditDOT_FMSCA";
 import AuditOregon from "../screens/audit/AuditOregon";
 import AuditWashington from "../screens/audit/AuditWashington";
+import TableScreen from "../screens/Table/TableScreen";
 
 export default function MainRouting() {
   const { userInfo } = useSelector((state) => state.auth);
 
   const routes = [
+    { path: "/:tableId", component: <TableScreen /> },
+    { path: "/:baseId/:tableId", component: <TableScreen /> },
     { path: "/dispatch", component: <Dispatch /> },
     { path: "/dispatch/drivers", component: <DispatchDrivers /> },
     { path: "/dispatch/master", component: <DispatchMaster /> },

@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { flexRender } from '@tanstack/react-table';
 import { useVirtual } from 'react-virtual';
 import { TableContext } from '../tableComponents/TableComponents';
+import ImageReader from '../../utilities/ImageReader';
 
 export default function TableVirtualRows({ tableContainerRef, rows }) {
   const { activeRowHeight, activeNumberOfLines } = useContext(TableContext);
@@ -81,7 +82,24 @@ export default function TableVirtualRows({ tableContainerRef, rows }) {
                     )
                   ) : cell.getIsPlaceholder() ? null : ( // For cells with repeated values, render null
                     // Otherwise, just render the regular cell
-                    flexRender(cell.column.columnDef.cell, cell.getContext())
+                    <>
+                      {cell.column.columnDef.field_type === 'image' ? <>
+
+                        {/* <ImageReader images={cell?.getValue()?.map(({ thumbnails }) => {
+                          return thumbnails
+                        })} /> */}
+
+                        {console.log(cell.getValue())}
+                        {/* {
+                          cell.getValue().map(({ thumbnails }) => {
+                            return { thumbnails }
+                          })
+                        }
+                        <ImageReader /> */}
+                        {/* <img src={cell.getValue()[0]?.thumbnails?.small?.url || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8UaO8zvh5DjMIZ3C-jUQyIdtnCH9VUBvPRCZIbf60YQ&s'} alt="img" className="object-contain w-10 h-full" /> */}
+                        {/* {console.log(cell.getValue())} */}
+                      </> : cell.column.columnDef.field_type === 'widgets' ? 'widgets' : flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </>
                   )}
                 </div>
               );

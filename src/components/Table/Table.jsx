@@ -8,40 +8,56 @@ import Loading from "../utilities/Loading";
 import Error from "../utilities/Error";
 
 
-export default function Table({ tableData }) {
+export default function Table({ tableData, tableModel }) {
   const { driver } = useSelector(state => state.views);
   const { data, error, isFetching } = useGetSavedViewQuery();
 
 
   // this is for checking is the side bar is opened ?
   const { toggle } = useSelector((state) => state.globalState.mainSideBar);
-  const keysMap = new Map();
 
-  for (let index = 0; index < tableData.length; index++) {
-    const keys = Object.keys(tableData[index].data);
-    keys.map((ele) => {
-      keysMap.set(ele);
-    })
-  }
+  // const keysMap = new Map();
 
-  const dataKeys = [];
-  for (const [key] of keysMap) {
-    dataKeys.push(key);
-  }
+  // for (let index = 0; index < tableData.length; index++) {
+  //   const keys = Object.keys(tableData[index].data);
+  //   keys.map((ele) => {
+  //     keysMap.set(ele);
+  //   })
+  // }
 
-  const defaultColumns = dataKeys.map((item) => {
+  // const dataKeys = [];
+  // for (const [key] of keysMap) {
+  //   dataKeys.push(key);
+  // }
+
+  // const defaultColumns = dataKeys.map((item) => {
+  //   return ({
+  //     accessorKey: item,
+  //     id: item,
+  //     header: item,
+  //   })
+  // })
+
+  const defaultColumns = tableModel.map(({ id, data }) => {
     return ({
-      accessorKey: item,
-      id: item,
-      header: item,
-    })
+      accessorKey: data?.field_name,
+      id: id,
+      header: data?.field_name,
+      field_type: data?.field_type
+    });
   })
+
+  // console.log(defaultColumns)
 
   const [tableDataModified, setTableDataModified] = React.useState(tableData.map(({ data }) => {
     const object = {}
-    dataKeys.map((key) => {
-      object[key] = data?.[key]
+    defaultColumns.map(({ header }) => {
+      object[header] = data?.[header]
     })
+    // dataKeys.map((key) => {
+    //   console.log(key)
+    //   object[key] = data?.[key]
+    // })
     return object
   })
   );
